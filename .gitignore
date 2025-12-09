@@ -1,0 +1,30 @@
+# Node / npm
+
+/node_modules/
+/package-lock.json
+/npm-debug.log
+
+# Gulp / ビルド生成物
+
+/dist/
+/img/*.min.*
+
+# PHP
+
+/vendor/
+/.env
+*.log
+
+# エディタ・OS
+
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# 一時ファイル・キャッシュ
+
+*.tmp
+*.cache
+*.swp
+*.swo

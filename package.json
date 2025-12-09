@@ -1,0 +1,26 @@
+{
+  "name": "myoshi",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/i994114/MyOshi#readme",
+  "bugs": {
+    "url": "https://github.com/i994114/MyOshi/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/i994114/MyOshi.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "browserify": "^14.5.0",
+    "gulp": "^3.9.1",
+    "gulp-changed": "^3.1.1",
+    "gulp-imagemin": "^4.0.0"
+  }
+}
