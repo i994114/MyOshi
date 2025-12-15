@@ -239,7 +239,7 @@ function validSelect($str, $key) {
 //-------------------
 function dbConnect() {
   //dbへの接続準備
-  $dsn = 'mysql:dbname=web_op;host=localhost;charset=utf8';
+  $dsn = 'mysql:dbname=myoshi;host=localhost;charset=utf8';
   $user = 'root';
   $password = 'root';
   $options = array(
