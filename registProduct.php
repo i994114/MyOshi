@@ -115,7 +115,7 @@ if (!empty($_POST)) {
           debug('DBの内容を変更します');
 
           //sql作成
-          $sql = 'UPDATE product SET name = :name, comment = :comment, pic1 = :pic1, pic2 = :pic2, pic3 = :pic3 user_id = :u_id, update_date = :date WHERE id = :p_id';
+          $sql = 'UPDATE product SET name = :name, comment = :comment, pic1 = :pic1, pic2 = :pic2, pic3 = :pic3, user_id = :u_id, update_date = :date WHERE id = :p_id';
           //dataセット
           $data = array(':name' => $name, ':comment' => $comment, ':pic1' => $pic1, ':pic2' => $pic2, ':pic3' => $pic3, ':u_id' => $_SESSION['user_id'], ':date' => date('Y-m-d H:i:s'), ':p_id' => $p_id);
         }
