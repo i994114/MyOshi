@@ -1,7 +1,6 @@
 {
   "name": "myoshi",
   "version": "1.0.0",
-  "description": "",
   "homepage": "https://github.com/i994114/MyOshi#readme",
   "bugs": {
     "url": "https://github.com/i994114/MyOshi/issues"
@@ -19,8 +18,10 @@
   },
   "devDependencies": {
     "browserify": "^14.5.0",
+    "browser-sync": "^2.29.3",
     "gulp": "^3.9.1",
     "gulp-changed": "^3.1.1",
     "gulp-imagemin": "^4.0.0"
-  }
+  },
+  "description": ""
 }
