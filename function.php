@@ -55,9 +55,9 @@ session_regenerate_id();
 
 //メールの「from」
 define('ML_FROM', 'aaa@aa.com');
-define('APL_NAME','推し活共有アプリ');
-define('APL_SUBNAME',' 〜みんなの推しを共有しよう〜');
-define('APL_SUBJECT','推し'); //サイトコンセプトが変わっても一発で変えられるようにするためのもの
+define('APL_NAME','KENYU(剣友)');
+define('APL_SUBNAME',' 〜もっと自由に、もっと気軽に剣道を〜');
+define('APL_SUBJECT','※ここは削除予定'); //サイトコンセプトが変わっても一発で変えられるようにするためのもの
 
 //エラーメッセージを定数に設定
 define('MSG01','入力必須です');
@@ -239,7 +239,7 @@ function validSelect($str, $key) {
 //-------------------
 function dbConnect() {
   //dbへの接続準備
-  $dsn = 'mysql:dbname=myoshi;host=localhost;charset=utf8';
+  $dsn = 'mysql:dbname=kenyu;host=localhost;charset=utf8';
   $user = 'root';
   $password = 'root';
   $options = array(
