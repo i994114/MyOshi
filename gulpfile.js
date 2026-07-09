@@ -30,7 +30,7 @@ gulp.task('image-min', function() {
 
 gulp.task('serve', function() {
     browserSync.init({
-        proxy: "http://localhost:8888/",
+        proxy: "http://localhost:8888/KENYU/",
         open: true,
         notify: false
     });
