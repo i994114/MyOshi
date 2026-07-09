@@ -6,7 +6,7 @@
             <?php
               if (empty($_SESSION['user_id'])) {
             ?>
-                <li><a href="signup.php" class="btn btn-primary">ユーザー登録</a></li>
+                <li><a href="signup.php" class="btn btn-primary">ユーザ登録</a></li>
                 <li><a href="login.php">ログイン</a></li>
             <?php
               } else {
