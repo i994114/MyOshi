@@ -1,9 +1,24 @@
+:root {
+  /* ==========================
+     Color
+     ベース：和紙・木材をイメージした温かみのある生成り色
+     メイン：剣道着・袴を連想させる藍色
+     アクセント：胴や面紐をイメージした落ち着いた朱色
+     ========================== */
+  --color-base: #E6DFD3;
+  --color-main: #1E3A5F;
+  --color-accent: #A23B2A;
+  --color-sub: #333333;
+
+  --site-width: 1200px;
+}
+
 body {
   margin: 0;
   padding: 0;
   color: #444;
   line-height: 150%;
-  background: linear-gradient(125deg, #ffd673, #ffb2c1);
+  background: var(--color-base);
   font-family: "Nico Moji";
 }
 
@@ -48,7 +63,7 @@ header {
   margin-bottom: 30px;
   width: 100%;
   height: 80px;
-  background: #333;
+  background: var(--color-main);
 }
 
 header h1 {
@@ -109,7 +124,7 @@ nav a:hover {
 
 .site-width {
   margin: 0 auto;
-  width: 980px;
+  width: var(--site-width);
 }
 
 #main {
@@ -134,11 +149,6 @@ section h1.title {
   font-family: "Nico Moji";
 }
 
-#contents {
-  overflow: hidden;
-  margin: 20px auto;
-  background: linear-gradient(125deg, #ffd673, #ffb2c1);
-}
 /* ページタイトル */
 
 .page-title {
@@ -211,8 +221,8 @@ section h1.title {
 footer {
   padding: 15px;
   width: 100%;
-  background: #333;
-  color: #f6f5f5;
+  background: var(--color-sub);
+  color: var(--color-base);
   text-align: center;
   font-size: 15px;
   font-family: "Nico Moji";
@@ -438,7 +448,7 @@ input[type="submit"]:hover {
 .form {
   margin: 0 auto;
   padding: 30px;
-  width: 400px;
+  width: calc(var(--site-width) * 0.7);
   border: 5px solid #f1f1f1;
 }
 
