@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <title><?php echo $siteTitle; ?> | <?php echo APL_NAME.APL_SUBNAME; ?></title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="style.css?v=<?php echo filemtime('style.css'); ?>">
 <!--
       <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 -->
