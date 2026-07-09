@@ -11,7 +11,9 @@ debugLogStart();
 //post送信されていた場合
 if(!empty($_POST)){
   
-  //変数にユーザー情報を代入
+  //変数にユーザ情報を代入
+  $name = $_POST['name'];
+  $gender = $_POST['gender'];
   $email = $_POST['email'];
   $pass = $_POST['pass'];
   $pass_re = $_POST['pass_re'];
@@ -77,9 +79,9 @@ if(!empty($_POST)){
       if (!$regAgain) {
         debug('ユーザ情報を新規登録します');
         //sql作成
-        $sql = 'INSERT INTO users (email, password, delete_flg, login_time, create_date) VALUES (:email, :pass, :del, :login_time, :date)';
+        $sql = 'INSERT INTO users (name, gender, email, password, delete_flg, login_time, create_date) VALUES (:name, :gender, :email, :pass, :del, :login_time, :date)';
         //dataセット
-        $data = array(':email' => $email, ':pass' => password_hash($pass,PASSWORD_DEFAULT), ':del' => 0, ':login_time' => date('Y-m-d H:i:s'), ':date' => date('Y-m-d H:i:s'));
+        $data = array(':name' => $name, ':gender' => $gender, ':email' => $email, ':pass' => password_hash($pass,PASSWORD_DEFAULT), ':del' => 0, ':login_time' => date('Y-m-d H:i:s'), ':date' => date('Y-m-d H:i:s'));
       } else {
         debug('削除フラグをクリアし、ユーザ情報を復活します');
         //sql作成
@@ -154,10 +156,40 @@ if(!empty($_POST)){
         <div class="form-container">
 
           <form action="" class="form" method="post">
-            <h2 class="title">ユーザー登録</h2>
+            <h2 class="title">ユーザ登録</h2>
             
             <div class="area-msg">
               <?php echo (!empty($err_msg['common']))? $err_msg['common'] : ''; ?>
+            </div>
+
+            <!-- ユーザ名 -->
+            <label class="<?php echo (!empty($err_msg['name']))? 'err' : '';?>">
+              ユーザ名
+              <input type="text" name="name" value="<?php echo (!empty($_POST['name']))? sanitize($_POST['name']) : ''; ?>">
+            </label>
+            <div class="area-msg">
+              <?php 
+                if (!empty($err_msg['name'])) {
+                  echo $err_msg['name'];
+                }
+              ?>
+            </div>
+
+            <!-- 性別 -->
+            <label class="<?php echo (!empty($err_msg['gender']))? 'err' : '';?>">
+              性別
+              <select name="gender">
+                <option value="">選択してください</option>
+                <option value="0" <?php echo (!empty($_POST['gender']) && $_POST['gender'] === '0')? 'selected' : ''; ?>>男性</option>
+                <option value="1" <?php echo (!empty($_POST['gender']) && $_POST['gender'] === '1')? 'selected' : ''; ?>>女性</option>
+              </select>
+            </label>
+            <div class="area-msg">
+              <?php 
+                if (!empty($err_msg['gender'])) {
+                  echo $err_msg['gender'];
+                }
+              ?>
             </div>
 
             <!-- アドレス -->
@@ -200,7 +232,7 @@ if(!empty($_POST)){
             </div>
 
             <div class="btn-container">
-              <input type="submit" class="btn btn-mid" value="登録する">
+              <input type="submit" class="btn btn-mid" value="ユーザ登録する">
             </div>
           </form>
         </div>
