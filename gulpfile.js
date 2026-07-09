@@ -8,10 +8,11 @@ var paths = {
     //アップローダー処理でランダムなファイル名になった画像ファイルがuploadsフォルダに入るので、それをそのまま圧縮して上書き
     srcDir : 'uploads',
     dstDir : 'uploads',
+    srcCss : '**/*.css',
 
     //コード関連
-    srcPhp: '**/*.php',
-    srcJs: 'js/**/*.js'
+    srcPhp : '**/*.php',
+    srcJs : 'js/**/*.js'
 };
 
 gulp.task('image-min', function() {
@@ -37,6 +38,9 @@ gulp.task('serve', function() {
 
     //画像圧縮＆リロード
     gulp.watch(paths.srcDir + '/**/*.{jpg,jpeg,png,gif}', ['image-min']);
+
+    //CSS変更時のリロード
+    gulp.watch(paths.srcCss).on('change', browserSync.reload);
 
     //コード変更時のリロード
     gulp.watch([paths.srcPhp, paths.srcJs]).on('change', browserSync.reload);
