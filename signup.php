@@ -55,7 +55,6 @@ if(!empty($_POST)){
 
   if (empty($err_msg)) {
     debug('signup.php バリデーションOK');
-
     //登録しようとしているユーザ情報が、一度退会したユーザかを判定
     //(一度退会したユーザなら前のデータを復活させる)
 
@@ -118,7 +117,7 @@ if(!empty($_POST)){
           $_SESSION['user_id'] = $u_id;
         }
         
-        $_SESSION['msg-success'] = SUC05;
+        $_SESSION['msg-success'] = SUCCESS_SIGNUP;
         
         debug('セッション変数の中身' . print_r($_SESSION,true));
 
