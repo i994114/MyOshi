@@ -32,6 +32,7 @@ if(!empty($_POST)){
   validMin($pass, 'pass');
 
   //最大文字数
+  validMax($name, 'name');
   validMax($email, 'email');
   validMax($pass, 'pass');
 

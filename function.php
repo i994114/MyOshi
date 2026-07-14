@@ -60,32 +60,32 @@ define('APL_SUBNAME',' 〜もっと自由に、もっと気軽に剣道を〜');
 define('APL_SUBJECT','※ここは削除予定'); //サイトコンセプトが変わっても一発で変えられるようにするためのもの
 
 //エラーメッセージを定数に設定
-define('MSG01','入力必須です');
-define('MSG02', 'Emailの形式で入力してください');
-define('MSG03','パスワード（再入力）が合っていません');
-define('MSG04','半角英数字のみご利用いただけます');
-define('MSG05','6文字以上で入力してください');
-define('MSG06','256文字以内で入力してください');
-define('MSG07','エラーが発生しました。しばらく経ってからやり直してください。');
-define('MSG08', 'そのEmailは既に登録されています');
-define('MSG09', 'メールアドレスまたはパスワードが違います');
-define('MSG10', '電話番号の形式が違います');
-define('MSG11', '郵便番号の形式が違います');
-define('MSG12', '年齢入力が不正です');
-define('MSG13', '古いパスワードが違います');
-define('MSG14', '古いパスワードと同じです');
-define('MSG15', '入力された認証コードが違います');
-define('MSG16', '期限が切れております。再度認証コードを取得してください');
-define('MSG17', 'カテゴリの入力が正しくありません');
+define('ERR_REQUIRED','入力必須です');
+define('ERR_EMAIL_FORMAT', 'Emailの形式で入力してください');
+define('ERR_PASSWORD_MISMATCH','パスワード（再入力）が合っていません');
+define('ERR_HALF_ALPHANUMERIC','半角英数字のみご利用いただけます');
+define('ERR_MIN_LENGTH','6文字以上で入力してください');
+define('ERR_MAX_LENGTH','256文字以内で入力してください');
+define('ERR_SYSTEM','エラーが発生しました。しばらく経ってからやり直してください。');
+define('ERR_EMAIL_DUPLICATE', 'そのEmailは既に登録されています');
+define('ERR_LOGIN', 'メールアドレスまたはパスワードが違います');
+define('ERR_TEL_FORMAT', '電話番号の形式が違います');
+define('ERR_ZIP_FORMAT', '郵便番号の形式が違います');
+define('ERR_AGE', '年齢入力が不正です');
+define('ERR_OLD_PASSWORD', '古いパスワードが違います');
+define('ERR_SAME_PASSWORD', '古いパスワードと同じです');
+define('ERR_AUTH_CODE', '入力された認証コードが違います');
+define('ERR_AUTH_EXPIRED', '期限が切れております。再度認証コードを取得してください');
+define('ERR_CATEGORY', 'カテゴリの入力が正しくありません');
 
 
-define('SUC01', 'パスワードを変更しました');
-define('SUC02', 'メールを送信しました。メールに書かれたパスワードでログインしてください');
-define('SUC03', '推し情報を登録しました');
-define('SUC04', '掲示板に移動しました。自分の思いをどんどん投稿しよう');
-define('SUC05', 'ユーザ登録しました。推し情報を共有しましょう！');
-define('SUC06', '退会処理完了しました。でもいつでも戻ってきてくださいっ！！');
-define('SUC07', 'ユーザ登録情報を変更しました！');
+define('SUCCESS_PASSWORD_CHANGE', 'パスワードを変更しました');
+define('SUCCESS_MAIL_SEND', 'メールを送信しました。メールに書かれたパスワードでログインしてください');
+define('SUCCESS_PRODUCT_REGISTER', '推し情報を登録しました');
+define('SUCCESS_BOARD_MOVE', '掲示板に移動しました。自分の思いをどんどん投稿しよう');
+define('SUCCESS_SIGNUP', 'ユーザ登録しました。推し情報を共有しましょう！');
+define('SUCCESS_WITHDRAW', '退会処理完了しました。でもいつでも戻ってきてくださいっ！！');
+define('SUCCESS_USER_UPDATE', 'ユーザ登録情報を変更しました！');
 
 //-------------------
 //変数定義
@@ -117,12 +117,12 @@ function validEmailDup($email) {
     //重複判定
     if ($result['count(*)'] > 0) {
       global $err_msg;
-      $err_msg['common'] = MSG08;
+      $err_msg['common'] = ERR_EMAIL_DUPLICATE;
     }
   } catch (Exception $e) {
     error_log('エラーが発生しました' . $e->getMessage());
     global $err_msg;
-    $err_msg['common'] = MSG07;
+    $err_msg['common'] = ERR_SYSTEM;
   }
 }
 
@@ -130,7 +130,7 @@ function validEmailDup($email) {
 function validEmpty($str, $key) {
   if(empty($str)) {
     global $err_msg;
-    $err_msg[$key] = MSG01;
+    $err_msg[$key] = ERR_REQUIRED;
     //debug('エラーチェック：' . print_r($err_msg,true));
   }
 }
@@ -139,7 +139,7 @@ function validEmpty($str, $key) {
 function validEmail($str, $key) {
   if (!preg_match("/^([a-zA-Z0-9])+([a-zA-Z0-9._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9._-]+)+$/",$str)) {
     global $err_msg;
-    $err_msg[$key] = MSG02;
+    $err_msg[$key] = ERR_EMAIL_FORMAT;
   }
 }
 
@@ -150,11 +150,11 @@ function validMatch($str, $str_re, $key) {
 
     if ($key === 'pass_new') {  //パスワード変更時
       if($str === $str_re) {
-        $err_msg[$key] = MSG14;
+        $err_msg[$key] = ERR_SAME_PASSWORD;
       }
     } else {                    //ユーザ登録時
       if($str !== $str_re) {
-        $err_msg[$key] = MSG03;
+        $err_msg[$key] = ERR_PASSWORD_MISMATCH;
       }
     }
 }
@@ -163,7 +163,7 @@ function validMatch($str, $str_re, $key) {
 function validOldPassMatch($str, $str_db, $key) {
   if (!password_verify($str, $str_db)) {
     global $err_msg;
-    $err_msg[$key] = MSG13;
+    $err_msg[$key] = ERR_OLD_PASSWORD;
   }
 }
 
@@ -171,7 +171,7 @@ function validOldPassMatch($str, $str_db, $key) {
 function validHalf($str, $key) {
   if (!preg_match("/^[a-zA-Z0-9]+$/",$str)) {
     global $err_msg;
-    $err_msg[$key] = MSG04;
+    $err_msg[$key] = ERR_HALF_ALPHANUMERIC;
   }
 }
 
@@ -180,17 +180,27 @@ function validMin($str, $key, $min = 6) {
   if (strlen($str) <= $min) {
     global $err_msg;
     if ($str < 6) {
-      $err_msg[$key] = MSG05;
+      $err_msg[$key] = ERR_MIN_LENGTH;
     }
   }
 }
 
 //最大文字数
-function validMax($str, $key, $max = 256) {
+function validMax($str, $key) {
   global $err_msg;
 
+  //最大文字数の設定
+  if ($key === 'name') {
+    $max = 25;
+  } else if ($key === 'email') {
+    $max = 255;
+  } else if ($key === 'email') {
+    $max = 255;
+  } else if ($key === 'pass') {
+    $max = 128;
+  }
   if (strlen($str) > $max) {
-    $err_msg[$key] = MSG06;
+    $err_msg[$key] = ERR_MAX_LENGTH;
   }
 }
 
@@ -198,7 +208,7 @@ function validMax($str, $key, $max = 256) {
 function validTel($str, $key) {
   if (!preg_match('/0\d{1,4}\d{1,4}\d{4}/', $str)) {
     global $err_msg;
-    $err_msg[$key] = MSG10;
+    $err_msg[$key] = ERR_TEL_FORMAT;
   }
 }
 
@@ -206,7 +216,7 @@ function validTel($str, $key) {
 function validZip($str, $key) {
   if (!preg_match('/^\d{7}$/', $str)) {
     global $err_msg;
-    $err_msg[$key] = MSG11;
+    $err_msg[$key] = ERR_ZIP_FORMAT;
   }
 }
 
@@ -214,7 +224,7 @@ function validZip($str, $key) {
 function validNum($str, $key) {
   if (!preg_match('/^[0-9]+$/', $str)) {
     global $err_msg;
-    $err_msg[$key] = MSG12;
+    $err_msg[$key] = ERR_AGE;
   }
 }
 
@@ -222,7 +232,7 @@ function validNum($str, $key) {
 function validAge($str, $key, $min = 0, $max = 150) {
   if ($str < $min || $str > $max) {
     global $err_msg;
-    $err_msg[$key] = MSG12;
+    $err_msg[$key] = ERR_AGE;
   }
 }
 
@@ -230,7 +240,7 @@ function validAge($str, $key, $min = 0, $max = 150) {
 function validSelect($str, $key) {
   if(!preg_match('/^[0-9]+$/', $str)) {
     global $err_msg;
-    $err_msg['common'] = MSG17;
+    $err_msg['common'] = ERR_CATEGORY;
   }
 }
 
@@ -264,7 +274,7 @@ function queryPost($dbh, $sql, $data) {
   if (!$stmt->execute($data)) {
     debug('クエリに失敗しました');
     debug('失敗したクエリ：' . print_r($stmt,true));
-    $err_msg['common'] = MSG07;
+    $err_msg['common'] = ERR_SYSTEM;
     return 0;
   } else {
     debug('クエリ成功');
@@ -298,7 +308,7 @@ function getUserInfoOne($u_id) {
   } catch (Exception $e) {
     error_log('エラーが発生しました' . $e->getMessage());
     global $err_msg;
-    $err_msg['common'] = MSG07;
+    $err_msg['common'] = ERR_SYSTEM;
   }
 }
 //-------------------
@@ -325,7 +335,7 @@ function getUserInfo() {
   } catch (Exception $e) {
     error_log('エラーが発生しました' . $e->getMessage());
     global $err_msg;
-    $err_msg['common'] = MSG07;
+    $err_msg['common'] = ERR_SYSTEM;
   }
 }
 
@@ -410,7 +420,7 @@ function getSessionMessage($str) {
   $data = $_SESSION[$str];
   
   //セッションに入っているメッセージの削除
-    if ($str === SUC06) {
+    if ($str === SUCCESS_WITHDRAW) {
       debug('退会時');
       session_destroy();
       $_SESSION = array();
@@ -463,7 +473,7 @@ function getCategory() {
   } catch (Exception $e) {
     error_log('エラーが発生しました:'. $e->getMessage());
     global $err_msg;
-    $err_msg['common'] = MSG07;
+    $err_msg['common'] = ERR_SYSTEM;
   }
 }
 
@@ -546,7 +556,7 @@ function getProductOneInfo($p_id) {
     error_log('エラーが発生しました' . $e->getMessage());
     global $err_msg;
 
-    $err_msg['common'] = MSG07;
+    $err_msg['common'] = ERR_SYSTEM;
   }
 }
 //-------------------
@@ -575,7 +585,7 @@ function getMyProductList($u_id) {
   } catch (Exception $e) {
     error_log('エラーが発生しました' . $e->getMessage());
     global $err_msg;
-    $err_msg['common'] = MSG07;
+    $err_msg['common'] = ERR_SYSTEM;
   }
 }
 
@@ -651,7 +661,7 @@ function getProductList($list_span = 20, $display_min = 1, $category, $sort) {
   } catch (Exception $e) {
     error_log('エラーが発生しました' . $e->getMessage());
     global $err_msg;
-    $err_msg['common'] = MSG07;
+    $err_msg['common'] = ERR_SYSTEM;
   }
 }
 
@@ -675,14 +685,14 @@ function getProductOne($p_id) {
       return $stmt->fetch(PDO::FETCH_ASSOC);
     } else {
       debug('推し情報の取得(単品) NG');
-      $err_msg['common'] = MSG07;
+      $err_msg['common'] = ERR_SYSTEM;
       return false;
     }
 
   } catch (Exception $e) {
     error_log('エラーが発生しました' . $e->getMessage());
     global $err_msg;
-    $err_msg['common'] = MSG07;
+    $err_msg['common'] = ERR_SYSTEM;
   }
 }
 
@@ -820,7 +830,7 @@ function getBordInfo($p_id) {
   } catch (Exception $e) {
     error_log('エラーが発生しました' . $e->getMessage());
     global $err_msg;
-    $err_msg['common'] = MSG07;
+    $err_msg['common'] = ERR_SYSTEM;
   }
 }
 //-------------------------
@@ -880,7 +890,7 @@ function getMessageInfo($b_id) {
   } catch (Exception $e) {
     error_log('エラーが発生しました' . $e->getMessage());
     global $err_msg;
-    $err_msg['common'] = MSG07;
+    $err_msg['common'] = ERR_SYSTEM;
   }
 }
 
@@ -912,7 +922,7 @@ function getMybordMessage($u_id) {
   } catch (Exception $e) {
     error_log('エラーが発生しました' . $e->getMessage());
     global $err_msg;
-    $err_msg['common'] = MSG07;
+    $err_msg['common'] = ERR_SYSTEM;
   }
 }
 //-------------------
@@ -942,7 +952,7 @@ function getLikeInfo($u_id) {
   } catch (Exception $e) {
     error_log('エラーが発生しました' . $e->getMessage());
     global $err_msg;
-    $err_msg['common'] = MSG07;
+    $err_msg['common'] = ERR_SYSTEM;
   }
 }
 //-------------------
@@ -972,7 +982,7 @@ function isLike($p_id, $u_id, $flg = 0) {
   } catch (Exception $e) {
     error_log('エラーが発生しました' . $e->getMessage());
     global $err_msg;
-    $err_msg['common'] = MSG07;
+    $err_msg['common'] = ERR_SYSTEM;
   }
 }
 //-------------------
@@ -1001,7 +1011,7 @@ function likeDelete($p_id, $u_id) {
   } catch(Exception $e) {
     error_log('エラーが発生しました' . $e->getMessage());
     global $err_msg;
-    $err_msg['common'] = MSG07;
+    $err_msg['common'] = ERR_SYSTEM;
   }
 }
 //-------------------
@@ -1029,7 +1039,7 @@ function likeRegister($p_id, $u_id) {
   } catch (Exception $e) {
     error_log('エラーが発生しました' . $e->getMessage());
     global $err_msg;
-    $err_msg['common'] = MSG07;
+    $err_msg['common'] = ERR_SYSTEM;
   }
 
 }
@@ -1076,6 +1086,6 @@ function againSignUpCalc($u_id) {
   } catch (Exception $e) {
     error_log('エラーが発生しました' . $e->getMessage());
     global $err_msg;
-    $err_msg['common'] = MSG07;
+    $err_msg['common'] = ERR_SYSTEM;
   }
 }
