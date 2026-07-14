@@ -133,7 +133,7 @@ function validEmailDup($email) {
 
 //未入力チェック
 function validEmpty($str, $key) {
-  if(empty($str)) {
+  if($str === '') {
     global $err_msg;
     $err_msg[$key] = ERR_REQUIRED;
     //debug('エラーチェック：' . print_r($err_msg,true));
