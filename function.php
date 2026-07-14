@@ -52,6 +52,11 @@ session_regenerate_id();
 //-------------------
 //定数定義
 //-------------------
+//最大文字数
+define('MAX_NAME', 25);
+define('MAX_EMAIL', 255);
+define('MAX_PASS', 128);
+
 
 //メールの「from」
 define('ML_FROM', 'aaa@aa.com');
@@ -65,7 +70,7 @@ define('ERR_EMAIL_FORMAT', 'Emailの形式で入力してください');
 define('ERR_PASSWORD_MISMATCH','パスワード（再入力）が合っていません');
 define('ERR_HALF_ALPHANUMERIC','半角英数字のみご利用いただけます');
 define('ERR_MIN_LENGTH','6文字以上で入力してください');
-define('ERR_MAX_LENGTH','256文字以内で入力してください');
+define('ERR_MAX_LENGTH','%d文字以内で入力してください');
 define('ERR_SYSTEM','エラーが発生しました。しばらく経ってからやり直してください。');
 define('ERR_EMAIL_DUPLICATE', 'そのEmailは既に登録されています');
 define('ERR_LOGIN', 'メールアドレスまたはパスワードが違います');
@@ -77,7 +82,7 @@ define('ERR_SAME_PASSWORD', '古いパスワードと同じです');
 define('ERR_AUTH_CODE', '入力された認証コードが違います');
 define('ERR_AUTH_EXPIRED', '期限が切れております。再度認証コードを取得してください');
 define('ERR_CATEGORY', 'カテゴリの入力が正しくありません');
-
+define('ERR_GENDER', '性別を選択してください');
 
 define('SUCCESS_PASSWORD_CHANGE', 'パスワードを変更しました');
 define('SUCCESS_MAIL_SEND', 'メールを送信しました。メールに書かれたパスワードでログインしてください');
@@ -186,21 +191,12 @@ function validMin($str, $key, $min = 6) {
 }
 
 //最大文字数
-function validMax($str, $key) {
+function validMax($str, $key, $max = 256) {
   global $err_msg;
 
-  //最大文字数の設定
-  if ($key === 'name') {
-    $max = 25;
-  } else if ($key === 'email') {
-    $max = 255;
-  } else if ($key === 'email') {
-    $max = 255;
-  } else if ($key === 'pass') {
-    $max = 128;
-  }
+
   if (strlen($str) > $max) {
-    $err_msg[$key] = ERR_MAX_LENGTH;
+    $err_msg[$key] = sprintf(ERR_MAX_LENGTH, $max);
   }
 }
 
@@ -244,6 +240,14 @@ function validSelect($str, $key) {
   }
 }
 
+//性別チェック
+function validGender($str, $key) {
+    global $err_msg;
+
+    if (!in_array($str, ['0', '1'], true)) {
+        $err_msg[$key] = ERR_GENDER;
+    }
+}
 //-------------------
 //DB接続関連
 //-------------------

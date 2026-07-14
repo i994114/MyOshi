@@ -21,7 +21,9 @@ if(!empty($_POST)){
 //-------------------
 //バリデーションチェック
 //-------------------
-
+  //性別チェック
+  validGender($gender, 'gender');
+  
   //Eメール重複チェック
   validEmailDup($email);
 
@@ -32,9 +34,9 @@ if(!empty($_POST)){
   validMin($pass, 'pass');
 
   //最大文字数
-  validMax($name, 'name');
-  validMax($email, 'email');
-  validMax($pass, 'pass');
+  validMax($name, 'name', MAX_NAME);
+  validMax($email, 'email', MAX_EMAIL);
+  validMax($pass, 'pass', MAX_PASS);
 
   //Eメール形式かチェック
   validEmail($email, 'email');
@@ -43,6 +45,8 @@ if(!empty($_POST)){
   validHalf($pass, 'pass');
 
   //空欄チェック
+  validEmpty($name, 'name');
+  validEmpty($gender, 'gender');
   validEmpty($email, 'email');
   validEmpty($pass, 'pass');
   validEmpty($pass_re, 'pass_re');
