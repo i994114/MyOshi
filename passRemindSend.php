@@ -64,12 +64,12 @@ if (!empty($_POST)) {
         本メールアドレス宛にパスワード再発行のご依頼がありました。
         下記のURLにて認証キーをご入力頂くとパスワードが再発行されます。
         
-        パスワード再発行認証キー入力ページ：http://localhost:8888/output/2.webservice_output/passRemindSend.php
+        パスワード再発行認証キー入力ページ：http://localhost:3000/KENYU/passRemindRecieve.php
         認証キー：{$rand_key}
         ※認証キーの有効期限は30分となります
         
         認証キーを再発行されたい場合は下記ページより再度再発行をお願い致します。
-        http://localhost:8888/output/2.webservice_output/passRemindSend.php
+        http://localhost:8888/KENYU/passRemindSend.php
         EOF;
 
         //メール送信処理

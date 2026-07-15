@@ -46,7 +46,7 @@ if (!empty($_POST)) {
     本メールアドレス宛にパスワードの再発行を致しました。
     下記のURLにて再発行パスワードをご入力頂き、ログインください。
     
-    ログインページ：http://localhost:8888/output/2.webservice_output/login.php
+    ログインページ：http://localhost:3000/KENYU/login.php
     再発行パスワード：{$pass}
     ※ログイン後、パスワードのご変更をお願い致します
     EOF;
@@ -77,7 +77,7 @@ if (!empty($_POST)) {
         session_unset();
 
         //セッションにメッセージ挿入
-        $_SESSION['msg-success'] = SUC02;
+        $_SESSION['msg-success'] = SUCCESS_PASSWORD_CHANGE;
         debug('セッションの値：' . print_r($_SESSION,true));
 
         //ログイン画面へ遷移
@@ -91,7 +91,7 @@ if (!empty($_POST)) {
 
     } catch (Exception $e) {
       error_log('エラーが発生しました' . $e->getMessage());
-      $err_msg['common'] = MSG07;
+      $err_msg['common'] = ERR_SYSTEM;
     }
 
 

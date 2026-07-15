@@ -87,7 +87,7 @@ if (!empty($_POST)) {
           exit();
         } else {
           debug('ログイン判定：パスワード不一致');
-          $err_msg['common'] = MSG09;
+          $err_msg['common'] = ERR_LOGIN;
         }
       } else {
         debug('ログインしようとしているEメールアドレスのユーザ情報取得NG');
