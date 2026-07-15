@@ -1,4 +1,11 @@
 <?php
+//--------------------------
+//メール設定
+//--------------------------
+require_once __DIR__ . '/vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 //--------------------------
 //デバッグ設定
@@ -57,9 +64,6 @@ define('MAX_NAME', 25);
 define('MAX_EMAIL', 255);
 define('MAX_PASS', 128);
 
-
-//メールの「from」
-define('ML_FROM', 'aaa@aa.com');
 define('APL_NAME','KENYU(剣友)');
 define('APL_SUBNAME',' 〜もっと自由に、もっと気軽に剣道を〜');
 define('APL_SUBJECT','※ここは削除予定'); //サイトコンセプトが変わっても一発で変えられるようにするためのもの
@@ -91,6 +95,15 @@ define('SUCCESS_BOARD_MOVE', '掲示板に移動しました。自分の思い�
 define('SUCCESS_SIGNUP', 'ユーザ登録しました。推し情報を共有しましょう！');
 define('SUCCESS_WITHDRAW', '退会処理完了しました。でもいつでも戻ってきてくださいっ！！');
 define('SUCCESS_USER_UPDATE', 'ユーザ登録情報を変更しました！');
+
+//メール送信用
+//メールの「from」
+define('ML_FROM', 'noreply@yk-lab.jp');
+define('SMTP_HOST', 'sv16822.xserver.jp');
+define('SMTP_PORT', 587);
+define('SMTP_USER', 'noreply@yk-lab.jp');
+define('SMTP_PASS', 'u2d9T[.QlSG8');
+define('SMTP_SECURE', PHPMailer::ENCRYPTION_STARTTLS);
 
 //-------------------
 //変数定義
@@ -399,6 +412,44 @@ function getErrInfo($str) {
 //メール送信
 //-------------------
 function sendMail($from, $to, $subject, $comments) {
+
+  if (!empty($from) && !empty($to) && !empty($subject) && !empty($comments)) {
+
+    try {
+
+      $mail = new PHPMailer(true);
+      $mail->isSMTP();
+      $mail->Host = SMTP_HOST;
+      $mail->SMTPAuth = true;
+      $mail->Username = SMTP_USER;
+      $mail->Password = SMTP_PASS;
+      $mail->SMTPSecure = SMTP_SECURE;
+      $mail->Port = SMTP_PORT;
+
+      $mail->CharSet = 'UTF-8';
+
+      $mail->setFrom($from, APL_NAME);
+      $mail->addAddress($to);
+
+      $mail->Subject = $subject;
+      $mail->Body = $comments;
+
+      $mail->send();
+
+      debug('メール送信OK');
+
+    } catch (Exception $e) {
+
+      debug('メール送信NG');
+      debug($mail->ErrorInfo);
+
+    }
+
+  }
+
+}
+
+/* function sendMail($from, $to, $subject, $comments) {
   if (!empty($from) && !empty($to) && !empty($subject) && !empty($comments)) {
     //文字化けしないように設定（お決まりパターン）
     mb_language("Japanese"); //現在使っている言語を設定する
@@ -414,6 +465,7 @@ function sendMail($from, $to, $subject, $comments) {
     }
   }
 }
+ */
 //-------------------
 //ポップアップメッセージ処理
 //-------------------

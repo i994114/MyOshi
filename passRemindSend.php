@@ -16,7 +16,8 @@ if (!empty($_POST)) {
 
   //ポスト送信された情報を取得
   $email = $_POST['email'];
-
+  debug('送信されたメールアドレス：' . $email);
+  
   //Eメール形式かチェック
   validEmail($email, 'email');
   
@@ -87,7 +88,7 @@ if (!empty($_POST)) {
         $_SESSION['tmp_login_limit'] = time() +  $stslimit;
         
         //成功メッセージ登録
-        $_SESSION['msg-success'] = SUC02;
+        $_SESSION['msg-success'] = SUCCESS_MAIL_SEND;
         debug('セッション情報：' . print_r($_SESSION,true));
 
         //パスワード入力画面へ遷移
@@ -98,7 +99,7 @@ if (!empty($_POST)) {
       }
     } catch (Exception $e) {
       error_log('エラーが発生しました' . $e->getMessage());
-      $err_msg['common'] = MSG07;
+      $err_msg['common'] = ERR_SYSTEM;
     }
 
   } else {
@@ -135,7 +136,10 @@ if (!empty($_POST)) {
 
             <label class="<?php if(!empty($err_msg['email'])) echo 'err'; ?>">
               Email
+              <!--
               <input type="text" name="email" value="<?php echo sanitize(getFormData('email')); ?>">
+              -->
+              <input type="text" name="email" value="dorakue838861@gmail.com">
             </label>
            
             <div class="area-msg">

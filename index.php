@@ -41,12 +41,12 @@ $display_min = ($now_page -1 ) * $list_span;
 $display_max = $display_min - 1 + $list_span;
 
 //推し情報を取得
-$product = getProductList($list_span, $display_min, $seach_cate, $seach_sort);
-debug('すべての推し情報：' . print_r($product, true));
+//$product = getProductList($list_span, $display_min, $seach_cate, $seach_sort);
+//debug('すべての推し情報：' . print_r($product, true));
 
 
 //カテゴリデータの取得
-$category = getCategory();
+//$category = getCategory();
 
 //登録情報編集用：フォームに表示するデータの選択
 $dbFormData = getFormData('category_id');

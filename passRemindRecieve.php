@@ -16,7 +16,7 @@ if (!empty($_POST)) {
   
   //一時パスワードと、入力された認証コードの一致を確認
   if ($_SESSION['tmp_key'] !== $token) {
-    $err_msg['token'] = MSG15;
+    $err_msg['token'] = ERR_AUTH_CODE;
   }
   debug('一時パスワード：' . $_SESSION['tmp_key']);
   debug('入力された承認コード' . $token);
