@@ -21,9 +21,9 @@ if (!empty($_POST)) {
     $dbh = dbConnect();
     //sql作成
     $sql1 = 'UPDATE users SET delete_flg = 1 WHERE id = :u_id';
-    $sql2 = 'UPDATE product SET delete_flg = 1 WHERE user_id = :u_id';
-    $sql3 = 'UPDATE `like` SET delete_flg = 1 WHERE user_id = :u_id';
-    $sql4 = 'UPDATE bord SET delete_flg = 1 WHERE user_id = :u_id';
+    $sql2 = 'UPDATE events SET delete_flg = 1 WHERE user_id = :u_id';
+    $sql3 = 'UPDATE `favorites` SET delete_flg = 1 WHERE user_id = :u_id';
+    $sql4 = 'UPDATE boards SET delete_flg = 1 WHERE user_id = :u_id';
     $sql5 = 'UPDATE message SET delete_flg = 1 WHERE from_user = :u_id';
     $sql6 = 'UPDATE message SET delete_flg = 1 WHERE to_user = :u_id';
 
@@ -58,7 +58,7 @@ if (!empty($_POST)) {
 
   } catch (Exception $e) {
     error_log('エラーが発生しました' . $e->getMessage());
-    $err_msg['common'] = MSG07;
+    $err_msg['common'] = ERR_SYSTEM;
   }
 } 
 

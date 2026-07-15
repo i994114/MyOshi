@@ -24,7 +24,7 @@ debug('取得した情報：' . print_r($product_data,true));
 //不正なアクセスでないか判定
 if (empty($product_data)) {
   debug('不正なURLです。情報一覧に戻ります');
-  $err_msg['common'] = MSG07;
+  $err_msg['common'] = ERR_SYSTEM;
 
   header('Location:index.php');
   exit();
@@ -58,12 +58,12 @@ if (!empty($_POST)) {
         debug('掲示板新規作成OK');
       } else {
         debug('掲示板新規作成NG');
-        $err_msg['common'] = MSG07;
+        $err_msg['common'] = ERR_SYSTEM;
       }
 
     } catch(Exception $e) {
       error_log('エラーが発生しました' . $e->getMessage());
-      $err_msg['common'] = MSG07;
+      $err_msg['common'] = ERR_SYSTEM;
     }
   } else {
     debug('掲示板はすでにあります');

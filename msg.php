@@ -68,7 +68,7 @@ if(!empty($_POST)) {
     } catch (Exception $e) {
       error_log('エラーが発生しました' . $e->getMessage());
       global $err_msg;
-      $err_msg['common'] = MSG07;
+      $err_msg['common'] = ERR_SYSTEM;
     }
   }
 }

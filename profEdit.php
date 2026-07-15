@@ -107,11 +107,11 @@ if (!empty($_POST)) {
         header("Location:mypage.php");
       } else {
         debug('プロフィール編集失敗');
-        $err_msg['common'] = MSG07;
+        $err_msg['common'] = ERR_SYSTEM;
       }
     } catch (Exception $e) {
       error_log('エラーが発生しました' . $e->getMessage());
-      $err_msg['common'] = MSG07;
+      $err_msg['common'] = ERR_SYSTEM;
     }
   } else {
     debug('バリデーションNG');
