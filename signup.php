@@ -127,7 +127,7 @@ if(!empty($_POST)){
       }
     } catch (Exception $e) {
       error_log('エラーが発生しました' . $e->getMessage());
-      $err_msg['common'] = MSG07;
+      $err_msg['common'] = ERR_SYSTEM;
     }
   } else {
     debug('signup.php バリデーションNG');
