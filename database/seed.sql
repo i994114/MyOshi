@@ -115,8 +115,9 @@ INSERT INTO boards (
 INSERT INTO messages (
     id,
     board_id,
-    user_id,
-    message,
+    from_user,
+    to_user,
+    content,
     delete_flg,
     create_date
 ) VALUES
@@ -124,6 +125,7 @@ INSERT INTO messages (
     1,
     1,
     1,
+    2,
     '初心者の方もお気軽にご参加ください！',
     0,
     NOW()
@@ -132,6 +134,7 @@ INSERT INTO messages (
     2,
     1,
     2,
+    1,
     '参加予定です。よろしくお願いします。',
     0,
     NOW()
@@ -140,11 +143,11 @@ INSERT INTO messages (
     3,
     2,
     2,
+    1,
     '途中参加もOKです。',
     0,
     NOW()
 );
-
 
 -- ===================================
 -- favorites

@@ -419,6 +419,7 @@ function sendMail($from, $to, $subject, $comments) {
 
       $mail = new PHPMailer(true);
       $mail->isSMTP();
+
       $mail->Host = SMTP_HOST;
       $mail->SMTPAuth = true;
       $mail->Username = SMTP_USER;
@@ -595,7 +596,7 @@ function getProductOneInfo($p_id) {
     //db接続
     $dbh = dbConnect();
     //sql作成
-    $sql = 'SELECT * FROM product WHERE id = :p_id';
+    $sql = 'SELECT * FROM events WHERE id = :p_id';
     //dataセット
     $data = array(':p_id' => $p_id);
     //sql実行
@@ -625,7 +626,7 @@ function getMyProductList($u_id) {
     //db接続
     $dbh = dbConnect();
     //sql作成
-    $sql = 'SELECT id, name, comment, pic1, update_date FROM product WHERE user_id = :u_id';
+    $sql = 'SELECT id, name, description, pic1, update_date FROM events WHERE user_id = :u_id';
     //dataセット
     $data = array(':u_id' => $u_id);
     //sql実行
@@ -658,7 +659,7 @@ function getProductList($list_span = 20, $display_min = 1, $category, $sort) {
     //db接続
     $dbh = dbConnect();
     //sql作成
-    $sql = 'SELECT id, name, category_id, comment, pic1, pic2, pic3 FROM product WHERE delete_flg = 0'; 
+    $sql = 'SELECT id, name, category_id, content, pic1, pic2, pic3 FROM events WHERE delete_flg = 0'; 
 
     //検索リクエストがあるか(カテゴリ)
     if ($category != 0) {
@@ -730,7 +731,7 @@ function getProductOne($p_id) {
     //db接続
     $dbh = dbConnect();
     //sql作成
-    $sql = 'SELECT p.id, p.name, p.category_id, p.comment, p.user_id, p.pic1, p.pic2, p.pic3, c.name as category FROM product as p INNER JOIN category as c on p.category_id = c.id WHERE p.id = :p_id';
+    $sql = 'SELECT p.id, p.name, p.category_id, p.content, p.user_id, p.pic1, p.pic2, p.pic3, c.name as category FROM events as p INNER JOIN category as c on p.category_id = c.id WHERE p.id = :p_id';
     //dataセット
     $data = array(':p_id' => $p_id);
     //sql実行
@@ -870,7 +871,7 @@ function getBordInfo($p_id) {
     //db接続
     $dbh = dbConnect();
     //sql作成
-    $sql = 'SELECT id, product_id FROM bord where product_id = :p_id';
+    $sql = 'SELECT id, event_id FROM boards where event_id = :p_id';
     //dataセット
     $data = array(':p_id' => $p_id);
     //sql実行
@@ -899,7 +900,7 @@ function getMyBordInfo($u_id) {
     //db接続
     $dbh = dbConnect();
     //sql作成
-    $sql = 'SELECT id, user_id FROM bord WHERE user_id = :u_id';
+    $sql = 'SELECT id, user_id FROM boards WHERE user_id = :u_id';
     //dataセット
     $data = array(':u_id' => $u_id);
     //sql実行
@@ -929,7 +930,7 @@ function getMessageInfo($b_id) {
     //db接続
     $dbh = dbConnect();
     //sql作成
-    $sql ='SELECT from_user, to_user, comment, create_date FROM message WHERE bord_id = :b_id';
+    $sql ='SELECT from_user, to_user, content, create_date FROM messages WHERE board_id = :b_id';
     //dataセット
     $data = array(':b_id' => $b_id);
     //sql実行
@@ -956,12 +957,12 @@ function getMessageInfo($b_id) {
 function getMybordMessage($u_id) {
   debug('自分がアップした掲示板の最新情報を取得します');
 
-  try {
+   try {
     //db接続
     $dbh = dbConnect();
     //sql実行
-    $sql = 'SELECT b.id, b.user_id, b.product_id,m.from_user, m.to_user, m.comment, m.update_date
-            FROM bord as b RIGHT JOIN message as m ON b.id = m.bord_id
+    $sql = 'SELECT b.id, b.user_id, b.event_id,m.from_user, m.to_user, m.content, m.update_date
+            FROM boards as b RIGHT JOIN messages as m ON b.id = m.board_id
             WHERE b.user_id = :u_id ORDER BY m.update_date DESC';
     //dataセット
     $data = array(':u_id' => $u_id);
@@ -980,7 +981,7 @@ function getMybordMessage($u_id) {
     global $err_msg;
     $err_msg['common'] = ERR_SYSTEM;
   }
-}
+ }
 //-------------------
 //お気に入り機能(取得:すべて)
 //-------------------
@@ -991,7 +992,7 @@ function getLikeInfo($u_id) {
     //db接続
     $dbh = dbConnect();
     //sql実行
-    $sql = 'SELECT l.product_id, l.user_id, l.update_date, p.name, p.pic1 FROM `like` as l LEFT JOIN product as p ON l.product_id = p.id WHERE l.user_id = :u_id ORDER BY l.update_date DESC';
+    $sql = 'SELECT l.event_id, l.user_id, l.create_date, p.name, p.pic1 FROM favorites as l LEFT JOIN events as p ON l.event_id = p.id WHERE l.user_id = :u_id ORDER BY l.create_date DESC';
     //dataセット
     $data = array(':u_id' => $u_id);
     //sql実行
@@ -1022,7 +1023,7 @@ function isLike($p_id, $u_id, $flg = 0) {
     //db接続
     $dbh = dbConnect();
     //sql作成
-    $sql = 'SELECT product_id, user_id FROM `like` WHERE product_id = :p_id && user_id = :u_id';
+    $sql = 'SELECT event_id, user_id FROM favorites WHERE event_id = :p_id && user_id = :u_id';
     //dataセット
     $data = array(':p_id' => $p_id, 'u_id' => $u_id);
     //sql実行
@@ -1053,7 +1054,7 @@ function likeDelete($p_id, $u_id) {
     //db接続
     $dbh = dbConnect();
     //sql実行
-    $sql = 'DELETE FROM `like` WHERE product_id = :p_id && user_id = :u_id';
+    $sql = 'DELETE FROM favorites WHERE event_id = :p_id && user_id = :u_id';
     //dataセット
     $data = array(':p_id' => $p_id, ':u_id' => $u_id);
     //sql実行
@@ -1081,7 +1082,7 @@ function likeRegister($p_id, $u_id) {
     //db接続
     $dbh = dbConnect();
     //sql作成
-    $sql = 'INSERT INTO `like` (product_id, user_id, create_date, update_date) VALUES (:p_id, :u_id, :create_date, :update_date)';
+    $sql = 'INSERT INTO favorites (event_id, user_id, create_date, update_date) VALUES (:p_id, :u_id, :create_date, :update_date)';
     //dataセット
     $data = array(':p_id' => $p_id, ':u_id' => $u_id, ':create_date' => date('Y-m-d H:i:s'), ':update_date' => date('Y-m-d H:i:s'));
     //sql実行
@@ -1120,18 +1121,18 @@ function againSignUpCalc($u_id) {
     //db接続
     $dbh = dbConnect();
     //sql実行
-    $sql1 = 'UPDATE product SET delete_flg = 0 WHERE user_id = :u_id';
-    $sql2 = 'UPDATE message SET delete_flg = 0 WHERE from_user = :u_id';
-    $sql3 = 'UPDATE message SET delete_flg = 0 WHERE to_user = :u_id';
-    $sql4 = 'UPDATE `like` SET delete_flg = 0 WHERE user_id = :u_id';
-    $sql5 = 'UPDATE bord SET delete_flg = 0 WHERE user_id = :u_id';
+    $sql1 = 'UPDATE events SET delete_flg = 0 WHERE user_id = :u_id';
+    $sql2 = 'UPDATE messages SET delete_flg = 0 WHERE from_user = :u_id';
+    $sql3 = 'UPDATE messages SET delete_flg = 0 WHERE to_user = :u_id';
+    //$sql4 = 'UPDATE favorites SET delete_flg = 0 WHERE user_id = :u_id';
+    $sql5 = 'UPDATE boards SET delete_flg = 0 WHERE user_id = :u_id';
     //dataセット
     $data = array(':u_id' => $u_id);
     //sql実行
     $stmt1 = queryPost($dbh, $sql1, $data);
     $stmt2 = queryPost($dbh, $sql2, $data);
     $stmt3 = queryPost($dbh, $sql3, $data);
-    $stmt4 = queryPost($dbh, $sql4, $data);
+    //$stmt4 = queryPost($dbh, $sql4, $data);
     $stmt5 = queryPost($dbh, $sql5, $data);
 
     if ($stmt1 && $stmt2 && $stmt3 && $stmt4 && $stmt5) {

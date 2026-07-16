@@ -70,14 +70,16 @@ CREATE TABLE boards (
 CREATE TABLE messages (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     board_id INT UNSIGNED NOT NULL,
-    user_id INT UNSIGNED NOT NULL,
-    message TEXT NOT NULL,
+    from_user INT UNSIGNED NOT NULL,
+    to_user INT UNSIGNED NOT NULL,
+    content TEXT NOT NULL,
     delete_flg TINYINT(1) NOT NULL DEFAULT 0,
     create_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     update_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     FOREIGN KEY (board_id) REFERENCES boards(id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    FOREIGN KEY (from_user) REFERENCES users(id),
+    FOREIGN KEY (to_user) REFERENCES users(id)
 );
 
 CREATE TABLE favorites (
