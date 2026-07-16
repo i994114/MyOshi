@@ -22,9 +22,7 @@ if (!empty($_POST)) {
   //ポストされた情報の取得
   //-------------------
   $username = $_POST['name'];
-  $tel = $_POST['tel'];
-  $zip = (!empty($_POST['zip']))? $_POST['zip'] : 0 ;
-  $addr = $_POST['addr'];
+
   $age = $_POST['age'];
   $email = $_POST['email'];
 
@@ -42,25 +40,10 @@ if (!empty($_POST)) {
 
   //名前
   if ($username !== $dbFormData['name']) {
+    //空欄チェック
+    validEmpty($username, 'name');
     //最大文字数チェック
-    validMax($username, 'name');
-  }
-
-  //電話番号
-  if ($tel !== "" && $tel !== $dbFormData['tel']) {
-    //電話番号の形式かチェック
-    validTel($tel, 'tel');
-  }
-
-  //郵便番号
-  if ($zip !== (int)$dbFormData['zip']) {
-    //郵便番号チェック
-    validZip($zip, 'zip');
-  }
-
-  //住所
-  if ($addr !== $dbFormData['addr']) {
-    validMax($addr, 'addr');
+    validMax($username, 'name', MAX_NAME);
   }
 
   //年齢
@@ -74,7 +57,7 @@ if (!empty($_POST)) {
   //Eメール
   if($email !== $dbFormData['email']) {
     //最大文字数チェック
-    validMax($email, 'email');
+    validMax($email, 'email', MAX_EMAIL);
     //最小文字数チェック
     validMin($email, 'email');
     //Eメール形式か
@@ -90,10 +73,10 @@ if (!empty($_POST)) {
       //dbセット
       $dbh = dbConnect();
       //sql作成
-      $sql = 'UPDATE users SET name = :name, tel = :tel, zip = :zip, addr = :addr, age = :age, email = :email, pic = :pic
+      $sql = 'UPDATE users SET name = :name, age = :age, email = :email, pic = :pic
               WHERE id = :u_id';
       //dataセット
-      $data = array(':name' => $username, ':tel' => $tel, ':zip' => $zip, ':addr' => $addr, ':age' => $age, ':email' => $email, ':pic' => $pic, ':u_id' => $_SESSION['user_id']);
+      $data = array(':name' => $username, ':age' => $age, ':email' => $email, ':pic' => $pic, ':u_id' => $_SESSION['user_id']);
       //sql実行
       $stmt = queryPost($dbh, $sql, $data);
 
@@ -101,7 +84,7 @@ if (!empty($_POST)) {
         debug('プロフィール編集成功');
 
         //メッセージ出力
-        $_SESSION['msg-success'] = SUC07;
+        $_SESSION['msg-success'] = SUCCESS_USER_UPDATE;
 
         //マイページへ遷移
         header("Location:mypage.php");
@@ -166,32 +149,6 @@ if (!empty($_POST)) {
                 <?php if(!empty($err_msg['name'])) echo $err_msg['name']; ?>
             </div>
             
-            <!-- TEL -->
-            <label class="<?php if(!empty($err_msg['tel'])) echo 'err'; ?>">
-                TEL
-                <input type="text" name="tel" value="<?php echo getFormData('tel'); ?>">
-            </label>
-            <div class="area-msg">
-                <?php if(!empty($err_msg['tel'])) echo $err_msg['tel']; ?>
-            </div>
-            
-            <!-- 郵便番号 -->
-            <label class="<?php if(!empty($err_msg['zip'])) echo 'err'; ?>">
-                郵便番号
-                <input type="text" name="zip" value="<?php echo getFormData('zip'); ?>">
-            </label>
-            <div class="area-msg">
-                <?php if(!empty($err_msg['zip'])) echo $err_msg['zip']; ?>
-            </div>
-            
-            <!-- 住所 -->
-            <label class="<?php if(!empty($err_msg['addr'])) echo 'err'; ?>">
-                住所
-                <input type="text" name="addr" value="<?php echo getFormData('addr'); ?>">
-            </label>
-            <div class="area-msg">
-                <?php if(!empty($err_msg['addr'])) echo $err_msg['addr']; ?>
-            </div>
             
             <!-- 年齢 -->
             <label style="text-align:left;" class="<?php if(!empty($err_msg['age'])) echo 'err'; ?>">
