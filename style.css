@@ -510,7 +510,7 @@ input[type="submit"]:hover {
 }
 .form .prev-img{
   width:100%;
-  height: 400px;   /* 写真アップした際に、枠からはみ出ないようにするために追加 */
+  height: 100%;   /* 写真アップした際に、枠からはみ出ないようにするために追加 */
   position:absolute;
   top:0;
   left:0;
