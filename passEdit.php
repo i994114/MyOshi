@@ -74,7 +74,7 @@ if (!empty($_POST)) {
         debug('クエリ成功');
         
         //セッションに成功結果をいれておく
-        $_SESSION['msg-success'] = SUC01;
+        $_SESSION['msg-success'] = SUCCESS_PASSWORD_CHANGE;
 
         //-------------------
         //変更メール送信処理
