@@ -63,6 +63,7 @@ session_regenerate_id();
 define('MAX_NAME', 25);
 define('MAX_EMAIL', 255);
 define('MAX_PASS', 128);
+define('MAX_DESCRIPTION', 500);
 
 define('APL_NAME','KENYU(剣友)');
 define('APL_SUBNAME',' 〜もっと自由に、もっと気軽に剣道を〜');
@@ -622,7 +623,7 @@ function uploadImg($file, $key) {
 //推し情報の取得(単品)
 //-------------------
 function getProductOneInfo($p_id) {
-  debug('DBに登録された推し情報(単品)を取得');
+  debug('DBに登録されたイベント情報(単品)を取得');
 
   try {
     //db接続
@@ -635,10 +636,10 @@ function getProductOneInfo($p_id) {
     $stmt = queryPost($dbh, $sql, $data);
 
     if ($stmt) {
-      debug('推し情報取り出しOK');
+      debug(APL_SUBJECT . '情報取り出しOK');
       return $stmt->fetch(PDO::FETCH_ASSOC);
     } else {
-      debug('推し情報取り出しOK');
+      debug(APL_SUBJECT . '情報取り出しNG');
       return false;
     }
   } catch(Exception $e) {
