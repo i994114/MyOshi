@@ -17,13 +17,13 @@ if (!empty($p_id) && empty($dbFormData)) {
   exit();
 }
 
-//登録情報編集用：推し情報IDの取得
+//登録情報編集用：イベント情報IDの取得
 $p_id = (!empty($_GET['p_id']))? $_GET['p_id'] : ''; 
 debug('Getの値:' . print_r($_GET,true));
 
 //登録情報編集用：フォームに表示するデータの選択
 $dbFormData = (!empty($p_id))? getProductOneInfo($p_id) : '';
-debug('取得した推し情報一覧' . print_r($dbFormData,true));
+debug('取得したイベント情報一覧' . print_r($dbFormData,true));
 
 //新規登録か編集か(true:新規、false:編集)
 $edit_flg = (empty($_GET['p_id']))? true : false;
@@ -31,6 +31,10 @@ $edit_flg = (empty($_GET['p_id']))? true : false;
 //DBに登録されたカテゴリ情報を取り出し
 $category_info = getCategory();
 debug('取得したカテゴリ：' . print_r($category_info,true));
+
+//DBに登録された対象情報を取り出し
+$target_info = getTarget();
+debug('取得した対象：' . print_r($target_info,true));
 
 //ポスト送信があるか
 if (!empty($_POST)) {
@@ -43,7 +47,7 @@ if (!empty($_POST)) {
   //----------------------
   $name = $_POST['name'];
   $category_id = $_POST['category_id'];
-  $comment = $_POST['comment'];
+  $description = $_POST['description'];
 
 
   $pic1 = (!empty($_FILES['pic1']['name']))? uploadImg($_FILES['pic1'], 'pic1') : '';
@@ -65,7 +69,10 @@ if (!empty($_POST)) {
     validMax($name, 'name');
 
     validEmpty($category_id, 'category_id');
-    validMax($comment, 'comment');
+    validSelect($category_id, 'category_id');
+    //validEmpty($target_id, 'target_id');
+    //validSelect($target_id, 'target_id');
+    validMax($description, 'description');
 
 
   } else {                    //登録情報があるとき
@@ -74,8 +81,8 @@ if (!empty($_POST)) {
       validMax($name, 'name');
     }
 
-    if ($dbFormData['comment'] !== $comment) {
-      validMax($comment, 'comment', 500);
+    if ($dbFormData['description'] !== $description) {
+      validMax($description, 'description', 500);
     }
 
     if ($dbFormData['category_id'] !== $category_id) {
@@ -83,7 +90,11 @@ if (!empty($_POST)) {
       validSelect($category_id, 'category_id');
     }
 
-  }
+/*     if ($dbFormData['target_id'] !== $target_id) {
+      validEmpty($target_id, 'target_id');
+      validSelect($target_id, 'target_id');
+    }
+ */  }
 
   //----------------------
   //DB登録
@@ -103,10 +114,10 @@ if (!empty($_POST)) {
           debug('DBに新規登録します');
 
           //sql作成
-          $sql = 'INSERT INTO product (name, category_id, comment, pic1, pic2, pic3, user_id, create_date, update_date)
-                  VALUES(:name, :category_id, :comment, :pic1, :pic2, :pic3, :user_id, :create_date, :update_date)';
+          $sql = 'INSERT INTO events (name, category_id, description, pic1, pic2, pic3, user_id, create_date, update_date)
+                  VALUES(:name, :category_id, :description, :pic1, :pic2, :pic3, :user_id, :create_date, :update_date)';
           //dataセット
-          $data = array(':name' => $name, ':category_id' => $category_id, ':comment' => $comment, ':pic1' => $pic1, ':pic2' => $pic2, ':pic3' => $pic3,
+          $data = array(':name' => $name, ':category_id' => $category_id, ':description' => $description, ':pic1' => $pic1, ':pic2' => $pic2, ':pic3' => $pic3,
                         ':user_id' => $_SESSION['user_id'], ':create_date' => date('Y-m-d H:i:s'), ':update_date' => date('Y-m-d H:i:s'));
         } else {
           //--------
@@ -115,22 +126,22 @@ if (!empty($_POST)) {
           debug('DBの内容を変更します');
 
           //sql作成
-          $sql = 'UPDATE product SET name = :name, comment = :comment, pic1 = :pic1, pic2 = :pic2, pic3 = :pic3, user_id = :u_id, update_date = :date WHERE id = :p_id';
+          $sql = 'UPDATE events SET name = :name, category_id = :category_id, target_id = :target_id, description = :description, pic1 = :pic1, pic2 = :pic2, pic3 = :pic3, user_id = :u_id, update_date = :date WHERE id = :p_id';
           //dataセット
-          $data = array(':name' => $name, ':comment' => $comment, ':pic1' => $pic1, ':pic2' => $pic2, ':pic3' => $pic3, ':u_id' => $_SESSION['user_id'], ':date' => date('Y-m-d H:i:s'), ':p_id' => $p_id);
+          $data = array(':name' => $name, ':category_id' => $category_id, ':target_id' => $target_id, ':description' => $description, ':pic1' => $pic1, ':pic2' => $pic2, ':pic3' => $pic3, ':u_id' => $_SESSION['user_id'], ':date' => date('Y-m-d H:i:s'), ':p_id' => $p_id);
         }
         //sql実行
         $stmt = queryPost($dbh, $sql, $data);
 
         if ($stmt) {
-          debug('推し情報の登録OK');
-          $_SESSION['msg-success'] = SUC03;
+          debug('イベント情報の登録OK');
+          $_SESSION['msg-success'] = SUCCESS_EVENT_REGISTER;
 
           //マイページへ遷移
           header('Location:mypage.php');
           exit();
         } else {
-          debug('推し情報の登録NG');
+          debug('イベント情報の登録NG');
           $err_msg['common'] = ERR_SYSTEM;
         }
       } catch(Exception $e) {
@@ -163,7 +174,7 @@ if (!empty($_POST)) {
               <?php getErrInfo('common'); ?>
             </div>
 
-            <!-- 推し情報 -->
+            <!-- イベント情報 -->
             <label class="<?php if(!empty($err_msg['name'])) echo 'err';  ?>">
             <?php echo APL_SUBJECT.'情報'; ?><span class="label-require">必須</span>
               <input type="text" name="name" value="<?php  echo getFormData('name'); ?>">
@@ -188,15 +199,27 @@ if (!empty($_POST)) {
             <div class="area-msg">
               <?php echo getErrInfo('category_id'); ?>
             </div>
-            
-            <!-- 推しポイント -->
-            <label class="<?php if(!empty($err_msg['commnet'])) echo 'err'; ?>">
-              <?php echo APL_SUBJECT.'ポイント'; ?>
-              <textarea name="comment" id="js-count" cols="30" rows="10" style="height:150px;"><?php echo getFormData('comment'); ?></textarea>
+
+            <!-- 対象 -->
+            <label class="<?php if(!empty($err_msg['target_id'])) echo 'err'; ?>">
+              対象<span class="label-require">必須</span>
+                  <?php foreach ($target_info as $key => $val) {?>
+                    <input type="checkbox" name="target[]" value="<?php  echo $val['id']; ?>" <?php if(in_array($val['id'], (array)getFormData('target'))){ echo 'checked'; }   ?>>
+                      <?php echo $val['name']; ?>
+                  <?php }?>
+            </label>
+            <div class="area-msg">
+              <?php echo getErrInfo('target_id'); ?>
+            </div>
+
+            <!-- イベント詳細 -->
+            <label class="<?php if(!empty($err_msg['description'])) echo 'err'; ?>">
+              <?php echo APL_SUBJECT.'詳細'; ?>
+              <textarea name="description" id="js-count" cols="30" rows="10" style="height:150px;"><?php echo getFormData('description'); ?></textarea>
             </label>
             <p class="counter-text"><span id="js-count-view">0</span>/255文字</p>
             <div class="area-msg">
-              <?php  echo getErrInfo('comment'); ?>
+              <?php  echo getErrInfo('description'); ?>
             </div>
             
             <div style="overflow: hidden;">

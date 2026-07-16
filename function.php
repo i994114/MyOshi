@@ -66,7 +66,7 @@ define('MAX_PASS', 128);
 
 define('APL_NAME','KENYU(剣友)');
 define('APL_SUBNAME',' 〜もっと自由に、もっと気軽に剣道を〜');
-define('APL_SUBJECT','※ここは削除予定'); //サイトコンセプトが変わっても一発で変えられるようにするためのもの
+define('APL_SUBJECT','イベント'); //サイトコンセプトが変わっても一発で変えられるようにするためのもの
 
 //デバッグ用
 define('DEBUG_MODE', true); //デバッグモード（ログインとか毎回入力がめんどくさいのであらかじめ設定）
@@ -93,7 +93,7 @@ define('ERR_GENDER', '性別を選択してください');
 
 define('SUCCESS_PASSWORD_CHANGE', 'パスワードを変更しました');
 define('SUCCESS_MAIL_SEND', 'メールを送信しました。メールに書かれたパスワードでログインしてください');
-define('SUCCESS_PRODUCT_REGISTER', '推し情報を登録しました');
+define('SUCCESS_EVENT_REGISTER', APL_SUBJECT . 'を登録しました');
 define('SUCCESS_BOARD_MOVE', '掲示板に移動しました。自分の思いをどんどん投稿しよう');
 define('SUCCESS_SIGNUP', 'ユーザ登録しました。推し情報を共有しましょう！');
 define('SUCCESS_WITHDRAW', '退会処理完了しました。でもいつでも戻ってきてくださいっ！！');
@@ -516,7 +516,7 @@ function getCategory() {
     //dbh接続
     $dbh = dbConnect();
     //sql作成
-    $sql = 'SELECT id, name FROM category';
+    $sql = 'SELECT id, name FROM categories';
     //data設定
     $data = array();
     //sql実行
@@ -527,6 +527,35 @@ function getCategory() {
       return $stmt->fetchAll();
     } else {
       debug('カテゴリデータ取り出しNG');
+      return false;
+    }
+
+  } catch (Exception $e) {
+    error_log('エラーが発生しました:'. $e->getMessage());
+    global $err_msg;
+    $err_msg['common'] = ERR_SYSTEM;
+  }
+}
+
+//-------------------
+//対象取得
+//-------------------
+function getTarget() {
+  try {
+    //dbh接続
+    $dbh = dbConnect();
+    //sql作成
+    $sql = 'SELECT id, name FROM targets';
+    //data設定
+    $data = array();
+    //sql実行
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if ($stmt) {
+      debug('対象データ取り出しOk');
+      return $stmt->fetchAll();
+    } else {
+      debug('対象データ取り出しNG');
       return false;
     }
 
