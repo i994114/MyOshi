@@ -68,6 +68,9 @@ define('APL_NAME','KENYU(剣友)');
 define('APL_SUBNAME',' 〜もっと自由に、もっと気軽に剣道を〜');
 define('APL_SUBJECT','※ここは削除予定'); //サイトコンセプトが変わっても一発で変えられるようにするためのもの
 
+//デバッグ用
+define('DEBUG_MODE', true); //デバッグモード（ログインとか毎回入力がめんどくさいのであらかじめ設定）
+
 //エラーメッセージを定数に設定
 define('ERR_REQUIRED','入力必須です');
 define('ERR_EMAIL_FORMAT', 'Emailの形式で入力してください');

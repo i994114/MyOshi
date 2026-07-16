@@ -139,7 +139,7 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
            <!-- メールアドレス -->
            <label class="<?php echo (!empty($err_msg))? 'err' : '';  ?>">
             メールアドレス
-             <input type="text" name="email" value="<?php if(!empty($_POST['email'])) echo sanitize($_POST['email']); ?>">
+             <input type="text" name="email" value="<?php echo !empty($_POST['email']) ? sanitize($_POST['email']) : (DEBUG_MODE ? 'dorakue838861@gmail.com' : ''); ?>">
            </label>
            <div class="area-msg">
               <?php
@@ -152,7 +152,7 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
            <!-- パスワード -->
            <label>
              パスワード
-             <input type="password" name="pass" value="<?php if(!empty($_POST['pass'])) echo sanitize($_POST['pass']); ?>">
+             <input type="password" name="pass" value="<?php echo !empty($_POST['pass'])? sanitize($_POST['pass']) : (DEBUG_MODE? 'aaaa1111' : ''); ?>">
            </label>
            <div class="area-msg">
               <?php
