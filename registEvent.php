@@ -3,7 +3,7 @@
 require('function.php');
 
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
-debug('「　registEvent.php:情報登録');
+debug('「registEvent.php:情報登録');
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
 debugLogStart();
 
@@ -41,6 +41,41 @@ if (!empty($_POST)) {
   debug('ポスト送信あり');
   debug('ポストの値：' . print_r($_POST,true));
   debug('ファイルの値：' . print_r($_FILES,true));
+
+  //まず、削除ボタンが押されたかを確認
+  if (!empty($_POST['delete'])) {
+    debug('削除ボタンが押されました');
+
+    //----------------------
+    //削除処理
+    //----------------------
+    try {
+      //db接続
+      $dbh = dbConnect();
+
+      //sql作成
+      $sql = 'UPDATE events SET delete_flg = 1 WHERE id = :p_id';
+      $data = array(':p_id' => $p_id);
+
+      //sql実行
+      $stmt = queryPost($dbh, $sql, $data);
+
+      if ($stmt) {
+        debug('削除に成功しました');
+        $_SESSION['msg-success'] = SUCCESS_EVENT_DELETE;
+
+        //マイページへ遷移
+        header('Location:mypage.php');
+        exit();
+      } else {
+        debug('削除に失敗しました');
+        $err_msg['common'] = ERR_SYSTEM;
+      }
+    } catch(Exception $e) {
+      error_log('エラーが発生しました' . $e->getMessage());
+      $err_msg['common'] = ERR_SYSTEM;
+    }
+  }
 
   //----------------------
   //ポスト送信された情報を取得
@@ -267,8 +302,12 @@ if (!empty($_POST)) {
             </div>
 
             <div class="btn-container">
-              <input type="submit" class="btn btn-mid" value="<?php echo ($edit_flg === true)? '紹介する' : '編集する'; ?>">
+              <input type="submit" class="btn btn-mid" value="<?php echo ($edit_flg === true)? 'イベント登録する' : 'イベント編集する'; ?>">
             </div>
+
+            <?php if (!empty($_SESSION['user_id']) && $_SESSION['user_id'] === $dbFormData['user_id'] ) { ?>
+              <input type="submit" class="btn btn-mid" name="delete" value="削除する" onclick="return confirm('本当に削除しますか？'); ">
+            <?php }?>
           </form>
         </div>
       </section>

@@ -97,6 +97,7 @@ define('SUCCESS_MAIL_SEND', 'メールを送信しました。メールに書か
 define('SUCCESS_EVENT_REGISTER', APL_SUBJECT . 'を登録しました');
 define('SUCCESS_BOARD_MOVE', '掲示板に移動しました。自分の思いをどんどん投稿しよう');
 define('SUCCESS_SIGNUP', 'ユーザ登録しました。推し情報を共有しましょう！');
+define('SUCCESS_EVENT_DELETE', APL_SUBJECT . 'を削除しました');
 define('SUCCESS_WITHDRAW', '退会処理完了しました。でもいつでも戻ってきてくださいっ！！');
 define('SUCCESS_USER_UPDATE', 'ユーザ登録情報を変更しました！');
 
