@@ -83,8 +83,9 @@ if (!empty($_POST)) {
   $name = $_POST['name'];
   $category_id = $_POST['category_id'];
   $description = $_POST['description'];
-
-
+  $target = $_POST['target'];
+  $event_id =(empty($p_id))? '' : $p_id;
+  
   $pic1 = (!empty($_FILES['pic1']['name']))? uploadImg($_FILES['pic1'], 'pic1') : '';
   $pic2 = (!empty($_FILES['pic2']['name']))? uploadImg($_FILES['pic2'], 'pic2') : '';
   $pic3 = (!empty($_FILES['pic3']['name']))? uploadImg($_FILES['pic3'], 'pic3') : '';
@@ -109,6 +110,9 @@ if (!empty($_POST)) {
     //validSelect($target_id, 'target_id');
     validMax($description, 'description');
 
+    validEmpty($target, 'target');
+
+
 
   } else {                    //登録情報があるとき
     if ($dbFormData['name'] !== $name) {
@@ -125,11 +129,15 @@ if (!empty($_POST)) {
       validSelect($category_id, 'category_id');
     }
 
-/*     if ($dbFormData['target_id'] !== $target_id) {
-      validEmpty($target_id, 'target_id');
-      validSelect($target_id, 'target_id');
+    if ($dbFormData['target'] !== $target) {
+      validEmpty($target, 'target');
     }
- */  }
+
+    if (!empty($event_id)) {
+      validEmpty($event_id, 'event_id');
+    }
+
+ }
 
   //----------------------
   //DB登録
@@ -154,6 +162,7 @@ if (!empty($_POST)) {
           //dataセット
           $data = array(':name' => $name, ':category_id' => $category_id, ':description' => $description, ':pic1' => $pic1, ':pic2' => $pic2, ':pic3' => $pic3,
                         ':user_id' => $_SESSION['user_id'], ':create_date' => date('Y-m-d H:i:s'), ':update_date' => date('Y-m-d H:i:s'));
+            
         } else {
           //--------
           //編集
@@ -166,9 +175,23 @@ if (!empty($_POST)) {
           $data = array(':name' => $name, ':category_id' => $category_id, ':description' => $description, ':pic1' => $pic1, ':pic2' => $pic2, ':pic3' => $pic3, ':u_id' => $_SESSION['user_id'], ':date' => date('Y-m-d H:i:s'), ':p_id' => $p_id);
         }
         //sql実行
-        $stmt = queryPost($dbh, $sql, $data);
+        $stmt1 = queryPost($dbh, $sql, $data);
 
-        if ($stmt) {
+        //------------------
+        //イベント対象情報を登録
+        //------------------
+        $event_id = $dbh->lastInsertId();
+        foreach($target as $val) {
+          debug('foreach開始 target=' . $val);
+          $sql = 'INSERT INTO event_targets (event_id, target_id) VALUES (:event_id, :target_id)';
+          $data = array(':event_id' => $event_id, ':target_id' => $val);
+
+          //sql実行
+          $stmt2 = queryPost($dbh, $sql, $data);
+
+        }
+
+        if ($stmt1 && $stmt2) {
           debug('イベント情報の登録OK');
           $_SESSION['msg-success'] = SUCCESS_EVENT_REGISTER;
 

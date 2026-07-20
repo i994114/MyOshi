@@ -124,7 +124,7 @@ $err_msg = array();
 
 //Eメール重複登録チェック
 function validEmailDup($email) {
-  try {
+  try 
     //db接続
     $dbh = dbConnect();
     //SQL文作成
@@ -365,6 +365,11 @@ function getUserInfo() {
 //サニタイズ
 //-------------------
 function sanitize($str) {
+
+  //配列の場合は再帰的にサニタイズ
+  if (is_array($str)) {
+    return $str;
+  }
   return (htmlspecialchars($str, ENT_QUOTES));
 }
 //-------------------
