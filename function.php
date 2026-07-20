@@ -124,7 +124,7 @@ $err_msg = array();
 
 //Eメール重複登録チェック
 function validEmailDup($email) {
-  try 
+  try {
     //db接続
     $dbh = dbConnect();
     //SQL文作成
