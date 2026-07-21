@@ -34,6 +34,7 @@ CREATE TABLE events (
     name VARCHAR(255) NOT NULL,
     category_id INT UNSIGNED NOT NULL,
     user_id INT UNSIGNED NOT NULL,
+    prefecture_id INT UNSIGNED NOT NULL,
     description TEXT,
     pic1 VARCHAR(255),
     pic2 VARCHAR(255),
@@ -101,6 +102,7 @@ CREATE TABLE prefectures (
     PRIMARY KEY (id)
 );
 
+/*
 CREATE TABLE cities (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     prefecture_id INT UNSIGNED NOT NULL,
@@ -110,4 +112,5 @@ CREATE TABLE cities (
     PRIMARY KEY (id),
     FOREIGN KEY (prefecture_id) REFERENCES prefectures(id)
 );
+*/
 

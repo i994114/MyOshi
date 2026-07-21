@@ -33,7 +33,7 @@ $category_info = getCategory();
 $prefecture_info = getPrefecture();
 
 //市町村データの取得
-$city_info = getCity();
+//$city_info = getCity();
 
 //DBに登録された対象情報を取り出し
 $target_info = getTarget();
@@ -84,6 +84,7 @@ if (!empty($_POST)) {
   //----------------------
   $name = $_POST['name'];
   $category_id = $_POST['category_id'];
+  $prefecture_id = $_POST['prefecture_id'];
   $description = $_POST['description'];
   $target = $_POST['target'];
   $event_id =(empty($p_id))? '' : $p_id;
@@ -159,10 +160,10 @@ if (!empty($_POST)) {
           debug('DBに新規登録します');
 
           //sql作成
-          $sql = 'INSERT INTO events (name, category_id, description, pic1, pic2, pic3, user_id, create_date, update_date)
-                  VALUES(:name, :category_id, :description, :pic1, :pic2, :pic3, :user_id, :create_date, :update_date)';
+          $sql = 'INSERT INTO events (name, category_id, prefecture_id, description, pic1, pic2, pic3, user_id, create_date, update_date)
+                  VALUES(:name, :category_id, :prefecture_id, :description, :pic1, :pic2, :pic3, :user_id, :create_date, :update_date)';
           //dataセット
-          $data = array(':name' => $name, ':category_id' => $category_id, ':description' => $description, ':pic1' => $pic1, ':pic2' => $pic2, ':pic3' => $pic3,
+          $data = array(':name' => $name, ':category_id' => $category_id, ':prefecture_id' => $prefecture_id, ':description' => $description, ':pic1' => $pic1, ':pic2' => $pic2, ':pic3' => $pic3,
                         ':user_id' => $_SESSION['user_id'], ':create_date' => date('Y-m-d H:i:s'), ':update_date' => date('Y-m-d H:i:s'));
             
         } else {
@@ -275,8 +276,8 @@ if (!empty($_POST)) {
             <!-- 都道府県選択 -->
             <label class="<?php if(!empty($err_msg['prefecture_id'])) echo 'err'; ?>">
               都道府県<span class="label-require">必須</span>
-              <select name="category_id" id="">
-                <option value="0" <?php if(getPrefecture('prefecture_id') == 0) {echo 'selected';}  ?>>選択してください</option>
+              <select name="prefecture_id" id="">
+                <option value="0" <?php if(getFormData('prefecture_id') == 0) {echo 'selected';}  ?>>選択してください</option>
                   <?php foreach ($prefecture_info as $key => $val) {?>
                     <option value="<?php  echo $val['id']; ?>" <?php if(getFormData('prefecture_id') == $val['id'] ){ echo 'selected'; }   ?>>
                       <?php echo $val['name']; ?>
@@ -287,23 +288,6 @@ if (!empty($_POST)) {
             </label>
             <div class="area-msg">
               <?php echo getErrInfo('prefecture_id'); ?>
-            </div>
-
-            <!-- 市町村選択 -->
-            <label class="<?php if(!empty($err_msg['city_id'])) echo 'err'; ?>">
-              市町村<span class="label-require">必須</span>
-              <select name="city_id" id="">
-                <option value="0" <?php if(getPrefecture('prefecture_id') == 0) {echo 'selected';}  ?>>選択してください</option>
-                  <?php foreach ($city_info as $key => $val) {?>
-                    <option value="<?php  echo $val['id']; ?>" <?php if(getFormData('city_id') == $val['id'] ){ echo 'selected'; }   ?>>
-                      <?php echo $val['name']; ?>
-                    </option>
-                  <?php }?>
-              </select>
-
-            </label>
-            <div class="area-msg">
-              <?php echo getErrInfo('city_id'); ?>
             </div>
 
             <!-- イベント詳細 -->
