@@ -744,10 +744,10 @@ function getMyProductList($u_id) {
 }
 
 //-------------------
-//推し情報の取得(複数)
+//イベント情報の取得(複数)
 //-------------------
 function getProductList($list_span = 20, $display_min = 1, $category, $sort) {
-  debug('DBに登録された推し情報を取得');
+  debug('DBに登録された . APL_SUBJECT . 情報を取得');
 
   try {
     //-----------
@@ -756,7 +756,7 @@ function getProductList($list_span = 20, $display_min = 1, $category, $sort) {
     //db接続
     $dbh = dbConnect();
     //sql作成
-    $sql = 'SELECT id, name, category_id, content, pic1, pic2, pic3 FROM events WHERE delete_flg = 0'; 
+    $sql = 'SELECT e.id, e.name, e.category_id, e.prefecture_id, e.description, e.pic1, e.pic2, e.pic3, c.name as category_name, p.name as prefecture_name FROM events e LEFT JOIN categories c ON e.category_id = c.id LEFT JOIN prefectures p ON e.prefecture_id = p.id WHERE delete_flg = 0 ';
 
     //検索リクエストがあるか(カテゴリ)
     if ($category != 0) {
@@ -808,7 +808,7 @@ function getProductList($list_span = 20, $display_min = 1, $category, $sort) {
     //sql実行
     $stmt = queryPost($dbh, $sql, $data);
 
-    debug('推し情報の全レコードとレコード数：' . print_r($rst,true));
+    //debug('イベント情報の全レコードとレコード数：' . print_r($rst,true));
 
     return $rst;
 

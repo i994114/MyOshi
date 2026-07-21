@@ -41,12 +41,15 @@ $display_min = ($now_page -1 ) * $list_span;
 $display_max = $display_min - 1 + $list_span;
 
 //推し情報を取得
-//$product = getProductList($list_span, $display_min, $seach_cate, $seach_sort);
-//debug('すべての推し情報：' . print_r($product, true));
+$product = getProductList($list_span, $display_min, $seach_cate, $seach_sort);
+debug('すべての ' . APL_SUBJECT . ' 情報：' . print_r($product, true));
 
 
 //カテゴリデータの取得
 $category = getCategory();
+
+//すべての都道府県データの取得
+$prefectures = getPrefecture();
 
 //登録情報編集用：フォームに表示するデータの選択
 $dbFormData = getFormData('category_id');
@@ -54,7 +57,7 @@ $dbFormData = getFormData('category_id');
 ?>
 
 <?php
-  $siteTitle = '商品一覧';
+  $siteTitle = APL_SUBJECT . '一覧';
   require('head.php');
 ?>
 
@@ -102,7 +105,7 @@ $dbFormData = getFormData('category_id');
       <section id="main" >
         <div class="search-title">
           <div class="search-left">
-            <span class="total-num"><?php echo sanitize($product['total_record']);?>コの推しがみつかったよ！</span>
+            <span class="total-num"><?php echo sanitize($product['total_record']);?>コの<?php echo sanitize(APL_SUBJECT); ?>がみつかったよ！</span>
           </div>
           <div class="search-right">
             <span class="wf-nicomoji"><?php echo sanitize($display_min+1); ?>-</span><span class="wf-nicomoji"><?php echo sanitize($display_max); ?>件</span> / <span class="wf-nicomoji"><?php echo sanitize($product['total_record']);?>件中</span>
@@ -116,6 +119,8 @@ $dbFormData = getFormData('category_id');
             </div>
             <div class="panel-body">
               <p class="panel-title"><?php echo sanitize($val['name']); ?></p>
+              <p class="panel-title"><?php echo sanitize($val['category_name']); ?></p>
+              <p class="panel-title"><?php echo sanitize($val['prefecture_name']); ?></p>
             </div>
           </a>
           <?php }?>
