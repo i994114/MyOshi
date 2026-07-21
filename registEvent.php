@@ -86,7 +86,7 @@ if (!empty($_POST)) {
   $category_id = $_POST['category_id'];
   $prefecture_id = $_POST['prefecture_id'];
   $description = $_POST['description'];
-  $target = $_POST['target'];
+  $target = $_POST['target'] ?? [];
   $event_id =(empty($p_id))? '' : $p_id;
   
   $pic1 = (!empty($_FILES['pic1']['name']))? uploadImg($_FILES['pic1'], 'pic1') : '';
@@ -109,6 +109,8 @@ if (!empty($_POST)) {
 
     validEmpty($category_id, 'category_id');
     validSelect($category_id, 'category_id');
+    validEmpty($prefecture_id, 'prefecture_id');
+    validSelect($prefecture_id, 'prefecture_id');
     //validEmpty($target_id, 'target_id');
     //validSelect($target_id, 'target_id');
     validMax($description, 'description');
@@ -173,9 +175,9 @@ if (!empty($_POST)) {
           debug('DBの内容を変更します');
 
           //sql作成
-          $sql = 'UPDATE events SET name = :name, category_id = :category_id, description = :description, pic1 = :pic1, pic2 = :pic2, pic3 = :pic3, user_id = :u_id, update_date = :date WHERE id = :p_id';
+          $sql = 'UPDATE events SET name = :name, category_id = :category_id, prefecture_id = :prefecture_id, description = :description, pic1 = :pic1, pic2 = :pic2, pic3 = :pic3, user_id = :u_id, update_date = :date WHERE id = :p_id';
           //dataセット
-          $data = array(':name' => $name, ':category_id' => $category_id, ':description' => $description, ':pic1' => $pic1, ':pic2' => $pic2, ':pic3' => $pic3, ':u_id' => $_SESSION['user_id'], ':date' => date('Y-m-d H:i:s'), ':p_id' => $p_id);
+          $data = array(':name' => $name, ':category_id' => $category_id, ':prefecture_id' => $prefecture_id, ':description' => $description, ':pic1' => $pic1, ':pic2' => $pic2, ':pic3' => $pic3, ':u_id' => $_SESSION['user_id'], ':date' => date('Y-m-d H:i:s'), ':p_id' => $p_id);
         }
         //sql実行
         $stmt1 = queryPost($dbh, $sql, $data);
@@ -183,7 +185,14 @@ if (!empty($_POST)) {
         //------------------
         //イベント対象情報を登録
         //------------------
-        $event_id = $dbh->lastInsertId();
+        if ($edit_flg === false) {
+          //新規登録のため、最後に登録したイベントIDを取得
+          $event_id = $dbh->lastInsertId();
+        } else {
+          //編集のため、対象イベントIDはGETパラメータから取得
+          $event_id = $p_id;
+        }
+        $stmt2 = true;
         foreach($target as $val) {
           debug('foreach開始 target=' . $val);
           $sql = 'INSERT INTO event_targets (event_id, target_id) VALUES (:event_id, :target_id)';
@@ -192,6 +201,10 @@ if (!empty($_POST)) {
           //sql実行
           $stmt2 = queryPost($dbh, $sql, $data);
 
+          if (!$stmt2) {
+            debug('イベント対象情報の登録に失敗しました');
+            break;
+          }
         }
 
         if ($stmt1 && $stmt2) {
