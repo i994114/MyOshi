@@ -545,6 +545,64 @@ function getCategory() {
 }
 
 //-------------------
+//都道府県データ取得
+//-------------------
+function getPrefecture() {
+  try {
+    //dbh接続
+    $dbh = dbConnect();
+    //sql作成
+    $sql = 'SELECT id, name FROM prefectures';
+    //data設定
+    $data = array();
+    //sql実行
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if ($stmt) {
+      debug('都道府県データ取り出しOk');
+      return $stmt->fetchAll();
+    } else {
+      debug('都道府県データ取り出しNG');
+      return false;
+    }
+
+  } catch (Exception $e) {
+    error_log('エラーが発生しました:'. $e->getMessage());
+    global $err_msg;
+    $err_msg['common'] = ERR_SYSTEM;
+  }
+}
+
+//-------------------
+//市町村データ取得
+//-------------------
+function getCity() {
+  try {
+    //dbh接続
+    $dbh = dbConnect();
+    //sql作成
+    $sql = 'SELECT id, name FROM cities';
+    //data設定
+    $data = array();
+    //sql実行
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if ($stmt) {
+      debug('市町村データ取り出しOk');
+      return $stmt->fetchAll();
+    } else {
+      debug('市町村データ取り出しNG');
+      return false;
+    }
+
+  } catch (Exception $e) {
+    error_log('エラーが発生しました:'. $e->getMessage());
+    global $err_msg;
+    $err_msg['common'] = ERR_SYSTEM;
+  }
+}
+
+//-------------------
 //対象取得
 //-------------------
 function getTarget() {

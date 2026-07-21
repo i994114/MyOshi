@@ -46,7 +46,7 @@ $display_max = $display_min - 1 + $list_span;
 
 
 //カテゴリデータの取得
-//$category = getCategory();
+$category = getCategory();
 
 //登録情報編集用：フォームに表示するデータの選択
 $dbFormData = getFormData('category_id');

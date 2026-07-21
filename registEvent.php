@@ -19,22 +19,24 @@ if (!empty($p_id) && empty($dbFormData)) {
 
 //登録情報編集用：イベント情報IDの取得
 $p_id = (!empty($_GET['p_id']))? $_GET['p_id'] : ''; 
-debug('Getの値:' . print_r($_GET,true));
 
 //登録情報編集用：フォームに表示するデータの選択
 $dbFormData = (!empty($p_id))? getProductOneInfo($p_id) : '';
-debug('取得したイベント情報一覧' . print_r($dbFormData,true));
 
 //新規登録か編集か(true:新規、false:編集)
 $edit_flg = (empty($_GET['p_id']))? true : false;
 
 //DBに登録されたカテゴリ情報を取り出し
 $category_info = getCategory();
-debug('取得したカテゴリ：' . print_r($category_info,true));
+
+//都道府県データの取得
+$prefecture_info = getPrefecture();
+
+//市町村データの取得
+$city_info = getCity();
 
 //DBに登録された対象情報を取り出し
 $target_info = getTarget();
-debug('取得した対象：' . print_r($target_info,true));
 
 //ポスト送信があるか
 if (!empty($_POST)) {
@@ -268,6 +270,40 @@ if (!empty($_POST)) {
             </label>
             <div class="area-msg">
               <?php echo getErrInfo('target_id'); ?>
+            </div>
+
+            <!-- 都道府県選択 -->
+            <label class="<?php if(!empty($err_msg['prefecture_id'])) echo 'err'; ?>">
+              都道府県<span class="label-require">必須</span>
+              <select name="category_id" id="">
+                <option value="0" <?php if(getPrefecture('prefecture_id') == 0) {echo 'selected';}  ?>>選択してください</option>
+                  <?php foreach ($prefecture_info as $key => $val) {?>
+                    <option value="<?php  echo $val['id']; ?>" <?php if(getFormData('prefecture_id') == $val['id'] ){ echo 'selected'; }   ?>>
+                      <?php echo $val['name']; ?>
+                    </option>
+                  <?php }?>
+              </select>
+
+            </label>
+            <div class="area-msg">
+              <?php echo getErrInfo('prefecture_id'); ?>
+            </div>
+
+            <!-- 市町村選択 -->
+            <label class="<?php if(!empty($err_msg['city_id'])) echo 'err'; ?>">
+              市町村<span class="label-require">必須</span>
+              <select name="city_id" id="">
+                <option value="0" <?php if(getPrefecture('prefecture_id') == 0) {echo 'selected';}  ?>>選択してください</option>
+                  <?php foreach ($city_info as $key => $val) {?>
+                    <option value="<?php  echo $val['id']; ?>" <?php if(getFormData('city_id') == $val['id'] ){ echo 'selected'; }   ?>>
+                      <?php echo $val['name']; ?>
+                    </option>
+                  <?php }?>
+              </select>
+
+            </label>
+            <div class="area-msg">
+              <?php echo getErrInfo('city_id'); ?>
             </div>
 
             <!-- イベント詳細 -->
