@@ -120,6 +120,10 @@ if (!empty($_POST)) {
 
     validEmpty($target, 'target');
 
+    validDate($event_date, 'event_date');
+    validTime($start_time, 'start_time');
+    validTime($end_time, 'end_time'); 
+
   } else {                    //登録情報があるとき
     if ($dbFormData['name'] !== $name) {
       validEmpty($name, 'name');
@@ -142,6 +146,23 @@ if (!empty($_POST)) {
     if (!empty($event_id)) {
       validEmpty($event_id, 'event_id');
     }
+
+    if ($dbFormData['prefecture_id'] !== $prefecture_id) {
+      validEmpty($prefecture_id, 'prefecture_id');
+      validSelect($prefecture_id, 'prefecture_id');
+    }
+
+    if ($dbFormData['event_date'] !== $event_date) {
+      validDate($event_date, 'event_date');
+    }
+
+    if ($dbFormData['start_time'] !== $start_time) {
+      validTime($start_time, 'start_time');
+    } 
+
+    if ($dbFormData['end_time'] !== $end_time) {
+      validTime($end_time, 'end_time');
+    } 
 
  }
 

@@ -91,6 +91,8 @@ define('ERR_AUTH_CODE', '入力された認証コードが違います');
 define('ERR_AUTH_EXPIRED', '期限が切れております。再度認証コードを取得してください');
 define('ERR_CATEGORY', 'カテゴリの入力が正しくありません');
 define('ERR_GENDER', '性別を選択してください');
+define('ERR_DATE', '日付の形式が違います');
+define('ERR_TIME', '時間の形式が違います');
 
 define('SUCCESS_PASSWORD_CHANGE', 'パスワードを変更しました');
 define('SUCCESS_MAIL_SEND', 'メールを送信しました。メールに書かれたパスワードでログインしてください');
@@ -266,6 +268,23 @@ function validGender($str, $key) {
         $err_msg[$key] = ERR_GENDER;
     }
 }
+
+//日付チェック
+function validDate($str, $key) {
+  if (!preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/', $str)) {
+    global $err_msg;
+    $err_msg[$key] = ERR_DATE;
+  }
+}
+
+//時間チェック
+function validTime($str, $key) {
+  if (!preg_match('/^([0-1][0-9]|2[0-3]):[0-5][0-9]$/', $str)) {
+    global $err_msg;
+    $err_msg[$key] = ERR_TIME;
+  }
+}
+
 //-------------------
 //DB接続関連
 //-------------------
