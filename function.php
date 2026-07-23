@@ -1262,3 +1262,34 @@ function againSignUpCalc($u_id) {
     $err_msg['common'] = ERR_SYSTEM;
   }
 }
+//-------------------------------
+//日付を日本語表記に変換する
+//-------------------------------
+function dateFormat($date) {
+  debug('日付を日本語表記に変換します');
+
+    $week = ['日', '月', '火', '水', '木', '金', '土'];
+    $timestamp = strtotime($date);
+
+    return date('Y年n月j日', $timestamp). '('. $week[date('w', $timestamp)]. ')';
+}
+//-------------------------------
+//時間帯を日本語表記に変換する
+//-------------------------------
+function timeFormat($start, $end) {
+  debug('時間帯を日本語表記に変換します');
+
+  if (empty($start)) {
+    return '時間未定';
+  }
+
+  $time = substr($start, 0, 5);
+
+  if (!empty($end)) {
+    $time .= '〜' . substr($end, 0 ,5); 
+  }
+
+  return $time;
+
+
+}

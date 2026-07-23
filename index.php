@@ -121,6 +121,9 @@ $dbFormData = getFormData('category_id');
               <p class="panel-title"><?php echo sanitize($val['name']); ?></p>
               <p class="panel-title"><?php echo sanitize($val['category_name']); ?></p>
               <p class="panel-title"><?php echo sanitize($val['prefecture_name']); ?></p>
+              <p class="panel-title"><?php echo dateFormat($val['event_date']); ?></p>
+              <p class="panel-title"><?php echo timeFormat($val['start_time'], $val['end_time']); ?></p>
+
             </div>
           </a>
           <?php }?>
