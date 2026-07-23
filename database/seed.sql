@@ -47,6 +47,9 @@ INSERT INTO events (
     category_id,
     user_id,
     prefecture_id,
+    event_date,
+    start_time,
+    end_time,
     description,
     pic1,
     pic2,
@@ -60,6 +63,9 @@ INSERT INTO events (
     1,
     1,
     9,
+    '2026-08-15',
+    '10:00:00',
+    '12:00:00',
     '初心者歓迎。地稽古中心です。',
     'event1_1.jpg',
     'event1_2.jpg',
@@ -73,6 +79,9 @@ INSERT INTO events (
     5,
     2,
     9,
+    '2026-08-23',
+    NULL,
+    NULL,
     '久しぶりに剣道を楽しみたい方向け。',
     'event2_1.jpg',
     'event2_2.jpg',
@@ -80,7 +89,6 @@ INSERT INTO events (
     0,
     NOW()
 );
-
 
 -- ===================================
 -- event_targets
