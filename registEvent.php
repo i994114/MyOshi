@@ -85,6 +85,9 @@ if (!empty($_POST)) {
   $name = $_POST['name'];
   $category_id = $_POST['category_id'];
   $prefecture_id = $_POST['prefecture_id'];
+  $event_date = $_POST['event_date'];
+  $start_time = $_POST['start_hour'] . ':' . $_POST['start_minute'] . ':00';
+  $end_time = $_POST['end_hour'] . ':' . $_POST['end_minute'] . ':00';
   $description = $_POST['description'];
   $target = $_POST['target'] ?? [];
   $event_id =(empty($p_id))? '' : $p_id;
@@ -116,8 +119,6 @@ if (!empty($_POST)) {
     validMax($description, 'description');
 
     validEmpty($target, 'target');
-
-
 
   } else {                    //登録情報があるとき
     if ($dbFormData['name'] !== $name) {
@@ -162,10 +163,10 @@ if (!empty($_POST)) {
           debug('DBに新規登録します');
 
           //sql作成
-          $sql = 'INSERT INTO events (name, category_id, prefecture_id, description, pic1, pic2, pic3, user_id, create_date, update_date)
-                  VALUES(:name, :category_id, :prefecture_id, :description, :pic1, :pic2, :pic3, :user_id, :create_date, :update_date)';
+          $sql = 'INSERT INTO events (name, category_id, prefecture_id, event_date, start_time, end_time, description, pic1, pic2, pic3, user_id, create_date, update_date)
+                  VALUES(:name, :category_id, :prefecture_id, :event_date, :start_time, :end_time, :description, :pic1, :pic2, :pic3, :user_id, :create_date, :update_date)';
           //dataセット
-          $data = array(':name' => $name, ':category_id' => $category_id, ':prefecture_id' => $prefecture_id, ':description' => $description, ':pic1' => $pic1, ':pic2' => $pic2, ':pic3' => $pic3,
+          $data = array(':name' => $name, ':category_id' => $category_id, ':prefecture_id' => $prefecture_id, ':event_date' => $event_date, ':start_time' => $start_time, ':end_time' => $end_time, ':description' => $description, ':pic1' => $pic1, ':pic2' => $pic2, ':pic3' => $pic3,
                         ':user_id' => $_SESSION['user_id'], ':create_date' => date('Y-m-d H:i:s'), ':update_date' => date('Y-m-d H:i:s'));
             
         } else {
@@ -175,9 +176,9 @@ if (!empty($_POST)) {
           debug('DBの内容を変更します');
 
           //sql作成
-          $sql = 'UPDATE events SET name = :name, category_id = :category_id, prefecture_id = :prefecture_id, description = :description, pic1 = :pic1, pic2 = :pic2, pic3 = :pic3, user_id = :u_id, update_date = :date WHERE id = :p_id';
+          $sql = 'UPDATE events SET name = :name, category_id = :category_id, prefecture_id = :prefecture_id, event_date = :event_date, start_time = :start_time, end_time = :end_time, description = :description, pic1 = :pic1, pic2 = :pic2, pic3 = :pic3, user_id = :u_id, update_date = :date WHERE id = :p_id';
           //dataセット
-          $data = array(':name' => $name, ':category_id' => $category_id, ':prefecture_id' => $prefecture_id, ':description' => $description, ':pic1' => $pic1, ':pic2' => $pic2, ':pic3' => $pic3, ':u_id' => $_SESSION['user_id'], ':date' => date('Y-m-d H:i:s'), ':p_id' => $p_id);
+          $data = array(':name' => $name, ':category_id' => $category_id, ':prefecture_id' => $prefecture_id, ':event_date' => $event_date, ':start_time' => $start_time, ':end_time' => $end_time, ':description' => $description, ':pic1' => $pic1, ':pic2' => $pic2, ':pic3' => $pic3, ':u_id' => $_SESSION['user_id'], ':date' => date('Y-m-d H:i:s'), ':p_id' => $p_id);
         }
         //sql実行
         $stmt1 = queryPost($dbh, $sql, $data);
@@ -185,13 +186,14 @@ if (!empty($_POST)) {
         //------------------
         //イベント対象情報を登録
         //------------------
-        if ($edit_flg === false) {
+        if ($edit_flg === true) {
           //新規登録のため、最後に登録したイベントIDを取得
           $event_id = $dbh->lastInsertId();
         } else {
           //編集のため、対象イベントIDはGETパラメータから取得
           $event_id = $p_id;
         }
+
         $stmt2 = true;
         foreach($target as $val) {
           debug('foreach開始 target=' . $val);
@@ -303,6 +305,66 @@ if (!empty($_POST)) {
               <?php echo getErrInfo('prefecture_id'); ?>
             </div>
 
+            <!-- イベント日 -->
+            <label class="<?php if(!empty($err_msg['event_date'])) echo 'err'; ?>">
+              <?php echo APL_SUBJECT.'日'; ?><span class="label-require">必須</span>
+              <input type="date" name="event_date" value="<?php echo getFormData('event_date'); ?>">
+            </label>
+            <div class="area-msg">
+              <?php echo getErrInfo('event_date'); ?>
+            </div> 
+
+            <!-- 開始時間：hour -->
+            <label class="<?php if(!empty($err_msg['start_time'])) echo 'err'; ?>">
+              <?php echo APL_SUBJECT.'開始時間'; ?><span class="label-require">必須</span>
+              <select name="start_hour">
+                <?php for ($i = 0; $i <= 23; $i++): ?>
+                  <option value="<?php echo sprintf('%02d', $i); ?>">
+                    <?php echo sprintf('%02d', $i); ?>
+                  </option>
+                <?php endfor; ?>
+              </select>
+            </label>
+            <div class="area-msg">
+              <?php echo getErrInfo('start_time'); ?>
+            </div>
+            
+            <!-- 開始時間:minitutes -->
+            <select name="start_minute">
+              <option value="00">00</option>
+              <option value="15">15</option>
+              <option value="30">30</option>
+              <option value="45">45</option>
+            </select>
+            <div class="area-msg">
+              <?php echo getErrInfo('start_time'); ?>
+            </div>  
+
+            <!-- 終了時間：hour -->
+            <label class="<?php if(!empty($err_msg['end_time'])) echo 'err'; ?>">
+              <?php echo APL_SUBJECT.'終了時間'; ?><span class="label-require">必須</span>
+              <select name="end_hour">
+                <?php for ($i = 0; $i <= 23; $i++): ?>
+                  <option value="<?php echo sprintf('%02d', $i); ?>">
+                    <?php echo sprintf('%02d', $i); ?>
+                  </option>
+                <?php endfor; ?>
+              </select>
+            </label>
+            <div class="area-msg">
+              <?php echo getErrInfo('end_time'); ?>
+            </div>
+            <!-- 終了時間:minitutes -->
+            <select name="end_minute">
+              <option value="00">00</option>
+              <option value="15">15</option>
+              <option value="30">30</option>
+              <option value="45">45</option>
+            </select>
+            <div class="area-msg">
+              <?php echo getErrInfo('end_time'); ?>
+            </div>  
+
             <!-- イベント詳細 -->
             <label class="<?php if(!empty($err_msg['description'])) echo 'err'; ?>">
               <?php echo APL_SUBJECT.'詳細'; ?>
@@ -312,7 +374,9 @@ if (!empty($_POST)) {
             <div class="area-msg">
               <?php  echo getErrInfo('description'); ?>
             </div>
-            
+
+
+
             <div style="overflow: hidden;">
               <!-- 画像1 -->
               <div class="imgDrop-container">
