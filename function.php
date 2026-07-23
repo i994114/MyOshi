@@ -742,7 +742,7 @@ function getMyProductList($u_id) {
     //db接続
     $dbh = dbConnect();
     //sql作成
-    $sql = 'SELECT id, name, description, pic1, update_date FROM events WHERE user_id = :u_id';
+    $sql = 'SELECT id, name, description, event_time, start_time, end_time, pic1, update_date FROM events WHERE user_id = :u_id';
     //dataセット
     $data = array(':u_id' => $u_id);
     //sql実行
@@ -775,7 +775,7 @@ function getProductList($list_span = 20, $display_min = 1, $category, $sort) {
     //db接続
     $dbh = dbConnect();
     //sql作成
-    $sql = 'SELECT e.id, e.name, e.category_id, e.prefecture_id, e.description, e.pic1, e.pic2, e.pic3, c.name as category_name, p.name as prefecture_name FROM events e LEFT JOIN categories c ON e.category_id = c.id LEFT JOIN prefectures p ON e.prefecture_id = p.id WHERE delete_flg = 0 ';
+    $sql = 'SELECT e.id, e.name, e.category_id, e.prefecture_id, e.description, e.event_date, e.start_time, e.end_time, e.pic1, e.pic2, e.pic3, c.name as category_name, p.name as prefecture_name FROM events e LEFT JOIN categories c ON e.category_id = c.id LEFT JOIN prefectures p ON e.prefecture_id = p.id WHERE delete_flg = 0 ';
 
     //検索リクエストがあるか(カテゴリ)
     if ($category != 0) {
