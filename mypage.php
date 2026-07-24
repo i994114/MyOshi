@@ -52,9 +52,7 @@ debug('自分の商品の連絡掲示板の新着情報:' . print_r($bordInfo,tr
       <!-- Main -->
       <section id="main" >
          <section class="list panel-list">
-           <h2 class="title">
-            登録した推し情報一覧
-           </h2>
+           <h2 class="title"><?php echo  '登録した' . APL_SUBJECT . '一覧' ?></h2>
            <?php 
             if (!empty($productInfo)) {
               foreach ($productInfo as $key => $val) {

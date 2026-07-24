@@ -742,7 +742,7 @@ function getMyProductList($u_id) {
     //db接続
     $dbh = dbConnect();
     //sql作成
-    $sql = 'SELECT id, name, description, event_time, start_time, end_time, pic1, update_date FROM events WHERE user_id = :u_id';
+    $sql = 'SELECT id, name, description, event_date, start_time, end_time, pic1, update_date FROM events WHERE user_id = :u_id';
     //dataセット
     $data = array(':u_id' => $u_id);
     //sql実行
