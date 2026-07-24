@@ -5,18 +5,18 @@
 INSERT INTO users (
     id, name, email, password, gender, age, pic, delete_flg, login_time, create_date
 ) VALUES
-(1, 'Aliceeeeeeeeeeeeeeeeeeeeee', 'dorakue838861@gmail.com', 'password', 1, 30, 'user1.jpg', 0, NOW(), NOW()),
-(2, 'ウェブカツ試験太郎試験太郎試験太郎', 'dorakue83886.1@gmail.com', 'password', 0, 28, 'user2.jpg', 0, NOW(), NOW()),
-(3, 'Emma', 'dorakue838861+a@gmail.com', 'password', 1, 35, 'user3.jpg', 0, NOW(), NOW()),
-(4, 'ひなた', 'dorakue838861+b@gmail.com', 'password', 1, 26, 'user4.jpg', 0, NOW(), NOW()),
-(5, 'Lucas', 'dorakue838861+c@gmail.com', 'password', 0, 41, 'user5.jpg', 0, NOW(), NOW()),
-(6, 'さくら🌸', 'dorakue838861+d@gmail.com', 'password', 1, 33, 'user6.jpg', 0, NOW(), NOW()),
-(7, 'Oliver', 'dorakue838861+e@gmail.com', 'password', 0, 29, 'user7.jpg', 0, NOW(), NOW()),
-(8, 'たける', 'dorakue838861+f@gmail.com', 'password', 0, 38, 'user8.jpg', 0, NOW(), NOW()),
-(9, 'Sophia', 'dorakue838861+g@gmail.com', 'password', 1, 24, 'user9.jpg', 0, NOW(), NOW()),
-(10, 'にこ😊', 'dorakue838861+h@gmail.com', 'password', 1, 31, 'user10.jpg', 0, NOW(), NOW()),
-(11, 'Liam', 'dorakue838861+i@gmail.com', 'password', 0, 36, 'user11.jpg', 0, NOW(), NOW()),
-(12, '試験太郎', 'dorakue838861+j@gmail.com', 'password', 0, 27, 'user12.jpg', 0, NOW(), NOW());
+(1, 'Aliceeeeeeeeeeeeeeeeeeeeee', 'dorakue838861@gmail.com', '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq', 1, 30, 'user1.jpg', 0, NOW(), NOW()),
+(2, 'ウェブカツ試験太郎試験太郎試験太郎', 'dorakue83886.1@gmail.com', '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq', 0, 28, 'user2.jpg', 0, NOW(), NOW()),
+(3, 'Emma', 'dorakue838861+a@gmail.com', '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq', 1, 35, 'user3.jpg', 0, NOW(), NOW()),
+(4, 'ひなた', 'dorakue838861+b@gmail.com', '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq', 1, 26, 'user4.jpg', 0, NOW(), NOW()),
+(5, 'Lucas', 'dorakue838861+c@gmail.com', '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq', 0, 41, 'user5.jpg', 0, NOW(), NOW()),
+(6, 'さくら🌸', 'dorakue838861+d@gmail.com', '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq', 1, 33, 'user6.jpg', 0, NOW(), NOW()),
+(7, 'Oliver', 'dorakue838861+e@gmail.com', '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq', 0, 29, 'user7.jpg', 0, NOW(), NOW()),
+(8, 'たける', 'dorakue838861+f@gmail.com', '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq', 0, 38, 'user8.jpg', 0, NOW(), NOW()),
+(9, 'Sophia', 'dorakue838861+g@gmail.com', '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq', 1, 24, 'user9.jpg', 0, NOW(), NOW()),
+(10, 'にこ😊', 'dorakue838861+h@gmail.com', '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq', 1, 31, 'user10.jpg', 0, NOW(), NOW()),
+(11, 'Liam', 'dorakue838861+i@gmail.com', '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq', 0, 36, 'user11.jpg', 0, NOW(), NOW()),
+(12, '試験太郎', 'dorakue838861+j@gmail.com', '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq', 0, 27, 'user12.jpg', 0, NOW(), NOW());
 -- ===================================
 -- categories
 -- ===================================
