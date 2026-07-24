@@ -12,6 +12,8 @@ debugLogStart();
 $now_page = (!empty($_GET['p']))? $_GET['p'] : 1;
 //検索条件(カテゴリ)を取得
 $seach_cate = (!empty($_GET['category_id']))? $_GET['category_id'] : 0;
+//検索条件(都道府県)を取得
+$search_prefecture = (!empty($_GET['prefecture_id']))? $_GET['prefecture_id'] : 0;
 //検索条件(ソート)を取得
 $seach_sort = (!empty($_GET['sort']))? $_GET['sort'] : 0;
 
@@ -41,7 +43,7 @@ $display_min = ($now_page -1 ) * $list_span;
 $display_max = $display_min - 1 + $list_span;
 
 //推し情報を取得
-$product = getProductList($list_span, $display_min, $seach_cate, $seach_sort);
+$product = getProductList($list_span, $display_min, $seach_cate, $search_prefecture, $seach_sort);
 debug('すべての ' . APL_SUBJECT . ' 情報：' . print_r($product, true));
 
 
@@ -49,7 +51,7 @@ debug('すべての ' . APL_SUBJECT . ' 情報：' . print_r($product, true));
 $category = getCategory();
 
 //すべての都道府県データの取得
-$prefectures = getPrefecture();
+$prefecture = getPrefecture();
 
 //登録情報編集用：フォームに表示するデータの選択
 $dbFormData = getFormData('category_id');
@@ -84,6 +86,16 @@ $dbFormData = getFormData('category_id');
               <option value="0"　<?php if(getFormData('category_id',true) == 0) {echo 'selected';} ?>>選択してください</option>
               <?php foreach($category as $key => $val) {?>
                 <option value="<?php echo sanitize($val['id']); ?>" <?php if(getFormData('category_id',true) == $val['id']) echo 'selected'; ?>><?php echo sanitize($val['name']); ?></option>
+              <?php }?>
+            </select>
+          </div>
+          <h1 class="title">都道府県</h1>
+          <div class="selectbox">
+            <span class="icn_select"></span>
+            <select name="prefecture_id">
+              <option value="0"　<?php if(getFormData('prefecture_id',true) == 0) {echo 'selected';} ?>>選択してください</option>
+              <?php foreach($prefecture as $key => $val) {?>
+                <option value="<?php echo sanitize($val['id']); ?>" <?php if(getFormData('prefecture_id',true) == $val['id']) echo 'selected'; ?>><?php echo sanitize($val['name']); ?></option>
               <?php }?>
             </select>
           </div>

@@ -765,7 +765,7 @@ function getMyProductList($u_id) {
 //-------------------
 //イベント情報の取得(複数)
 //-------------------
-function getProductList($list_span = 20, $display_min = 1, $category, $sort) {
+function getProductList($list_span = 20, $display_min = 1, $category, $prefecture, $sort) {
   debug('DBに登録された . APL_SUBJECT . 情報を取得');
 
   try {
@@ -781,6 +781,14 @@ function getProductList($list_span = 20, $display_min = 1, $category, $sort) {
     if ($category != 0) {
       $sql .= ' && category_id = :category_id';
       $data = array(':category_id' => $category);
+    } else {
+      $data = array();
+    }
+
+    //検索リクエストがあるか(都道府県)
+    if ($prefecture != 0) {
+      $sql .= ' && prefecture_id = :prefecture_id';
+      $data = array(':prefecture_id' => $prefecture);
     } else {
       $data = array();
     }
