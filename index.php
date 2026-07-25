@@ -125,7 +125,7 @@ $dbFormData = getFormData('category_id');
         </div>
         <div class="panel-list">
           <?php foreach ($product['data'] as $key => $val) {?>
-            <a href="<?php echo 'productDetail.php?'.'p_id='.$val['id'].appendGetParam(); ?>" class="panel">
+            <a href="<?php echo 'eventDetail.php?'.'p_id='.$val['id'].appendGetParam(); ?>" class="panel">
             <div class="panel-head">
               <img src="<?php echo showImg(sanitize($val['pic1'])); ?>" alt="<?php echo sanitize($val['name'])?>">
             </div>

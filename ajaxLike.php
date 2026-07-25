@@ -3,7 +3,7 @@
 require('function.php');
 
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
-debug('「　productDetail.php:情報詳細');
+debug('「　eventDetail.php:情報詳細');
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
 debugLogStart();
 

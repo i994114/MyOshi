@@ -121,7 +121,7 @@ debug('自分の商品の連絡掲示板の新着情報:' . print_r($bordInfo,tr
           if (!empty($likeInfo)) {
             foreach ($likeInfo as $key => $val) {
           ?>
-            <a href="productDetail.php?p_id=<?php echo sanitize($val['product_id']); ?>" class="panel">
+            <a href="eventDetail.php?p_id=<?php echo sanitize($val['product_id']); ?>" class="panel">
               <div class="panel-head">
                 <img src="<?php echo showImg(sanitize($val['pic1'])); ?>" alt="<?php echo sanitize($val['name']); ?>">
               </div>
