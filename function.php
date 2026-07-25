@@ -850,12 +850,33 @@ function getProductList($list_span = 20, $display_min = 1, $category, $prefectur
 //推し情報の取得(単品)
 //-------------------
 function getProductOne($p_id) {
-  debug('推し情報の取得(単品)を取得します');
+  debug(APL_SUBJECT . '情報の取得(単品)を取得します');
   try {
     //db接続
     $dbh = dbConnect();
     //sql作成
-    $sql = 'SELECT p.id, p.name, p.category_id, p.content, p.user_id, p.pic1, p.pic2, p.pic3, c.name as category FROM events as p INNER JOIN category as c on p.category_id = c.id WHERE p.id = :p_id';
+    $sql = 'SELECT
+              p.id,
+              p.name,
+              p.category_id,
+              p.prefecture_id,
+              p.description,
+              p.user_id,
+              p.event_date,
+              p.start_time,
+              p.end_time,
+              p.pic1,
+              p.pic2,
+              p.pic3,
+              c.name AS category,
+              pf.name AS prefecture
+          FROM events AS p
+          INNER JOIN categories AS c
+              ON p.category_id = c.id
+          INNER JOIN prefectures AS pf
+              ON p.prefecture_id = pf.id
+          WHERE p.id = :p_id';
+
     //dataセット
     $data = array(':p_id' => $p_id);
     //sql実行

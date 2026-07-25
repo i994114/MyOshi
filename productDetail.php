@@ -113,6 +113,10 @@ require('head.php');
           </div>
         </div>
 
+        <?php echo $product_data['prefecture']; ?>
+        <?php echo $product_data['event_date']; ?>
+        <?php echo $product_data['start_time']; ?>
+        <?php echo $product_data['end_time']; ?>
         <!-- 説明 -->
         <div class="product-detail">
           <p>
