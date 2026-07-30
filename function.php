@@ -162,7 +162,7 @@ function validEmpty($str, $key) {
 
 //英数字チェック(Eメールチェック用)
 function validEmail($str, $key) {
-  if (!preg_match("/^([a-zA-Z0-9])+([a-zA-Z0-9._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9._-]+)+$/",$str)) {
+  if (!preg_match("/^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/", $str)) {
     global $err_msg;
     $err_msg[$key] = ERR_EMAIL_FORMAT;
   }
