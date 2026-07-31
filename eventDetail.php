@@ -49,7 +49,7 @@ if (!empty($_POST)) {
       //db接続
       $dbh = dbConnect();
       //sql作成
-      $sql = 'INSERT INTO bord (user_id, product_id, user_id, create_date, update_date) VALUES (:u_id, :p_id, :create_date, :update_date)';
+      $sql = 'INSERT INTO boards (user_id, event_id, create_date, update_date) VALUES (:u_id, :p_id, :create_date, :update_date)';
       //dataセット
       $data = array(':u_id' => $product_data['user_id'], ':p_id' => $p_id, ':create_date' => date('Y-m-d H:i:s'), ':update_date' => date('Y-m-d H:i:s'));
       $stmt = queryPost($dbh, $sql, $data);
@@ -98,11 +98,17 @@ require('head.php');
         <div class="title">
           <span class="badge"><?php echo sanitize($product_data['category']); ?></span>
           <?php echo sanitize($product_data['name']); ?>
+          <!-- お気に入り -->
           <i class="fa fa-heart icn-like js-click-like <?php if(isLike($product_data['id'], $_SESSION['user_id'])) {echo ' active';}  ?>" data-productid = <?php echo $product_data['id']; ?> area-hidden="true"></i>
         </div>
-
         <!-- 写真 -->
         <div class="product-img-container">
+          <div class="event-description">
+            <?php echo $product_data['prefecture']; ?>
+            <?php echo $product_data['event_date']; ?>
+            <?php echo $product_data['start_time']; ?>
+            <?php echo $product_data['end_time']; ?>
+          </div>
           <div class="img-main">
             <img src="<?php echo sanitize($product_data['pic1']); ?>" alt="" id="js-show-main">
           </div>
@@ -113,10 +119,6 @@ require('head.php');
           </div>
         </div>
 
-        <?php echo $product_data['prefecture']; ?>
-        <?php echo $product_data['event_date']; ?>
-        <?php echo $product_data['start_time']; ?>
-        <?php echo $product_data['end_time']; ?>
         <!-- 説明 -->
         <div class="product-detail">
           <p>
@@ -132,7 +134,7 @@ require('head.php');
           </div>
           <form action="" method="post">
             <div class="item-right">
-              <input type="submit" name="submit" class="btn btn-primary" value="掲示板を見る" style="margin-top: 0px;">
+              <input type="submit" name="submit" class="btn btn-primary" value="掲示板でコメントを見る(*件)" style="margin-top: 0px;">
             </div>
           </form>
         </div>
