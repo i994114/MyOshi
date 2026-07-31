@@ -121,7 +121,7 @@ require('head.php');
         <div class="product-detail">
           <p>
             <?php
-              echo sanitize($product_data['comment']);
+              echo sanitize($product_data['description']);
             ?>
           </p>
         </div>

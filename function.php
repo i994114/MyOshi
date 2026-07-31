@@ -1227,9 +1227,9 @@ function likeRegister($p_id, $u_id) {
     //db接続
     $dbh = dbConnect();
     //sql作成
-    $sql = 'INSERT INTO favorites (event_id, user_id, create_date, update_date) VALUES (:p_id, :u_id, :create_date, :update_date)';
+    $sql = 'INSERT INTO favorites (event_id, user_id, create_date) VALUES (:p_id, :u_id, :create_date)';
     //dataセット
-    $data = array(':p_id' => $p_id, ':u_id' => $u_id, ':create_date' => date('Y-m-d H:i:s'), ':update_date' => date('Y-m-d H:i:s'));
+    $data = array(':p_id' => $p_id, ':u_id' => $u_id, ':create_date' => date('Y-m-d H:i:s'));
     //sql実行
     $stmt = queryPost($dbh, $sql, $data);
 
