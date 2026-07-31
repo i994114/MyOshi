@@ -101,7 +101,7 @@ debug('自分の商品の連絡掲示板の新着情報:' . print_r($bordInfo,tr
               <tr>
                   <td><?php echo sanitize(date('Y.m.d H:i:s',strtotime($val['update_date'])));  ?></td>
                   <td><?php echo (!empty($person['name']))? $person['name'] : '名無し'; ?></td>
-                  <td><a href="msg.php?m_id=<?php echo sanitize($val['id']);?>&p_id=<?php echo sanitize(($val['product_id']));  ?>"><?php  echo sanitize(mb_substr($val['comment'],0,40)).'・・・'; ?></a></td>
+                  <td><a href="msg.php?m_id=<?php echo sanitize($val['id']);?>&p_id=<?php echo sanitize(($val['event_id']));  ?>"><?php  echo sanitize(mb_substr($val['content'],0,40)).'・・・'; ?></a></td>
               </tr>
               <?php
                   }
@@ -121,7 +121,7 @@ debug('自分の商品の連絡掲示板の新着情報:' . print_r($bordInfo,tr
           if (!empty($likeInfo)) {
             foreach ($likeInfo as $key => $val) {
           ?>
-            <a href="eventDetail.php?p_id=<?php echo sanitize($val['product_id']); ?>" class="panel">
+            <a href="eventDetail.php?p_id=<?php echo sanitize($val['event_id']); ?>" class="panel">
               <div class="panel-head">
                 <img src="<?php echo showImg(sanitize($val['pic1'])); ?>" alt="<?php echo sanitize($val['name']); ?>">
               </div>

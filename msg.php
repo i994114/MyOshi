@@ -46,9 +46,9 @@ if(!empty($_POST)) {
       //db接続
       $dbh = dbConnect();
       //sql実行
-      $sql = 'INSERT INTO message (bord_id, from_user, to_user, comment, create_date, update_date) VALUES (:b_id, :from_user, :to_user, :comment, :create_date, :update_date)';
+      $sql = 'INSERT INTO messages (board_id, from_user, to_user, content, create_date, update_date) VALUES (:b_id, :from_user, :to_user, :content, :create_date, :update_date)';
       //dataセット
-      $data = array( ':b_id' => $b_id, ':from_user' => $_SESSION['user_id'], ':to_user' => $product['user_id'], ':comment' => $message, ':create_date' => date('Y-m-d H:i:s'), 'update_date' => date('Y-m-d H:i:s'));
+      $data = array( ':b_id' => $b_id, ':from_user' => $_SESSION['user_id'], ':to_user' => $product['user_id'], ':content' => $message, ':create_date' => date('Y-m-d H:i:s'), 'update_date' => date('Y-m-d H:i:s'));
       //sql実行
       $stmt = queryPost($dbh, $sql, $data);
 
@@ -99,7 +99,7 @@ require('head.php');
           <img src="<?php echo showImg(sanitize($product['pic3'])); ?>" alt="" height="100px" width="auto" >
           <div class="msg-comment">
             <p>
-              <?php echo sanitize($product['comment']);  ?>
+              <?php echo sanitize($product['description']);  ?>
             </p>
           </div>
         </div>
@@ -119,7 +119,7 @@ require('head.php');
                     <!-- メッセージ -->
                     <p class="msg-inrTxt">
                       <span class="triangle"></span>
-                      <?php  echo sanitize($val['comment']); ?>
+                      <?php  echo sanitize($val['content']); ?>
                     </p>
                     <!-- 投稿時刻 -->
                     <span class="msg-right-time">
@@ -143,7 +143,7 @@ require('head.php');
                       <!-- メッセージ -->
                       <p class="msg-inrTxt">
                         <span class="triangle"></span>
-                        <?php  echo sanitize($val['comment']); ?>
+                        <?php  echo sanitize($val['content']); ?>
                       </p>
                       <!-- 投稿時刻 -->
                       <span class="msg-left-time">

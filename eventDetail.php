@@ -69,7 +69,7 @@ if (!empty($_POST)) {
     debug('掲示板はすでにあります');
   }
   //メッセージを格納
-  $_SESSION['msg-success'] = SUC04;
+  $_SESSION['msg-success'] = SUCCESS_BOARD_MOVE;
 
   //掲示板へ移動
   header('Location:msg.php?b_id='.$bord_data['id'].'&p_id='.$p_id);
