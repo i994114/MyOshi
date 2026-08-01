@@ -581,13 +581,13 @@ input[type="submit"]:hover {
 
 }
 .event-description {
-  width: 100px;
+  width: 430px;
   float: left;
-  padding-right: 15px;
   background-color: #A23B2A;
   padding: 15px;
   box-sizing: border-box;
   margin-right: 15px;
+  min-height: 450px;
 }
 .product-img-container .img-main{
   width: 600px;
