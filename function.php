@@ -651,6 +651,34 @@ function getTarget() {
 }
 
 //-------------------
+//当該イベントの対象取得
+//-------------------
+function getEventTarget($id) {
+  try {
+    //dbh接続
+    $dbh = dbConnect();
+    //sql作成
+    $sql = 'SELECT target_id from event_targets where event_id = :id';
+    //data設定
+    $data = array(':id' => $id);
+    //sql実行
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if ($stmt) {
+      debug('対象データ取り出しOk');
+      return $stmt->fetchAll();
+    } else {
+      debug('対象データ取り出しNG');
+      return false;
+    }
+  } catch (Exception $e) {
+    error_log('エラーが発生しました:'. $e->getMessage());
+    global $err_msg;
+    $err_msg['common'] = ERR_SYSTEM;
+  }
+}
+
+//-------------------
 //画像アップロード
 //-------------------
 function uploadImg($file, $key) {

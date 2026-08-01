@@ -21,6 +21,10 @@ $sort = (!empty($_GET['sort']))? $_GET['sort'] : '';
 $product_data = getProductOne($p_id);
 debug('取得した情報：' . print_r($product_data,true));
 
+//当該イベントのターゲット情報を取得
+$target = getEventTarget($p_id);
+debug('------' . print_r($target, true));
+
 //不正なアクセスでないか判定
 if (empty($product_data)) {
   debug('不正なURLです。情報一覧に戻ります');
