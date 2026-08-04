@@ -678,6 +678,37 @@ function getEventTarget($id) {
   }
 }
 
+//---------------------------------
+//当該イベントの掲示板のメッセージ数を取得
+//---------------------------------
+function getMessageCount($event_id) {
+  debug('掲示板のメッセージ数を取得します');
+
+  try {
+    //db接続
+    $dbh = dbConnect();
+    //sql作成
+    $sql ='SELECT count(*) FROM messages WHERE board_id = (SELECT id FROM boards WHERE event_id = :event_id) AND delete_flg = 0';
+    //data設定
+    $data = array(':event_id' => $event_id);
+    //sql実行
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if ($stmt) {
+      debug('メッセージ数の取得に成功しました');
+      return $stmt->fetchColumn();
+    } else {
+      debug('メッセージ数の取得に失敗しました');
+      return false;
+    }
+  } catch (Exception $e) {
+    error_log('エラーが発生しました:'. $e->getMessage());
+    global $err_msg;
+    $err_msg['common'] = ERR_SYSTEM;
+  }
+}
+
+
 //-------------------
 //画像アップロード
 //-------------------

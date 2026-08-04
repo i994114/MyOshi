@@ -21,11 +21,15 @@ $sort = (!empty($_GET['sort']))? $_GET['sort'] : '';
 $product_data = getProductOne($p_id);
 debug('取得した情報：' . print_r($product_data,true));
 
+//当該イベントの掲示板のメッセージ数を取得
+$message_count = getMessageCount($p_id);
+
 //都道府県データを取得
 $prefecture = getPrefecture();
 
 //当該イベントのターゲット情報を取得
 $target = getEventTarget($p_id);
+
 //対象データを取得
 $target_data = getTarget();
 
@@ -158,7 +162,7 @@ require('head.php');
           </div>
           <form action="" method="post">
             <div class="item-right">
-              <input type="submit" name="submit" class="btn btn-primary" value="掲示板でコメントを見る(*件)" style="margin-top: 0px;">
+              <input type="submit" name="submit" class="btn btn-primary" value="掲示板でコメントを見る(<?php echo $message_count; ?>件)" style="margin-top: 0px;">
             </div>
           </form>
         </div>
