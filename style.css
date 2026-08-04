@@ -611,6 +611,15 @@ input[type="submit"]:hover {
 .product-img-container .img-sub img:last-child{
   margin-bottom: 0;
 }
+.icon_target {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  
+}
+.icon_target.active {
+  background-color: pink;
+}
 .product-detail{
   background: #f6f5f4;
   padding: 15px;

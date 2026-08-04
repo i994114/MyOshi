@@ -21,9 +21,13 @@ $sort = (!empty($_GET['sort']))? $_GET['sort'] : '';
 $product_data = getProductOne($p_id);
 debug('取得した情報：' . print_r($product_data,true));
 
+//都道府県データを取得
+$prefecture = getPrefecture();
+
 //当該イベントのターゲット情報を取得
 $target = getEventTarget($p_id);
-debug('------' . print_r($target, true));
+//対象データを取得
+$target_data = getTarget();
 
 //不正なアクセスでないか判定
 if (empty($product_data)) {
@@ -112,6 +116,22 @@ require('head.php');
             <?php echo $product_data['event_date']; ?>
             <?php echo $product_data['start_time']; ?>
             <?php echo $product_data['end_time']; ?>
+            <?php echo $prefecture[$product_data['prefecture_id']]['name']; ?>
+
+            <!-- 対象 -->
+            <?php
+              foreach($target_data as $val) {
+                $active = false;
+
+                foreach($target as $t) {
+                  if ($val['id'] === $t['target_id']) {
+                    $active = true;
+                  }
+                }
+            ?>
+            <span class="icon_target <?php echo $active? 'active' : ''; ?>"><?php  echo $val['name'] ?></span>
+            <?php } ?>
+            
           </div>
           <div class="img-main">
             <img src="<?php echo sanitize($product_data['pic1']); ?>" alt="" id="js-show-main">
