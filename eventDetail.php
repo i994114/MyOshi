@@ -24,6 +24,9 @@ debug('取得した情報：' . print_r($product_data,true));
 //当該イベントの掲示板のメッセージ数を取得
 $message_count = getMessageCount($p_id);
 
+//当該イベントのお気に入り数を取得
+$like_count = getLikeCount($p_id);
+
 //都道府県データを取得
 $prefecture = getPrefecture();
 
@@ -111,7 +114,8 @@ require('head.php');
           <span class="badge"><?php echo sanitize($product_data['category']); ?></span>
           <?php echo sanitize($product_data['name']); ?>
           <!-- お気に入り -->
-          <i class="fa fa-heart icn-like js-click-like <?php if(isLike($product_data['id'], $_SESSION['user_id'])) {echo ' active';}  ?>" data-productid = <?php echo $product_data['id']; ?> area-hidden="true"></i>
+          <i class="fa fa-heart icn-like js-click-like <?php if(isLike($product_data['id'], $_SESSION['user_id'])) {echo ' active';}  ?>" data-productid = <?php echo $product_data['id']; ?> aria-hidden="true"><span class="js-like-count"><?php echo $like_count; ?></span></i>
+          
         </div>
         <!-- 写真 -->
         <div class="product-img-container">

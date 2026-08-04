@@ -71,6 +71,19 @@
         $like.on('click',function(){
           $this = $(this);
           
+          //現在のいいね数を取得
+          var likeCount = Number($this.find('.js-like-count').text());
+          console.log(likeCount);
+          //お気に入りボタン押下によるカウントアップ・ダウン
+          if ($this.hasClass('active')) {
+            likeCount = likeCount - 1;
+          } else {
+            likeCount = likeCount + 1;
+          }
+          
+          $this.find('.js-like-count').text(likeCount);
+
+          //Ajax処理
           $.ajax({
             type: 'POST',
             url:'ajaxLike.php',

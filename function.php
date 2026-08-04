@@ -708,7 +708,35 @@ function getMessageCount($event_id) {
   }
 }
 
+//---------------------------------
+//当該イベントのお気に入り数を取得
+//---------------------------------
+function getLikeCount($event_id) {
+  debug('お気に入り数を取得します');
 
+  try {
+    //db接続
+    $dbh = dbConnect();
+    //sql作成
+    $sql ='SELECT count(*) FROM favorites WHERE event_id = :event_id';
+    //data設定
+    $data = array(':event_id' => $event_id);
+    //sql実行
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if ($stmt) {
+      debug('お気に入り数の取得に成功しました');
+      return $stmt->fetchColumn();
+    } else {
+      debug('お気に入り数の取得に失敗しました');
+      return false;
+    }
+  } catch (Exception $e) {
+    error_log('エラーが発生しました:'. $e->getMessage());
+    global $err_msg;
+    $err_msg['common'] = ERR_SYSTEM;
+  }
+}
 //-------------------
 //画像アップロード
 //-------------------
