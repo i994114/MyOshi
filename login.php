@@ -78,7 +78,7 @@ if (!empty($_POST)) {
           $_SESSION['user_id'] = $result['id'];
           
           //ログイン成功メッセージをセッションにいれる
-          $_SESSION['msg-success'] = 'ログインしました';
+          $_SESSION['msg-success'] = SUCCESS_USER_LOGIN;
 
           debug('ログインOKの際の$_SESSION情報：' . print_r($_SESSION,true));
 
