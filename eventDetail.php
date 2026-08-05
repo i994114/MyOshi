@@ -128,7 +128,6 @@ require('head.php');
             <?php echo $product_data['start_time']; ?>
             <?php echo $product_data['end_time']; ?>
             <?php echo $prefecture[$product_data['prefecture_id']]['name']; ?>
-            <a href="<?php  echo 'proDetail.php?'. 'u_id='. $product_data['user_id']; ?>" class=""><?php  echo $user_data['name'] ?></a>
 
             <!-- 対象 -->
             <?php
