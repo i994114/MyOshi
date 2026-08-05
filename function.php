@@ -204,7 +204,7 @@ function validHalf($str, $key) {
 function validMin($str, $key, $min = 6) {
   if (strlen($str) <= $min) {
     global $err_msg;
-    if ($str < 6) {
+    if (strlen($str) < 6) {
       $err_msg[$key] = ERR_MIN_LENGTH;
     }
   }
