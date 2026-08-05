@@ -16,5 +16,6 @@ debug('ログイン画面へ遷移します');
 
 //ログイン画面へ遷移
 header("Location:login.php");
+exit();
 
 ?>

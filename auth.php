@@ -13,6 +13,7 @@ if(!empty($_SESSION['login_date'])){
 
         //ログイン画面へ遷移
         header("Location:login.php");
+        exit();
 
     } else {
         debug('ログイン有効期限OKです');
@@ -22,6 +23,7 @@ if(!empty($_SESSION['login_date'])){
 
         if (basename($_SERVER['PHP_SELF']) === 'login.php') {
             header("Location:mypage.php");
+            exit();
         }
 
     }
@@ -30,6 +32,7 @@ if(!empty($_SESSION['login_date'])){
     if(basename($_SERVER['PHP_SELF']) !== 'login.php') {
         //ログイン画面へ遷移
         header("Location:login.php");
+        exit();
     }
 }
 

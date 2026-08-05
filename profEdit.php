@@ -88,6 +88,7 @@ if (!empty($_POST)) {
 
         //マイページへ遷移
         header("Location:mypage.php");
+        exit();
       } else {
         debug('プロフィール編集失敗');
         $err_msg['common'] = ERR_SYSTEM;

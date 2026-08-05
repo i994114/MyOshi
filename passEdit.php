@@ -93,6 +93,7 @@ if (!empty($_POST)) {
 
         //マイページへ遷移
         header('Location:mypage.php');
+        exit();
       } else {
         debug('クエリ失敗');
       }
