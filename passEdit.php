@@ -43,7 +43,7 @@ if (!empty($_POST)) {
   validMin($pass_new, 'pass_new');
   
   //最大文字数
-  validMax($pass_new, 'pass_new');
+  validMax($pass_new, 'pass_new', MAX_PASS);
   
   //半角英数字チェック
   validHalf($pass_new, 'pass_new');
@@ -82,12 +82,12 @@ if (!empty($_POST)) {
         $username = (!empty($user_info['name']))? $user_info['name'] : '名無し';
         $from = 'webkatu@webkatu.com';
         $to = $user_info['email'];
-        $subject = '【押し活共有アプリ】パスワード変更通知';
+        $subject = APL_NAME.'パスワード変更通知';
         $comments = <<<EOF
         {$username}さん
         パスワードが変更されました。
 
-        押し活共有アプリより
+        APL_NAME.アプリより
         EOF;
         sendMail($from, $to, $subject, $comments);
 
@@ -166,13 +166,7 @@ if (!empty($_POST)) {
       </section>
       
       <!-- サイドバー -->
-      <section id="sidebar">
-        <a href="registEvent.html">商品を出品する</a>
-        <a href="tranSale.html">販売履歴を見る</a>
-        <a href="profEdit.html">プロフィール編集</a>
-        <a href="passEdit.html">パスワード変更</a>
-        <a href="withdraw.html">退会</a>
-      </section>
+      <?php require('sidebar.php'); ?>
       
     </div>
 
