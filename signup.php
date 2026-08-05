@@ -8,6 +8,13 @@ debug('「　signup.php：ユーザ登録');
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
 debugLogStart();
 
+//ログイン中はユーザ登録不可
+if (!empty($_SESSION['user_id'])) {
+  debug('ログイン中のユーザがアクセスしたため、マイページへ遷移します');
+  header("Location:mypage.php");
+  exit();
+}
+
 //post送信されていた場合
 if(!empty($_POST)){
   
