@@ -13,20 +13,23 @@ require('auth.php');
 //変数クリア
 $userInfo = array();
 
-//post送信されていた場合
-if (!empty($_POST)) {
+//退会処理ボタンからpost送信されていた場合
+if (isset($_POST['withdraw'])) {
 
   try {
     //dbセット
     $dbh = dbConnect();
+
+    //トランザクション開始
+    $dbh->beginTransaction();
+
     //sql作成
     $sql1 = 'UPDATE users SET delete_flg = 1 WHERE id = :u_id';
     $sql2 = 'UPDATE events SET delete_flg = 1 WHERE user_id = :u_id';
-    $sql3 = 'UPDATE `favorites` SET delete_flg = 1 WHERE user_id = :u_id';
+    $sql3 = 'DELETE FROM `favorites` WHERE user_id = :u_id';
     $sql4 = 'UPDATE boards SET delete_flg = 1 WHERE user_id = :u_id';
-    $sql5 = 'UPDATE message SET delete_flg = 1 WHERE from_user = :u_id';
-    $sql6 = 'UPDATE message SET delete_flg = 1 WHERE to_user = :u_id';
-
+    $sql5 = 'UPDATE messages SET delete_flg = 1 WHERE from_user = :u_id OR to_user = :u_id';
+    
     //dataセット
     $data = array(':u_id' => $_SESSION['user_id']);
     debug('退会するユーザID：' . print_r($data,true));
@@ -37,17 +40,23 @@ if (!empty($_POST)) {
     $stmt3 = queryPost($dbh, $sql3, $data);
     $stmt4 = queryPost($dbh, $sql4, $data);
     $stmt5 = queryPost($dbh, $sql5, $data);
-    $stmt6 = queryPost($dbh, $sql6, $data);
 
-    //最悪userテーブルさえ削除できていればよしとする
+    if (!$stmt1 || !$stmt2 || !$stmt3 || !$stmt4 || !$stmt5) {
+      throw new Exception('退会処理に失敗しました');
+    }
+
+    //全処理成功後に確定
+    $dbh->commit();
+
+    //ユーザ情報の削除が成功した場合
     if($stmt1) {
       debug('退会処理成功');
 
       //セッション削除
-      //session_destroy();
-      //$_SESSION = array();
+      session_destroy();
+      $_SESSION = array();
 
-      $_SESSION['msg-success'] = SUC06;
+      $_SESSION['msg-success'] = SUCCESS_WITHDRAW;
       debug('退会時点のセッションの値:' . print_r($_SESSION,true));
       
       header("Location:signup.php");
@@ -57,6 +66,12 @@ if (!empty($_POST)) {
     }
 
   } catch (Exception $e) {
+    //トランザクション中なら元に戻す
+    if (isset($dbh) && $dbh->inTransaction()) {
+      $dbh->rollBack();
+    }
+
+
     error_log('エラーが発生しました' . $e->getMessage());
     $err_msg['common'] = ERR_SYSTEM;
   }
@@ -81,17 +96,7 @@ if (!empty($_POST)) {
   </style>
 
   <!-- メニュー -->
-  <header>
-    <div class="site-width">
-      <h1><a href="index.html"><?php echo APL_NAME.APL_SUBNAME; ?></a></h1>
-      <nav id="top-nav">
-        <ul>
-          <li><a href="mypage.php">マイページ</a></li>
-          <li><a href="logout.php">ログアウト</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <?php require('header.php'); ?>
 
   <!-- メインコンテンツ -->
   <div id="contents" class="site-width">
