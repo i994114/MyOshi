@@ -23,7 +23,7 @@ if (!empty($_POST)) {
 
   //入力時期が期限前か確認
   if (time() > $_SESSION['tmp_login_limit']) {
-    $err_msg['token'] = MSG16;
+    $err_msg['token'] = ERR_AUTH_EXPIRED;
   }
   debug('現在時刻' . time());
   debug('承認期限：' . $_SESSION['tmp_login_limit']);
