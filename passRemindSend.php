@@ -10,12 +10,17 @@ debugLogStart();
 if (!empty($_POST)) {
   debug('ポスト送信あり');
 
+  //前回のパスワード再発行用セッションをクリア
+  unset($_SESSION['tmp_key']);
+  unset($_SESSION['tmp_email']);
+  unset($_SESSION['tmp_login_limit']);
+  
   //------------------
   //バリデーションチェック
   //------------------
 
   //ポスト送信された情報を取得
-  $email = $_POST['email'];
+  $email = $_POST['email'] ?? '';
   debug('送信されたメールアドレス：' . $email);
   
   //Eメール形式かチェック
@@ -93,6 +98,7 @@ if (!empty($_POST)) {
 
         //パスワード入力画面へ遷移
         header('Location:passRemindRecieve.php');
+        exit();
 
       } else {
         debug('該当ユーザなし');
