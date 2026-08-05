@@ -21,6 +21,9 @@ $sort = (!empty($_GET['sort']))? $_GET['sort'] : '';
 $product_data = getProductOne($p_id);
 debug('取得した情報：' . print_r($product_data,true));
 
+//当該イベント登録者情報の取得
+$user_data = getUserInfoOne($product_data['user_id']);
+
 //当該イベントの掲示板のメッセージ数を取得
 $message_count = getMessageCount($p_id);
 
@@ -125,6 +128,7 @@ require('head.php');
             <?php echo $product_data['start_time']; ?>
             <?php echo $product_data['end_time']; ?>
             <?php echo $prefecture[$product_data['prefecture_id']]['name']; ?>
+            <a href="<?php  echo 'proDetail.php?'. 'u_id='. $product_data['user_id']; ?>" class=""><?php  echo $user_data['name'] ?></a>
 
             <!-- 対象 -->
             <?php
