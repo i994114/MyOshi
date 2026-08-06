@@ -3,7 +3,7 @@
 require('function.php');
 
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
-debug('「registEvent.php:情報登録');
+debug('「registEvent.php:' . APL_SUBJECT . '情報登録');
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
 debugLogStart();
 
@@ -12,7 +12,7 @@ require('auth.php');
 
 //パラメータ改ざんチェック(不正なidが入力されていたらマイページに戻す)
 if (!empty($p_id) && empty($dbFormData)) {
-  debug('GETパラメータの商品IDが違います。マイページへ遷移します');
+  debug('GETパラメータの' . APL_SUBJECT . 'IDが違います。マイページへ遷移します');
   header('Location:mypage.php');
   exit();
 }
@@ -117,8 +117,6 @@ if (!empty($_POST)) {
     //validEmpty($target_id, 'target_id');
     //validSelect($target_id, 'target_id');
     validMax($description, 'description');
-
-    validEmpty($target, 'target');
 
     validDate($event_date, 'event_date');
     validTime($start_time, 'start_time');
@@ -299,7 +297,7 @@ if (!empty($_POST)) {
 
             <!-- 対象 -->
             <label class="<?php if(!empty($err_msg['target_id'])) echo 'err'; ?>">
-              対象<span class="label-require">必須</span>
+              対象
                   <?php foreach ($target_info as $key => $val) {?>
                     <input type="checkbox" name="target[]" value="<?php  echo $val['id']; ?>" <?php if(in_array($val['id'], (array)getFormData('target'))){ echo 'checked'; }   ?>>
                       <?php echo $val['name']; ?>
