@@ -65,9 +65,9 @@
       
       //お気に入り
       var $like = $('.js-click-like') || null,
-          likeProductID = $like.data('productid') || null;
+          likeEventID = $like.data('eventid') || null;
 
-      if (likeProductID !== undefined && likeProductID !== null) {
+      if (likeEventID !== undefined && likeEventID !== null) {
         $like.on('click',function(){
           $this = $(this);
           
@@ -87,7 +87,7 @@
           $.ajax({
             type: 'POST',
             url:'ajaxLike.php',
-            data: {productId : likeProductID}
+            data: {eventId : likeEventID}
           }).done(function(){
             console.log('Ajax Success');
             $this.toggleClass('active');

@@ -43,8 +43,8 @@ $display_min = ($now_page -1 ) * $list_span;
 $display_max = $display_min - 1 + $list_span;
 
 //推し情報を取得
-$product = getProductList($list_span, $display_min, $seach_cate, $search_prefecture, $seach_sort);
-debug('すべての ' . APL_SUBJECT . ' 情報：' . print_r($product, true));
+$event = getEventList($list_span, $display_min, $seach_cate, $search_prefecture, $seach_sort);
+debug('すべての ' . APL_SUBJECT . ' 情報：' . print_r($event, true));
 
 
 //カテゴリデータの取得
@@ -117,15 +117,15 @@ $dbFormData = getFormData('category_id');
       <section id="main" >
         <div class="search-title">
           <div class="search-left">
-            <span class="total-num"><?php echo sanitize($product['total_record']);?>コの<?php echo sanitize(APL_SUBJECT); ?>がみつかったよ！</span>
+            <span class="total-num"><?php echo sanitize($event['total_record']);?>コの<?php echo sanitize(APL_SUBJECT); ?>がみつかったよ！</span>
           </div>
           <div class="search-right">
-            <span class="wf-nicomoji"><?php echo sanitize($display_min+1); ?>-</span><span class="wf-nicomoji"><?php echo sanitize($display_max); ?>件</span> / <span class="wf-nicomoji"><?php echo sanitize($product['total_record']);?>件中</span>
+            <span class="wf-nicomoji"><?php echo sanitize($display_min+1); ?>-</span><span class="wf-nicomoji"><?php echo sanitize($display_max); ?>件</span> / <span class="wf-nicomoji"><?php echo sanitize($event['total_record']);?>件中</span>
           </div>
         </div>
         <div class="panel-list">
-          <?php foreach ($product['data'] as $key => $val) {?>
-            <a href="<?php echo 'eventDetail.php?'.'p_id='.$val['id'].appendGetParam(); ?>" class="panel">
+          <?php foreach ($event['data'] as $key => $val) {?>
+            <a href="<?php echo 'eventDetail.php?'.'e_id='.$val['id'].appendGetParam(); ?>" class="panel">
             <div class="panel-head">
               <img src="<?php echo showImg(sanitize($val['pic1'])); ?>" alt="<?php echo sanitize($val['name'])?>">
             </div>
@@ -142,7 +142,7 @@ $dbFormData = getFormData('category_id');
         </div>
 
         <!-- ページネーション -->
-        <?php pagenation($now_page, $product['total_page'], $page_num, $str); ?>
+        <?php pagenation($now_page, $event['total_page'], $page_num, $str); ?>
         
       </section>
 

@@ -11,20 +11,20 @@ debugLogStart();
 require('auth.php');
 
 //パラメータ改ざんチェック(不正なidが入力されていたらマイページに戻す)
-if (!empty($p_id) && empty($dbFormData)) {
+if (!empty($e_id) && empty($dbFormData)) {
   debug('GETパラメータの' . APL_SUBJECT . 'IDが違います。マイページへ遷移します');
   header('Location:mypage.php');
   exit();
 }
 
 //登録情報編集用：イベント情報IDの取得
-$p_id = (!empty($_GET['p_id']))? $_GET['p_id'] : ''; 
+$e_id = (!empty($_GET['e_id']))? $_GET['e_id'] : ''; 
 
 //登録情報編集用：フォームに表示するデータの選択
-$dbFormData = (!empty($p_id))? getProductOneInfo($p_id) : '';
+$dbFormData = (!empty($e_id))? getEventOneInfo($e_id) : '';
 
 //新規登録か編集か(true:新規、false:編集)
-$edit_flg = (empty($_GET['p_id']))? true : false;
+$edit_flg = (empty($_GET['e_id']))? true : false;
 
 //DBに登録されたカテゴリ情報を取り出し
 $category_info = getCategory();
@@ -56,8 +56,8 @@ if (!empty($_POST)) {
       $dbh = dbConnect();
 
       //sql作成
-      $sql = 'UPDATE events SET delete_flg = 1 WHERE id = :p_id';
-      $data = array(':p_id' => $p_id);
+      $sql = 'UPDATE events SET delete_flg = 1 WHERE id = :e_id';
+      $data = array(':e_id' => $e_id);
 
       //sql実行
       $stmt = queryPost($dbh, $sql, $data);
@@ -90,7 +90,7 @@ if (!empty($_POST)) {
   $end_time = $_POST['end_hour'] . ':' . $_POST['end_minute'] . ':00';
   $description = $_POST['description'];
   $target = $_POST['target'] ?? [];
-  $event_id =(empty($p_id))? '' : $p_id;
+  $event_id =(empty($e_id))? '' : $e_id;
   
   $pic1 = (!empty($_FILES['pic1']['name']))? uploadImg($_FILES['pic1'], 'pic1') : '';
   $pic2 = (!empty($_FILES['pic2']['name']))? uploadImg($_FILES['pic2'], 'pic2') : '';
@@ -195,9 +195,9 @@ if (!empty($_POST)) {
           debug('DBの内容を変更します');
 
           //sql作成
-          $sql = 'UPDATE events SET name = :name, category_id = :category_id, prefecture_id = :prefecture_id, event_date = :event_date, start_time = :start_time, end_time = :end_time, description = :description, pic1 = :pic1, pic2 = :pic2, pic3 = :pic3, user_id = :u_id, update_date = :date WHERE id = :p_id';
+          $sql = 'UPDATE events SET name = :name, category_id = :category_id, prefecture_id = :prefecture_id, event_date = :event_date, start_time = :start_time, end_time = :end_time, description = :description, pic1 = :pic1, pic2 = :pic2, pic3 = :pic3, user_id = :u_id, update_date = :date WHERE id = :e_id';
           //dataセット
-          $data = array(':name' => $name, ':category_id' => $category_id, ':prefecture_id' => $prefecture_id, ':event_date' => $event_date, ':start_time' => $start_time, ':end_time' => $end_time, ':description' => $description, ':pic1' => $pic1, ':pic2' => $pic2, ':pic3' => $pic3, ':u_id' => $_SESSION['user_id'], ':date' => date('Y-m-d H:i:s'), ':p_id' => $p_id);
+          $data = array(':name' => $name, ':category_id' => $category_id, ':prefecture_id' => $prefecture_id, ':event_date' => $event_date, ':start_time' => $start_time, ':end_time' => $end_time, ':description' => $description, ':pic1' => $pic1, ':pic2' => $pic2, ':pic3' => $pic3, ':u_id' => $_SESSION['user_id'], ':date' => date('Y-m-d H:i:s'), ':e_id' => $e_id);
         }
         //sql実行
         $stmt1 = queryPost($dbh, $sql, $data);
@@ -210,7 +210,7 @@ if (!empty($_POST)) {
           $event_id = $dbh->lastInsertId();
         } else {
           //編集のため、対象イベントIDはGETパラメータから取得
-          $event_id = $p_id;
+          $event_id = $e_id;
         }
 
         $stmt2 = true;

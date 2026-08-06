@@ -12,11 +12,11 @@ require('auth.php');
 
 //Getデータを取得
 debug('Getデータの値：' . print_r($_GET,true));
-$p_id = (!empty($_GET['p_id']))? $_GET['p_id'] : 0;
+$e_id = (!empty($_GET['e_id']))? $_GET['e_id'] : 0;
 $b_id = (!empty($_GET['b_id']))? $_GET['b_id'] : 0;
 
 //登録情報を取得
-$product = getProductOne($p_id);
+$event = getEventOne($e_id);
 
 //メッセージ情報を取得
 $messageInfo = getMessageInfo($b_id);
@@ -48,7 +48,7 @@ if(!empty($_POST)) {
       //sql実行
       $sql = 'INSERT INTO messages (board_id, from_user, to_user, content, create_date, update_date) VALUES (:b_id, :from_user, :to_user, :content, :create_date, :update_date)';
       //dataセット
-      $data = array( ':b_id' => $b_id, ':from_user' => $_SESSION['user_id'], ':to_user' => $product['user_id'], ':content' => $message, ':create_date' => date('Y-m-d H:i:s'), 'update_date' => date('Y-m-d H:i:s'));
+      $data = array( ':b_id' => $b_id, ':from_user' => $_SESSION['user_id'], ':to_user' => $event['user_id'], ':content' => $message, ':create_date' => date('Y-m-d H:i:s'), 'update_date' => date('Y-m-d H:i:s'));
       //sql実行
       $stmt = queryPost($dbh, $sql, $data);
 
@@ -59,7 +59,7 @@ if(!empty($_POST)) {
         $_POST = array();
 
         //再度同じページにリダイレクト
-        header("Location:".$_SERVER['PHP_SELF'].'?b_id='.$_GET['b_id'].'&p_id='.$_GET['p_id']);
+        header("Location:".$_SERVER['PHP_SELF'].'?b_id='.$_GET['b_id'].'&e_id='.$_GET['e_id']);
         exit();
       } else {
         debug('投稿メッセージのDB登録NG');
@@ -93,13 +93,13 @@ require('head.php');
       <!-- Main -->
       <section id="main" >
         <div class="msg-info">
-          <h3><?php echo sanitize($product['name']); ?></h3>
-          <img src="<?php echo showImg(sanitize($product['pic1'])); ?>" alt="" height="100px" width="auto" >
-          <img src="<?php echo showImg(sanitize($product['pic2'])); ?>" alt="" height="100px" width="auto" >
-          <img src="<?php echo showImg(sanitize($product['pic3'])); ?>" alt="" height="100px" width="auto" >
+          <h3><?php echo sanitize($event['name']); ?></h3>
+          <img src="<?php echo showImg(sanitize($event['pic1'])); ?>" alt="" height="100px" width="auto" >
+          <img src="<?php echo showImg(sanitize($event['pic2'])); ?>" alt="" height="100px" width="auto" >
+          <img src="<?php echo showImg(sanitize($event['pic3'])); ?>" alt="" height="100px" width="auto" >
           <div class="msg-comment">
             <p>
-              <?php echo sanitize($product['description']);  ?>
+              <?php echo sanitize($event['description']);  ?>
             </p>
           </div>
         </div>

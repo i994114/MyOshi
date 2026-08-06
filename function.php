@@ -793,16 +793,16 @@ function uploadImg($file, $key) {
 //-------------------
 //推し情報の取得(単品)
 //-------------------
-function getProductOneInfo($p_id) {
+function getEventOneInfo($e_id) {
   debug('DBに登録されたイベント情報(単品)を取得');
 
   try {
     //db接続
     $dbh = dbConnect();
     //sql作成
-    $sql = 'SELECT * FROM events WHERE id = :p_id';
+    $sql = 'SELECT * FROM events WHERE id = :e_id';
     //dataセット
-    $data = array(':p_id' => $p_id);
+    $data = array(':e_id' => $e_id);
     //sql実行
     $stmt = queryPost($dbh, $sql, $data);
 
@@ -823,7 +823,7 @@ function getProductOneInfo($p_id) {
 //-------------------
 //自分が登録した情報の取得
 //-------------------
-function getMyProductList($u_id) {
+function getMyEventList($u_id) {
   debug('自分が登録した情報一覧を取得します');
 
   try {
@@ -853,7 +853,7 @@ function getMyProductList($u_id) {
 //-------------------
 //イベント情報の取得(複数)
 //-------------------
-function getProductList($list_span = 20, $display_min = 1, $category, $prefecture, $sort) {
+function getEventList($list_span = 20, $display_min = 1, $category, $prefecture, $sort) {
   debug('DBに登録された . APL_SUBJECT . 情報を取得');
 
   try {
@@ -937,7 +937,7 @@ function getProductList($list_span = 20, $display_min = 1, $category, $prefectur
 //-------------------
 //推し情報の取得(単品)
 //-------------------
-function getProductOne($p_id) {
+function getEventOne($e_id) {
   debug(APL_SUBJECT . '情報の取得(単品)を取得します');
   try {
     //db接続
@@ -963,10 +963,10 @@ function getProductOne($p_id) {
               ON p.category_id = c.id
           INNER JOIN prefectures AS pf
               ON p.prefecture_id = pf.id
-          WHERE p.id = :p_id';
+          WHERE p.id = :e_id';
 
     //dataセット
-    $data = array(':p_id' => $p_id);
+    $data = array(':e_id' => $e_id);
     //sql実行
     $stmt = queryPost($dbh, $sql, $data);
 
@@ -1097,16 +1097,16 @@ function showImg($img) {
 //------------
 //掲示板情報取得
 //------------
-function getBordInfo($p_id) {
+function getBordInfo($e_id) {
   debug('掲示板情報取得');
 
   try {
     //db接続
     $dbh = dbConnect();
     //sql作成
-    $sql = 'SELECT id, event_id FROM boards where event_id = :p_id';
+    $sql = 'SELECT id, event_id FROM boards where event_id = :e_id';
     //dataセット
-    $data = array(':p_id' => $p_id);
+    $data = array(':e_id' => $e_id);
     //sql実行
     $stmt = queryPost($dbh, $sql, $data);
 
@@ -1248,17 +1248,17 @@ function getLikeInfo($u_id) {
 //-------------------
 //お気に入り機能(取得:単品)
 //-------------------
-function isLike($p_id, $u_id, $flg = 0) {
+function isLike($e_id, $u_id, $flg = 0) {
   debug('お気に入り情報を取得します');
-  debug('p_id:' . $p_id);
+  debug('e_id:' . $e_id);
   debug('u_id:' . $u_id);
   try {
     //db接続
     $dbh = dbConnect();
     //sql作成
-    $sql = 'SELECT event_id, user_id FROM favorites WHERE event_id = :p_id && user_id = :u_id';
+    $sql = 'SELECT event_id, user_id FROM favorites WHERE event_id = :e_id && user_id = :u_id';
     //dataセット
-    $data = array(':p_id' => $p_id, 'u_id' => $u_id);
+    $data = array(':e_id' => $e_id, 'u_id' => $u_id);
     //sql実行
     $stmt = queryPost($dbh, $sql, $data);
 
@@ -1278,18 +1278,18 @@ function isLike($p_id, $u_id, $flg = 0) {
 //-------------------
 //お気に入り機能（削除）
 //-------------------
-function likeDelete($p_id, $u_id) {
+function likeDelete($e_id, $u_id) {
   debug('お気に入りデータを削除します');
-  debug('お気に入り情報ID:' . $p_id);
+  debug('お気に入り情報ID:' . $e_id);
   debug('ユーザ情報ID:' . $u_id);
 
   try {
     //db接続
     $dbh = dbConnect();
     //sql実行
-    $sql = 'DELETE FROM favorites WHERE event_id = :p_id && user_id = :u_id';
+    $sql = 'DELETE FROM favorites WHERE event_id = :e_id && user_id = :u_id';
     //dataセット
-    $data = array(':p_id' => $p_id, ':u_id' => $u_id);
+    $data = array(':e_id' => $e_id, ':u_id' => $u_id);
     //sql実行
     $stmt = queryPost($dbh, $sql, $data);
 
@@ -1307,17 +1307,17 @@ function likeDelete($p_id, $u_id) {
 //-------------------
 //お気に入り機能（登録）
 //-------------------
-function likeRegister($p_id, $u_id) {
+function likeRegister($e_id, $u_id) {
   debug('お気に入りを登録します');
-  debug('お気に入り情報ID:' . $p_id);
+  debug('お気に入り情報ID:' . $e_id);
   debug('ユーザ情報ID:' . $u_id);
   try {
     //db接続
     $dbh = dbConnect();
     //sql作成
-    $sql = 'INSERT INTO favorites (event_id, user_id, create_date) VALUES (:p_id, :u_id, :create_date)';
+    $sql = 'INSERT INTO favorites (event_id, user_id, create_date) VALUES (:e_id, :u_id, :create_date)';
     //dataセット
-    $data = array(':p_id' => $p_id, ':u_id' => $u_id, ':create_date' => date('Y-m-d H:i:s'));
+    $data = array(':e_id' => $e_id, ':u_id' => $u_id, ':create_date' => date('Y-m-d H:i:s'));
     //sql実行
     $stmt = queryPost($dbh, $sql, $data);
 
@@ -1342,7 +1342,7 @@ function againSignUpCalc($u_id) {
   debug('対象ユーザID：' . $u_id);
 
   //再登録したユーザが登録していた推し情報を取得
-  $productInfo = getMyProductList($u_id);
+  $eventInfo = getMyEventList($u_id);
   //再登録したユーザが登録していたメッセージを取得
   $messageInfo = getMybordMessage($u_id);
   //再登録したユーザが登録していたお気に入りを取得
