@@ -122,7 +122,7 @@ if (!empty($_POST)) {
     validEmpty($prefecture_id, 'prefecture_id');
     validSelect($prefecture_id, 'prefecture_id');
     validMax($description, 'description');
-
+    validTarget($target, 'target_id');
     validDate($event_date, 'event_date');
     
     if (!$time_undecided) {

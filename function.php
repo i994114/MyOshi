@@ -265,11 +265,11 @@ function validSelect($str, $key) {
 
 //性別チェック
 function validGender($str, $key) {
-    global $err_msg;
+  global $err_msg;
 
-    if (!in_array($str, ['0', '1'], true)) {
-        $err_msg[$key] = ERR_GENDER;
-    }
+  if (!in_array($str, ['0', '1'], true)) {
+      $err_msg[$key] = ERR_GENDER;
+  }
 }
 
 //日付チェック
@@ -295,6 +295,29 @@ function validTimeRange($start_time, $end_time, $key) {
     $err_msg[$key] = ERR_TIME_RANGE;
   }
 }
+
+//対象チェック
+function validTarget($str, $key) {
+
+  $targets = getTarget();
+ 
+  foreach ($str as $val) {
+    $jdg = false;
+    foreach ($targets as $target) {
+      //targetsテーブル内の値を登録しているか(true: 判定OK)
+      if ((int)$target['id'] === (int)$val) {
+        $jdg = true;
+        break;
+      }
+    }
+    if (!$jdg) {
+      global $err_msg;
+      $err_msg[$key] = ERR_CATEGORY;
+      exit;
+    }
+  }
+}
+
 //-------------------
 //DB接続関連
 //-------------------
