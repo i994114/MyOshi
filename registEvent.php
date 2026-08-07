@@ -302,7 +302,7 @@ if (!empty($_POST)) {
             <label class="<?php if(!empty($err_msg['category_id'])) echo 'err'; ?>">
               カテゴリ<span class="label-require">必須</span>
               <select name="category_id" id="">
-                <option value="0" <?php if(getCategory('category_id') == 0) {echo 'selected';}  ?>>選択してください</option>
+                <option value="" <?php if(getCategory('category_id') == 0) {echo 'selected';}  ?>>選択してください</option>
                   <?php foreach ($category_info as $key => $val) {?>
                     <option value="<?php  echo $val['id']; ?>" <?php if(getFormData('category_id') == $val['id'] ){ echo 'selected'; }   ?>>
                       <?php echo $val['name']; ?>
@@ -331,7 +331,7 @@ if (!empty($_POST)) {
             <label class="<?php if(!empty($err_msg['prefecture_id'])) echo 'err'; ?>">
               都道府県<span class="label-require">必須</span>
               <select name="prefecture_id" id="">
-                <option value="0" <?php if(getFormData('prefecture_id') == 0) {echo 'selected';}  ?>>選択してください</option>
+                <option value="" <?php if(getFormData('prefecture_id') == 0) {echo 'selected';}  ?>>選択してください</option>
                   <?php foreach ($prefecture_info as $key => $val) {?>
                     <option value="<?php  echo $val['id']; ?>" <?php if(getFormData('prefecture_id') == $val['id'] ){ echo 'selected'; }   ?>>
                       <?php echo $val['name']; ?>
