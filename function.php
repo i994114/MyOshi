@@ -832,6 +832,19 @@ function uploadImg($file, $key) {
   }
 }
 
+//イベント対象情報に変更があるか判定
+function isTargetChanged($dbTargetData, $target) {
+
+  //配列の中身を整数に変換して比較する
+  $target = array_map('intval', $target);
+  $dbTargetData = array_map('intval', $dbTargetData);
+
+  sort($dbTargetData);
+  sort($target);
+
+  return $dbTargetData !== $target;
+}
+
 //-------------------
 //推し情報の取得(単品)
 //-------------------
@@ -1452,3 +1465,4 @@ function timeFormat($start, $end) {
 
 
 }
+

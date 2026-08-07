@@ -22,6 +22,8 @@ $e_id = (!empty($_GET['e_id']))? $_GET['e_id'] : '';
 
 //登録情報編集用：フォームに表示するデータの選択
 $dbFormData = (!empty($e_id))? getEventOneInfo($e_id) : '';
+$dbTargetData = (!empty($e_id))? getEventTarget($e_id) : '';
+$dbTargetData = array_column($dbTargetData, 'target_id'); //配列の中からtarget_idだけを取り出す 
 
 //新規登録か編集か(true:新規、false:編集)
 $edit_flg = (empty($_GET['e_id']))? true : false;
@@ -92,9 +94,11 @@ if (!empty($_POST)) {
   $event_id =(empty($e_id))? '' : $e_id;
   
   if ($time_undecided) {
+    //時間未定の場合は、開始時間・終了時間をnullにする
     $start_time = null;
     $end_time = null;
   } else {
+    //時間未定でない場合は、開始時間・終了時間を取得する
     $start_time = $_POST['start_hour'] . ':' . $_POST['start_minute'] . ':00';
     $end_time = $_POST['end_hour'] . ':' . $_POST['end_minute'] . ':00';
   }
@@ -141,7 +145,7 @@ if (!empty($_POST)) {
   } else {                    //登録情報があるとき
     if ($dbFormData['name'] !== $name) {
       validEmpty($name, 'name');
-      validMax($name, 'name');
+      validMax($name, 'name', MAX_EVENT_NAME);
     }
 
     if ($dbFormData['description'] !== $description) {
@@ -153,8 +157,11 @@ if (!empty($_POST)) {
       validSelect($category_id, 'category_id');
     }
 
-    if ($dbFormData['target'] !== $target) {
-      validEmpty($target, 'target');
+    //対象情報の変更があるか判定
+    $isTarget = isTargetChanged($dbTargetData, $target);
+
+    if ($isTarget) {
+      validTarget($target, 'target_id');
     }
 
     if (!empty($event_id)) {
@@ -172,16 +179,22 @@ if (!empty($_POST)) {
 
     if ($dbFormData['start_time'] !== $start_time) {
       if (!$time_undecided) {
+        validEmpty($start_time, 'start_time');
         validTime($start_time, 'start_time');
       }
     } 
 
     if ($dbFormData['end_time'] !== $end_time) {
       if (!$time_undecided) {
+        validEmpty($end_time, 'end_time');
         validTime($end_time, 'end_time');
       }
     } 
-
+    //開始時間と終了時間の大小チェック
+    //(時間フォーマットが正しい場合のみチェックする)
+    if (!empty($start_time) && !empty($end_time)) {
+      validTimeRange($start_time, $end_time, 'end_time');
+    }
  }
 
   //----------------------
@@ -229,22 +242,31 @@ if (!empty($_POST)) {
           //新規登録のため、最後に登録したイベントIDを取得
           $event_id = $dbh->lastInsertId();
         } else {
+          //編集の場合は、一度、対象イベントIDに紐づくイベント対象情報を削除する
+          $sql = 'DELETE FROM event_targets WHERE event_id = :event_id';
+          $data = array(':event_id' => $e_id);
+          $stmt_delete = queryPost($dbh, $sql, $data);
+
           //編集のため、対象イベントIDはGETパラメータから取得
           $event_id = $e_id;
         }
 
-        $stmt2 = true;
-        foreach($target as $val) {
-          debug('foreach開始 target=' . $val);
-          $sql = 'INSERT INTO event_targets (event_id, target_id) VALUES (:event_id, :target_id)';
-          $data = array(':event_id' => $event_id, ':target_id' => $val);
+        if (!$stmt_delete) {
+          $stmt2 = false;
+        } else {
+          $stmt2 = true;
+          foreach($target as $val) {
+            debug('foreach開始 target=' . $val);
+            $sql = 'INSERT INTO event_targets (event_id, target_id) VALUES (:event_id, :target_id)';
+            $data = array(':event_id' => $event_id, ':target_id' => $val);
 
-          //sql実行
-          $stmt2 = queryPost($dbh, $sql, $data);
+            //sql実行
+            $stmt2 = queryPost($dbh, $sql, $data);
 
-          if (!$stmt2) {
-            debug('イベント対象情報の登録に失敗しました');
-            break;
+            if (!$stmt2) {
+              debug('イベント対象情報の登録に失敗しました');
+              break;
+            }
           }
         }
 
@@ -318,10 +340,10 @@ if (!empty($_POST)) {
             <!-- 対象 -->
             <label class="<?php if(!empty($err_msg['target_id'])) echo 'err'; ?>">
               対象
-                  <?php foreach ($target_info as $key => $val) {?>
-                    <input type="checkbox" name="target[]" value="<?php  echo $val['id']; ?>" <?php if(in_array($val['id'], (array)getFormData('target'))){ echo 'checked'; }   ?>>
-                      <?php echo $val['name']; ?>
-                  <?php }?>
+              <?php foreach ($target_info as $key => $val) {?>
+                <input type="checkbox" name="target[]" value="<?php  echo $val['id']; ?>" <?php if(in_array($val['id'], (array)getFormData('target'))){ echo 'checked'; }   ?>>
+                  <?php echo $val['name']; ?>
+              <?php }?>
             </label>
             <div class="area-msg">
               <?php echo getErrInfo('target_id'); ?>
