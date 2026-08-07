@@ -1,5 +1,5 @@
 <footer id="footer">
-      Copyright <a href="index.php">WEBサービス部アウトプット</a>. All Rights Reserved.
+      Copyright <a href="index.php"><?php echo APL_NAME;  ?></a>. All Rights Reserved.
     </footer>
 
     <script src="js/vendor/jquery-2.2.2.min.js"></script>
@@ -9,6 +9,17 @@
         if( window.innerHeight > $ftr.offset().top + $ftr.outerHeight() ){
           $ftr.attr({'style': 'position:fixed; top:' + (window.innerHeight - $ftr.outerHeight()) +'px;' });
         }
+      });
+
+      //イベント時間未定時の開始時間・終了時間の入力欄を非表示にする
+      var $timeUndecided = $('.js-time-undecided');
+      var $timeSelect = $('.js-start-time, .js-end-time');
+      $timeUndecided.on('change', function() {
+        var isUndecided = $(this).prop('checked');
+
+        $timeSelect
+          .prop('disabled', isUndecided)
+          .toggle(!isUndecided);
       });
 
       //メッセージ表示
