@@ -93,6 +93,7 @@ define('ERR_CATEGORY', 'カテゴリの入力が正しくありません');
 define('ERR_GENDER', '性別を選択してください');
 define('ERR_DATE', '日付の形式が違います');
 define('ERR_TIME', '時間の形式が違います');
+define('ERR_TIME_RANGE', '終了時間は開始時間より後の時刻を設定してください');
 
 define('SUCCESS_PASSWORD_CHANGE', 'パスワードを変更しました');
 define('SUCCESS_MAIL_SEND', 'メールを送信しました。メールに書かれたパスワードでログインしてください');
@@ -103,6 +104,7 @@ define('SUCCESS_EVENT_DELETE', APL_SUBJECT . 'を削除しました');
 define('SUCCESS_WITHDRAW', '退会処理完了しました。でもいつでも戻ってきてくださいっ！！');
 define('SUCCESS_USER_UPDATE', 'ユーザ登録情報を変更しました！');
 define('SUCCESS_USER_LOGIN', 'ログインしました！');
+
 
 //メール送信用
 //メールの「from」
@@ -286,6 +288,13 @@ function validTime($str, $key) {
   }
 }
 
+//時間範囲チェック
+function validTimeRange($start_time, $end_time, $key) {
+  if ($start_time > $end_time) {
+    global $err_msg;
+    $err_msg[$key] = ERR_TIME_RANGE;
+  }
+}
 //-------------------
 //DB接続関連
 //-------------------
@@ -425,6 +434,15 @@ function getFormData($str, $flg = false) {
     }
   }
 }
+//------------------------------
+//selectボックスのselected属性を付与
+//------------------------------
+function selected($key, $value) {
+  if (getFormData($key) == $value) {
+      echo 'selected';
+  }
+}
+
 //-------------------
 //エラー表示
 //-------------------

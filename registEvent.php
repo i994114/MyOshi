@@ -96,7 +96,7 @@ if (!empty($_POST)) {
     $end_time = null;
   } else {
     $start_time = $_POST['start_hour'] . ':' . $_POST['start_minute'] . ':00';
-    $end_time = $_POST['end_hour'] . ':' . $_POST['end_minute'] . ':00';    
+    $end_time = $_POST['end_hour'] . ':' . $_POST['end_minute'] . ':00';
   }
 
   $pic1 = (!empty($_FILES['pic1']['name']))? uploadImg($_FILES['pic1'], 'pic1') : '';
@@ -121,8 +121,6 @@ if (!empty($_POST)) {
     validSelect($category_id, 'category_id');
     validEmpty($prefecture_id, 'prefecture_id');
     validSelect($prefecture_id, 'prefecture_id');
-    //validEmpty($target_id, 'target_id');
-    //validSelect($target_id, 'target_id');
     validMax($description, 'description');
 
     validDate($event_date, 'event_date');
@@ -130,6 +128,15 @@ if (!empty($_POST)) {
     if (!$time_undecided) {
       validEmpty($start_time, 'start_time');
       validEmpty($end_time, 'end_time');
+      
+      validTime($start_time, 'start_time');
+      validTime($end_time, 'end_time');
+
+      //開始時間と終了時間の大小チェック
+      //(時間フォーマットが正しい場合のみチェックする)
+      if (!empty($start_time) && !empty($end_time)) {
+        validTimeRange($start_time, $end_time, 'end_time');
+      }
     } 
   } else {                    //登録情報があるとき
     if ($dbFormData['name'] !== $name) {
@@ -357,8 +364,11 @@ if (!empty($_POST)) {
               <?php echo APL_SUBJECT.'開始時間'; ?>
               <select name="start_hour" class="js-start-time">
                 <?php for ($i = 0; $i <= 23; $i++): ?>
-                  <option value="<?php echo sprintf('%02d', $i); ?>">
-                    <?php echo sprintf('%02d', $i); ?>
+                  <?php $hour = sprintf('%02d', $i); ?>
+                  <option value="<?php echo $hour; ?>"
+                    <?php selected('start_hour', $hour); ?>
+                  >
+                  <?php  echo $hour; ?>
                   </option>
                 <?php endfor; ?>
               </select>
@@ -369,10 +379,10 @@ if (!empty($_POST)) {
             
             <!-- 開始時間:minitutes -->
             <select name="start_minute" class="js-start-time">
-              <option value="00">00</option>
-              <option value="15">15</option>
-              <option value="30">30</option>
-              <option value="45">45</option>
+              <option value="00" <?php selected('start_minute', '00'); ?>>00</option>
+              <option value="15" <?php selected('start_minute', '15'); ?>>15</option>
+              <option value="30" <?php selected('start_minute', '30'); ?>>30</option>
+              <option value="45" <?php selected('start_minute', '45'); ?>>45</option>
             </select>
             <div class="area-msg">
               <?php echo getErrInfo('start_time'); ?>
@@ -383,8 +393,11 @@ if (!empty($_POST)) {
               <?php echo APL_SUBJECT.'終了時間'; ?>
               <select name="end_hour" class="js-end-time">
                 <?php for ($i = 0; $i <= 23; $i++): ?>
-                  <option value="<?php echo sprintf('%02d', $i); ?>">
-                    <?php echo sprintf('%02d', $i); ?>
+                  <?php $hour = sprintf('%02d', $i); ?>
+                  <option value="<?php echo $hour; ?>"
+                    <?php selected('end_hour', $hour); ?>
+                  >
+                  <?php  echo $hour; ?>
                   </option>
                 <?php endfor; ?>
               </select>
@@ -394,10 +407,10 @@ if (!empty($_POST)) {
             </div>
             <!-- 終了時間:minitutes -->
             <select name="end_minute" class="js-end-time">
-              <option value="00">00</option>
-              <option value="15">15</option>
-              <option value="30">30</option>
-              <option value="45">45</option>
+              <option value="00" <?php selected('end_minute', '00'); ?>>00</option>
+              <option value="15" <?php selected('end_minute', '15'); ?>>15</option>
+              <option value="30" <?php selected('end_minute', '30'); ?>>30</option>
+              <option value="45" <?php selected('end_minute', '45'); ?>>45</option>
             </select>
             <div class="area-msg">
               <?php echo getErrInfo('end_time'); ?>
