@@ -61,6 +61,7 @@ session_regenerate_id();
 //-------------------
 //最大文字数
 define('MAX_NAME', 25);
+define('MAX_EVENT_NAME', 50);
 define('MAX_EMAIL', 255);
 define('MAX_PASS', 128);
 define('MAX_DESCRIPTION', 500);

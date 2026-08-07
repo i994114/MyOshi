@@ -115,13 +115,13 @@ if (!empty($_POST)) {
   
   if (empty($dbFormData)) {   //新規登録のとき
     validEmpty($name, 'name');
-    validMax($name, 'name');
+    validMax($name, 'name', MAX_EVENT_NAME);
 
     validEmpty($category_id, 'category_id');
     validSelect($category_id, 'category_id');
     validEmpty($prefecture_id, 'prefecture_id');
     validSelect($prefecture_id, 'prefecture_id');
-    validMax($description, 'description');
+    validMax($description, 'description', MAX_DESCRIPTION);
     validTarget($target, 'target_id');
     validDate($event_date, 'event_date');
     
