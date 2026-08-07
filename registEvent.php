@@ -86,12 +86,19 @@ if (!empty($_POST)) {
   $category_id = $_POST['category_id'];
   $prefecture_id = $_POST['prefecture_id'];
   $event_date = $_POST['event_date'];
-  $start_time = $_POST['start_hour'] . ':' . $_POST['start_minute'] . ':00';
-  $end_time = $_POST['end_hour'] . ':' . $_POST['end_minute'] . ':00';
+  $time_undecided = (!empty($_POST['time_undecided']))? 1 : 0;
   $description = $_POST['description'];
   $target = $_POST['target'] ?? [];
   $event_id =(empty($e_id))? '' : $e_id;
   
+  if ($time_undecided) {
+    $start_time = null;
+    $end_time = null;
+  } else {
+    $start_time = $_POST['start_hour'] . ':' . $_POST['start_minute'] . ':00';
+    $end_time = $_POST['end_hour'] . ':' . $_POST['end_minute'] . ':00';    
+  }
+
   $pic1 = (!empty($_FILES['pic1']['name']))? uploadImg($_FILES['pic1'], 'pic1') : '';
   $pic2 = (!empty($_FILES['pic2']['name']))? uploadImg($_FILES['pic2'], 'pic2') : '';
   $pic3 = (!empty($_FILES['pic3']['name']))? uploadImg($_FILES['pic3'], 'pic3') : '';
@@ -119,9 +126,11 @@ if (!empty($_POST)) {
     validMax($description, 'description');
 
     validDate($event_date, 'event_date');
-    validTime($start_time, 'start_time');
-    validTime($end_time, 'end_time'); 
-
+    
+    if (!$time_undecided) {
+      validEmpty($start_time, 'start_time');
+      validEmpty($end_time, 'end_time');
+    } 
   } else {                    //登録情報があるとき
     if ($dbFormData['name'] !== $name) {
       validEmpty($name, 'name');
@@ -155,11 +164,15 @@ if (!empty($_POST)) {
     }
 
     if ($dbFormData['start_time'] !== $start_time) {
-      validTime($start_time, 'start_time');
+      if (!$time_undecided) {
+        validTime($start_time, 'start_time');
+      }
     } 
 
     if ($dbFormData['end_time'] !== $end_time) {
-      validTime($end_time, 'end_time');
+      if (!$time_undecided) {
+        validTime($end_time, 'end_time');
+      }
     } 
 
  }
@@ -333,10 +346,16 @@ if (!empty($_POST)) {
               <?php echo getErrInfo('event_date'); ?>
             </div> 
 
+            <!-- 時間未定選択 -->
+            <label>
+              <input type="checkbox" name="time_undecided" value="1" class="js-time-undecided">
+              時間未定
+            </label>
+
             <!-- 開始時間：hour -->
             <label class="<?php if(!empty($err_msg['start_time'])) echo 'err'; ?>">
-              <?php echo APL_SUBJECT.'開始時間'; ?><span class="label-require">必須</span>
-              <select name="start_hour">
+              <?php echo APL_SUBJECT.'開始時間'; ?>
+              <select name="start_hour" class="js-start-time">
                 <?php for ($i = 0; $i <= 23; $i++): ?>
                   <option value="<?php echo sprintf('%02d', $i); ?>">
                     <?php echo sprintf('%02d', $i); ?>
@@ -349,7 +368,7 @@ if (!empty($_POST)) {
             </div>
             
             <!-- 開始時間:minitutes -->
-            <select name="start_minute">
+            <select name="start_minute" class="js-start-time">
               <option value="00">00</option>
               <option value="15">15</option>
               <option value="30">30</option>
@@ -361,8 +380,8 @@ if (!empty($_POST)) {
 
             <!-- 終了時間：hour -->
             <label class="<?php if(!empty($err_msg['end_time'])) echo 'err'; ?>">
-              <?php echo APL_SUBJECT.'終了時間'; ?><span class="label-require">必須</span>
-              <select name="end_hour">
+              <?php echo APL_SUBJECT.'終了時間'; ?>
+              <select name="end_hour" class="js-end-time">
                 <?php for ($i = 0; $i <= 23; $i++): ?>
                   <option value="<?php echo sprintf('%02d', $i); ?>">
                     <?php echo sprintf('%02d', $i); ?>
@@ -374,7 +393,7 @@ if (!empty($_POST)) {
               <?php echo getErrInfo('end_time'); ?>
             </div>
             <!-- 終了時間:minitutes -->
-            <select name="end_minute">
+            <select name="end_minute" class="js-end-time">
               <option value="00">00</option>
               <option value="15">15</option>
               <option value="30">30</option>
@@ -406,9 +425,9 @@ if (!empty($_POST)) {
                   <img src="<?php echo getFormData('pic1'); ?>" alt="" class="prev-img" style="<?php  if(empty($dbFormData['pic1'])) echo 'display: none;'; ?>">
                   ドラッグ＆ドロップ
                 </label>
-                  <div class="area-msg">
-                    <?php  echo getErrInfo('pic1'); ?>
-                  </div>
+                <div class="area-msg">
+                  <?php  echo getErrInfo('pic1'); ?>
+                </div>
               </div>
 
               <!-- 画像2 -->
@@ -444,7 +463,7 @@ if (!empty($_POST)) {
               <input type="submit" class="btn btn-mid" value="<?php echo ($edit_flg === true)? 'イベント登録する' : 'イベント編集する'; ?>">
             </div>
 
-            <?php if (!empty($_SESSION['user_id']) && $_SESSION['user_id'] === $dbFormData['user_id'] ) { ?>
+            <?php if ($edit_flg === false && !empty($_SESSION['user_id']) && $_SESSION['user_id'] === $dbFormData['user_id'] ) { ?>
               <input type="submit" class="btn btn-mid" name="delete" value="削除する" onclick="return confirm('本当に削除しますか？'); ">
             <?php }?>
           </form>
