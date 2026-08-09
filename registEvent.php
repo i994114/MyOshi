@@ -388,7 +388,7 @@ if (!empty($_POST)) {
                 <?php for ($i = 0; $i <= 23; $i++): ?>
                   <?php $hour = sprintf('%02d', $i); ?>
                   <option value="<?php echo $hour; ?>"
-                    <?php selected('start_hour', $hour); ?>
+                    <?php if (getFormDataTime('start_hour', 'start_time') === $hour) echo 'selected'; ?>
                   >
                   <?php  echo $hour; ?>
                   </option>
@@ -401,10 +401,10 @@ if (!empty($_POST)) {
             
             <!-- 開始時間:minitutes -->
             <select name="start_minute" class="js-start-time">
-              <option value="00" <?php selected('start_minute', '00'); ?>>00</option>
-              <option value="15" <?php selected('start_minute', '15'); ?>>15</option>
-              <option value="30" <?php selected('start_minute', '30'); ?>>30</option>
-              <option value="45" <?php selected('start_minute', '45'); ?>>45</option>
+              <option value="00" <?php if (getFormDataTime('start_minute', 'start_time') === '00') echo 'selected'; ?>>00</option>
+              <option value="15" <?php if (getFormDataTime('start_minute', 'start_time') === '15') echo 'selected'; ?>>15</option>
+              <option value="30" <?php if (getFormDataTime('start_minute', 'start_time') === '30') echo 'selected'; ?>>30</option>
+              <option value="45" <?php if (getFormDataTime('start_minute', 'start_time') === '45') echo 'selected'; ?>>45</option>
             </select>
             <div class="area-msg">
               <?php echo getErrInfo('start_time'); ?>
@@ -417,7 +417,7 @@ if (!empty($_POST)) {
                 <?php for ($i = 0; $i <= 23; $i++): ?>
                   <?php $hour = sprintf('%02d', $i); ?>
                   <option value="<?php echo $hour; ?>"
-                    <?php selected('end_hour', $hour); ?>
+                    <?php if (getFormDataTime('end_hour', 'end_time') === $hour) echo 'selected'; ?>
                   >
                   <?php  echo $hour; ?>
                   </option>
@@ -429,10 +429,10 @@ if (!empty($_POST)) {
             </div>
             <!-- 終了時間:minitutes -->
             <select name="end_minute" class="js-end-time">
-              <option value="00" <?php selected('end_minute', '00'); ?>>00</option>
-              <option value="15" <?php selected('end_minute', '15'); ?>>15</option>
-              <option value="30" <?php selected('end_minute', '30'); ?>>30</option>
-              <option value="45" <?php selected('end_minute', '45'); ?>>45</option>
+              <option value="00" <?php if (getFormDataTime('end_minute', 'end_time') === '00') echo 'selected'; ?>>00</option>
+              <option value="15" <?php if (getFormDataTime('end_minute', 'end_time') === '15') echo 'selected'; ?>>15</option>
+              <option value="30" <?php if (getFormDataTime('end_minute', 'end_time') === '30') echo 'selected'; ?>>30</option>
+              <option value="45" <?php if (getFormDataTime('end_minute', 'end_time') === '45') echo 'selected'; ?>>45</option>
             </select>
             <div class="area-msg">
               <?php echo getErrInfo('end_time'); ?>

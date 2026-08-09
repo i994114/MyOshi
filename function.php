@@ -478,13 +478,35 @@ function getFormDataTarget($str, $id, $dbTargetData) {
 
 }
 
-//------------------------------
-//selectボックスのselected属性を付与
-//------------------------------
-function selected($key, $value) {
-  if (getFormData($key) == $value) {
-      echo 'selected';
+//-------------------
+//入力フォーム補助（時間用）
+//-------------------
+function getFormDataTime($str, $part) {
+  global $dbFormData;
+  
+  //debug('$_POSTの値：' . print_r($_POST, true));
+  //debug('dbFormDataの値：' . print_r($dbFormData[$part], true));
+
+  //POST値があればPOSTを優先
+  if (isset($_POST[$str])) {
+    return sanitize($_POST[$str]);
   }
+
+  //DB値がなければ空文字
+  if (empty($dbFormData[$part])) {
+    return '';
+  }
+
+  //DBのTIME型（例：19:15:00）を分解
+  if (strpos($str, 'hour') !== false) {
+    return substr($dbFormData[$part], 0, 2);
+  }
+
+  if (strpos($str, 'minute') !== false) {
+    return substr($dbFormData[$part], 3, 2);
+  }
+
+  return '';
 }
 
 //-------------------
