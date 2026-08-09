@@ -341,7 +341,7 @@ if (!empty($_POST)) {
             <label class="<?php if(!empty($err_msg['target_id'])) echo 'err'; ?>">
               対象
               <?php foreach ($target_info as $key => $val) {?>
-                <input type="checkbox" name="target[]" value="<?php  echo $val['id']; ?>" <?php if(in_array($val['id'], (array)getFormData('target'))){ echo 'checked'; }   ?>>
+                <input type="checkbox" name="target[]" value="<?php  echo $val['id']; ?>" <?php if (getFormDataTarget('target', $val['id'], $dbTargetData)) echo 'checked'; ?>>
                   <?php echo $val['name']; ?>
               <?php }?>
             </label>

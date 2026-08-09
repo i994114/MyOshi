@@ -458,6 +458,26 @@ function getFormData($str, $flg = false) {
     }
   }
 }
+
+//---------------------------
+//入力フォーム補助(イベント対象用)
+//---------------------------
+function getFormDataTarget($str, $id, $dbTargetData) {
+
+  //POST送信後はPOST値を優先
+  if (isset($_POST[$str])) {
+    return in_array($id, $_POST[$str]);
+  }
+
+  debug('dbTargetDataの値：' . print_r($dbTargetData,true));
+  debug('idの値：' . print_r($id,true));
+  debug('strの値：' . print_r($str,true));
+  
+  //初回表示時はDB値を使用
+  return in_array($id, $dbTargetData);
+
+}
+
 //------------------------------
 //selectボックスのselected属性を付与
 //------------------------------
