@@ -10,6 +10,14 @@ debugLogStart();
 //ログイン認証
 require('auth.php');
 
+//登録情報編集用：イベント情報IDの取得
+$e_id = (!empty($_GET['e_id']))? $_GET['e_id'] : ''; 
+
+//登録情報編集用：フォームに表示するデータの選択
+$dbFormData = (!empty($e_id))? getEventOneInfo($e_id) : '';
+$dbTargetData = (!empty($e_id))? getEventTarget($e_id) : '';
+$dbTargetData =  empty($dbTargetData) ? [] : array_column($dbTargetData, 'target_id'); //配列の中からtarget_idだけを取り出す 
+
 //パラメータ改ざんチェック(不正なidが入力されていたらマイページに戻す)
 if (!empty($e_id) && empty($dbFormData)) {
   debug('GETパラメータの' . APL_SUBJECT . 'IDが違います。マイページへ遷移します');
@@ -17,13 +25,12 @@ if (!empty($e_id) && empty($dbFormData)) {
   exit();
 }
 
-//登録情報編集用：イベント情報IDの取得
-$e_id = (!empty($_GET['e_id']))? $_GET['e_id'] : ''; 
-
-//登録情報編集用：フォームに表示するデータの選択
-$dbFormData = (!empty($e_id))? getEventOneInfo($e_id) : '';
-$dbTargetData = (!empty($e_id))? getEventTarget($e_id) : '';
-$dbTargetData = array_column($dbTargetData, 'target_id'); //配列の中からtarget_idだけを取り出す 
+//不正編集チェック(自分が登録したイベント情報かどうか)
+if (!empty($dbFormData) && (int)$dbFormData['user_id'] !== (int)$_SESSION['user_id']) {
+  debug(ERR_EDIT_ACCESS);
+  header('Location:mypage.php');
+  exit();
+}
 
 //新規登録か編集か(true:新規、false:編集)
 $edit_flg = (empty($_GET['e_id']))? true : false;
@@ -120,7 +127,7 @@ if (!empty($_POST)) {
   if (empty($dbFormData)) {   //新規登録のとき
     validEmpty($name, 'name');
     validMax($name, 'name', MAX_EVENT_NAME);
-
+    
     validEmpty($category_id, 'category_id');
     validSelect($category_id, 'category_id');
     validEmpty($prefecture_id, 'prefecture_id');
@@ -128,7 +135,7 @@ if (!empty($_POST)) {
     validMax($description, 'description', MAX_DESCRIPTION);
     validTarget($target, 'target_id');
     validDate($event_date, 'event_date');
-    
+  
     if (!$time_undecided) {
       validEmpty($start_time, 'start_time');
       validEmpty($end_time, 'end_time');

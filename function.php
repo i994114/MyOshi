@@ -95,6 +95,7 @@ define('ERR_GENDER', '性別を選択してください');
 define('ERR_DATE', '日付の形式が違います');
 define('ERR_TIME', '時間の形式が違います');
 define('ERR_TIME_RANGE', '終了時間は開始時間より後の時刻を設定してください');
+define('ERR_EDIT_ACCESS', '不正なユーザーが編集しようとしています。マイページへ遷移します');
 
 define('SUCCESS_PASSWORD_CHANGE', 'パスワードを変更しました');
 define('SUCCESS_MAIL_SEND', 'メールを送信しました。メールに書かれたパスワードでログインしてください');

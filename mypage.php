@@ -12,15 +12,15 @@ require('auth.php');
 
 //自分のお気に入り情報取得
 $likeInfo = getLikeInfo($_SESSION['user_id']);
-debug('取得したお気に入り情報:' . print_r($likeInfo,true));
+//debug('取得したお気に入り情報:' . print_r($likeInfo,true));
 
 //自分が登録した情報取得
 $eventInfo = getMyEventList($_SESSION['user_id']);
-debug('自分が登録した情報取得:' . print_r($eventInfo,true));
+//debug('自分が登録した情報取得:' . print_r($eventInfo,true));
 
 //自分の商品の連絡掲示板の新着情報を取得
 $bordInfo = getMybordMessage($_SESSION['user_id']);
-debug('自分の商品の連絡掲示板の新着情報:' . print_r($bordInfo,true));
+//debug('自分の商品の連絡掲示板の新着情報:' . print_r($bordInfo,true));
 ?>
 
 
