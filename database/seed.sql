@@ -17,32 +17,8 @@ INSERT INTO users (
 (10, 'にこ😊', 'dorakue838861+h@gmail.com', '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq', 1, 31, '', 0, NOW(), NOW()),
 (11, 'Liam', 'dorakue838861+i@gmail.com', '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq', 0, 36, '', 0, NOW(), NOW()),
 (12, '試験太郎', 'dorakue838861+j@gmail.com', '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq', 0, 27, '', 0, NOW(), NOW());
--- ===================================
--- categories
--- ===================================
-
-INSERT INTO categories (
-    id, name, create_date
-) VALUES
-(1, '合同稽古', NOW()),
-(2, '練習試合', NOW()),
-(3, '大会', NOW()),
-(4, '講習会', NOW()),
-(5, 'その他', NOW());
 
 
--- ===================================
--- targets
--- ===================================
-
-INSERT INTO targets (
-    id, name, create_date
-) VALUES
-(1, '小学生', NOW()),
-(2, '中学生', NOW()),
-(3, '高校生', NOW()),
-(4, '大学生', NOW()),
-(5, '一般', NOW());
 
 
 -- ===================================
