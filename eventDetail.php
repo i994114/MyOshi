@@ -145,7 +145,7 @@ require('head.php');
             
           </div>
           <div class="img-main">
-            <img src="<?php echo sanitize($event_data['pic1']); ?>" alt="" id="js-show-main">
+            <img src="<?php echo showImg(sanitize($event_data['pic1'])); ?>" alt="" id="js-show-main">
           </div>
           <div class="img-sub">
             <img src="<?php echo showImg(sanitize($event_data['pic1'])); ?>" alt="<?php echo sanitize($event_data['name']).' main'; ?>" class="js-show-sub">
