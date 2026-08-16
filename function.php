@@ -952,7 +952,7 @@ function getMyEventList($u_id) {
 //イベント情報の取得(複数)
 //-------------------
 function getEventList($list_span = 20, $display_min = 1, $category, $prefecture, $sort) {
-  debug('DBに登録された . APL_SUBJECT . 情報を取得');
+  debug('DBに登録された' . APL_SUBJECT . '情報を取得');
 
   try {
     //-----------
@@ -961,28 +961,26 @@ function getEventList($list_span = 20, $display_min = 1, $category, $prefecture,
     //db接続
     $dbh = dbConnect();
     //sql作成
-    $sql = 'SELECT e.id, e.name, e.category_id, e.prefecture_id, e.description, e.event_date, e.start_time, e.end_time, e.pic1, e.pic2, e.pic3, c.name as category_name, p.name as prefecture_name FROM events e LEFT JOIN categories c ON e.category_id = c.id LEFT JOIN prefectures p ON e.prefecture_id = p.id WHERE delete_flg = 0 ';
+    $sql = 'SELECT e.id, e.name, e.category_id, e.prefecture_id, e.description, e.event_date, e.start_time, e.end_time, e.pic1, e.pic2, e.pic3, e.create_date, e.update_date, c.name as category_name, p.name as prefecture_name FROM events e LEFT JOIN categories c ON e.category_id = c.id LEFT JOIN prefectures p ON e.prefecture_id = p.id WHERE delete_flg = 0 ';
+
+    $data = array();
 
     //検索リクエストがあるか(カテゴリ)
     if ($category != 0) {
-      $sql .= ' && category_id = :category_id';
-      $data = array(':category_id' => $category);
-    } else {
-      $data = array();
+      $sql .= ' AND e.category_id = :category_id';
+      $data[':category_id'] = $category;
     }
 
     //検索リクエストがあるか(都道府県)
     if ($prefecture != 0) {
-      $sql .= ' && prefecture_id = :prefecture_id';
-      $data = array(':prefecture_id' => $prefecture);
-    } else {
-      $data = array();
+      $sql .= ' AND e.prefecture_id = :prefecture_id';
+      $data[':prefecture_id'] = $prefecture;
     }
 
     //検索リクエストがあるか(ソート)
     switch ($sort) {
       case 1://登録日付が新しい順
-        $sql .= ' ORDER BY create_date DESC';
+        $sql .= ' ORDER BY e.create_date DESC';
         break;
       case 2://最近編集された順
         $sql .= ' ORDER BY update_date DESC';

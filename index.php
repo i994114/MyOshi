@@ -83,7 +83,7 @@ $dbFormData = getFormData('category_id');
           <div class="selectbox">
             <span class="icn_select"></span>
             <select name="category_id">
-              <option value="0"　<?php if(getFormData('category_id',true) == 0) {echo 'selected';} ?>>選択してください</option>
+              <option value="0" <?php if(getFormData('category_id',true) == 0) {echo 'selected';} ?>>選択してください</option>
               <?php foreach($category as $key => $val) {?>
                 <option value="<?php echo sanitize($val['id']); ?>" <?php if(getFormData('category_id',true) == $val['id']) echo 'selected'; ?>><?php echo sanitize($val['name']); ?></option>
               <?php }?>
@@ -93,7 +93,7 @@ $dbFormData = getFormData('category_id');
           <div class="selectbox">
             <span class="icn_select"></span>
             <select name="prefecture_id">
-              <option value="0"　<?php if(getFormData('prefecture_id',true) == 0) {echo 'selected';} ?>>選択してください</option>
+              <option value="0" <?php if(getFormData('prefecture_id',true) == 0) {echo 'selected';} ?>>選択してください</option>
               <?php foreach($prefecture as $key => $val) {?>
                 <option value="<?php echo sanitize($val['id']); ?>" <?php if(getFormData('prefecture_id',true) == $val['id']) echo 'selected'; ?>><?php echo sanitize($val['name']); ?></option>
               <?php }?>
