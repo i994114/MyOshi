@@ -631,6 +631,7 @@ input[type="submit"]:hover {
   padding: 15px;
   margin-top: 15px;
   min-height: 150px;
+  overflow-wrap: anywhere;
 }
 .event-buy{
   overflow: hidden;

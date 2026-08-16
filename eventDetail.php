@@ -158,7 +158,7 @@ require('head.php');
         <div class="event-detail">
           <p>
             <?php
-              echo sanitize($event_data['description']);
+              echo nl2br(sanitize($event_data['description']));
             ?>
           </p>
         </div>
