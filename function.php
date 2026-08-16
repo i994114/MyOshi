@@ -1096,7 +1096,7 @@ function pagenation($now, $p_max, $icon_num, $link='') {
   //----------------------------------------
   //ページネーションのアイコン内に表示する数字の算出
   //----------------------------------------
-  // 現在のページが、総ページ数と同じ　かつ　総ページ数が表示項目数以上なら、左にリンク４個出す
+  // 現在のページが、総ページ数と同じかつ総ページ数が表示項目数以上なら、左にリンク４個出す
   if ($now == $p_max && $p_max >= $icon_num) {
     $min_page = $now - 4;
     $max_page = $now;
@@ -1152,7 +1152,7 @@ function pagenation($now, $p_max, $icon_num, $link='') {
 /*
 ・Get送信のURL生成用
 ・例：http://localhost:8888/output/2.webservice_output/index.php?category_id=1&sort=2
-　　上記の「category_id=1&sort=2」部分を生成する
+上記の「category_id=1&sort=2」部分を生成する
 ・取り出すGETの例は以下。
 [25-Jun-2022 06:52:57 Asia/Tokyo] デバッグ Getの値：Array
 (
