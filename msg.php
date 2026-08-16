@@ -177,7 +177,7 @@ require('head.php');
               <div class="area-msg" style="padding-bottom: 0px;">
                 <?php echo getErrInfo('message');  ?>
               </div>
-              <textarea name="message" id="" cols="30" rows="3"></textarea>
+              <textarea name="message" id="" cols="30" rows="3"><?php echo getFormData('message'); ?></textarea>
               <input type="submit" value="送信" class="btn btn-send">
             </div>
         </form>
