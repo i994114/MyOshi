@@ -123,7 +123,7 @@ require('head.php');
                     </p>
                     <!-- 投稿時刻 -->
                     <span class="msg-right-time">
-                      <p><?php echo nl2br(sanitize($val['create_date'])); ?></p>
+                      <p><?php echo sanitize($val['create_date']); ?></p>
                     </span>
                   </div>
             <?php 
