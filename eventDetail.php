@@ -61,6 +61,8 @@ if (!empty($_POST)) {
   $dbh = dbConnect();
 
   try {
+    $dbh->beginTransaction();
+
     //-------------
     //参加テーブル作成
     //-------------
@@ -88,7 +90,7 @@ if (!empty($_POST)) {
       $data = array(':u_id' => $event_data['user_id'], ':e_id' => $e_id, ':create_date' => date('Y-m-d H:i:s'), ':update_date' => date('Y-m-d H:i:s'));
       $stmt2 = queryPost($dbh, $sql, $data);
   
-      if($stmt) {
+      if($stmt2) {
         debug('掲示板新規作成OK');
       } else {
         debug('掲示板新規作成NG');
@@ -199,8 +201,10 @@ require('head.php');
           </div>
           <form action="" method="post">
             <div class="item-right">
-              <input type="submit" name="submit" class="btn btn-primary" value="参加する">
-              <input type="submit" name="" class="btn btn-primary" value="掲示板でコメントを見る(<?php echo $message_count; ?>件)" style="margin-top: 0px;">
+              <input type="button" name="submit" class="btn btn-primary js-click-event-participant" value="<?php  echo isEventParticipants($event_data['id'], $_SESSION['user_id']) ? '参加取消' : '参加する';  ?>" data-eventid = <?php echo $event_data['id']; ?> style="margin-top: 0px;">
+              <a href="msg.php?b_id=<?php echo $bord_data['id']; ?>&e_id=<?php echo $event_data['id']; ?>" class="btn btn-primary">
+                掲示板でコメントを見る(<?php echo $message_count; ?>件)
+              </a>
             </div>
           </form>
         </div>

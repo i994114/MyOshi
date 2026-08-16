@@ -80,7 +80,7 @@
 
       if (likeEventID !== undefined && likeEventID !== null) {
         $like.on('click',function(){
-          $this = $(this);
+          var $this = $(this);
           
           //現在のいいね数を取得
           var likeCount = Number($this.find('.js-like-count').text());
@@ -102,6 +102,33 @@
           }).done(function(){
             console.log('Ajax Success');
             $this.toggleClass('active');
+          }).fail(function(){
+            console.log('Ajax fail');
+          });
+        });
+      }
+
+      //参加/不参加
+      var $participant = $('.js-click-event-participant') || null,
+          participantEventID = $participant.data('eventid') || null;
+
+      if (participantEventID !== undefined && participantEventID !== null) {
+        $participant.on('click',function(){
+          var $this = $(this);
+
+          //Ajax処理
+          $.ajax({
+            type: 'POST',
+            url:'ajaxParticipant.php',
+            data: {eventId : participantEventID}
+          }).done(function(){
+            //ボタン表記切り替え
+            if ($this.val() === '参加する') {
+              $this.val('参加取消');
+            } else {
+              $this.val('参加する');
+            }
+
           }).fail(function(){
             console.log('Ajax fail');
           });

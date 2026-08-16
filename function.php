@@ -1430,6 +1430,96 @@ function likeRegister($e_id, $u_id) {
 
 }
 
+//-------------------
+//参加機能(取得:単品)
+//-------------------
+function isEventParticipants($e_id, $u_id, $flg = 0) {
+  debug('参加情報を取得します');
+  debug('e_id:' . $e_id);
+  debug('u_id:' . $u_id);
+  try {
+    //db接続
+    $dbh = dbConnect();
+    //sql作成
+    $sql = 'SELECT event_id, user_id FROM event_participants WHERE event_id = :e_id && user_id = :u_id';
+    //dataセット
+    $data = array(':e_id' => $e_id, 'u_id' => $u_id);
+    //sql実行
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if ($stmt) {
+      debug('参加情報の取得OK');
+      return $stmt->rowCount();
+    } else {
+      debug('参加情報取得NG');
+      return false;
+    }
+  } catch (Exception $e) {
+    error_log('エラーが発生しました' . $e->getMessage());
+    global $err_msg;
+    $err_msg['common'] = ERR_SYSTEM;
+  }
+}
+
+//-------------------
+//参加キャンセル
+//-------------------
+function eventParticipantDelete($e_id, $u_id) {
+  debug('参加データを削除します');
+  debug('参加情報ID:' . $e_id);
+  debug('ユーザ情報ID:' . $u_id);
+
+  try {
+    //db接続
+    $dbh = dbConnect();
+    //sql実行
+    $sql = 'DELETE FROM event_participants WHERE event_id = :e_id && user_id = :u_id';
+    //dataセット
+    $data = array(':e_id' => $e_id, ':u_id' => $u_id);
+    //sql実行
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if ($stmt) {
+      debug('参加データ削除OK');
+    } else {
+      debug('参加データ削除NG');
+    }
+  } catch(Exception $e) {
+    error_log('エラーが発生しました' . $e->getMessage());
+    global $err_msg;
+    $err_msg['common'] = ERR_SYSTEM;
+  }
+}
+//-------------------
+//参加登録
+//-------------------
+function eventParticipantRegister($e_id, $u_id) {
+  debug('参加登録します');
+  debug('参加情報ID:' . $e_id);
+  debug('ユーザ情報ID:' . $u_id);
+  try {
+    //db接続
+    $dbh = dbConnect();
+    //sql作成
+    $sql = 'INSERT INTO event_participants (event_id, user_id, create_date) VALUES (:e_id, :u_id, :create_date)';
+    //dataセット
+    $data = array(':e_id' => $e_id, ':u_id' => $u_id, ':create_date' => date('Y-m-d H:i:s'));
+    //sql実行
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if ($stmt) {
+      debug('参加情報登録OK');
+    } else {
+      debug('参加情報登録NG');
+    }
+  } catch (Exception $e) {
+    error_log('エラーが発生しました' . $e->getMessage());
+    global $err_msg;
+    $err_msg['common'] = ERR_SYSTEM;
+  }
+
+}
+
 //-------------------------------
 //一度削除してからの再登録の際の復活処置
 //-------------------------------
