@@ -58,6 +58,16 @@ CREATE TABLE event_targets (
     FOREIGN KEY (target_id) REFERENCES targets(id)
 );
 
+CREATE TABLE event_participants (
+    event_id INT UNSIGNED NOT NULL,
+    user_id INT UNSIGNED NOT NULL,
+    create_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    update_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (event_id, user_id),
+    FOREIGN KEY (event_id) REFERENCES events(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
 CREATE TABLE boards (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     user_id INT UNSIGNED NOT NULL,

@@ -57,20 +57,36 @@ debug('生成したGetパラメータ部分のURL：' . $str);
 if (!empty($_POST)) {
   debug('ポスト送信あり');
 
-  //当該情報の掲示板がすでにあるか
-  $bord_data = getBordInfo($e_id);
-  debug('掲示板情報：' . print_r($bord_data,true));
+  //db接続
+  $dbh = dbConnect();
 
-  if (empty($bord_data)) {
-    debug('掲示板がないので新規作成します');
-    try {
-      //db接続
-      $dbh = dbConnect();
+  try {
+    //-------------
+    //参加テーブル作成
+    //-------------
+    //sql作成
+    $sql = 'INSERT INTO event_participants (event_id, user_id, create_date, update_date)
+            VALUES(:event_id, :user_id, :create_date, :update_date)';
+    //dataセット
+    $data = array(':event_id' => $e_id, ':user_id' => $_SESSION['user_id'], ':create_date' => date('Y-m-d H:i:s'), ':update_date' => date('Y-m-d H:i:s'));
+    //sql実行
+    $stmt1 = queryPost($dbh, $sql, $data);
+
+    //-------------
+    //掲示板テーブル作成
+    //-------------
+    //当該情報の掲示板がすでにあるか
+    $bord_data = getBordInfo($e_id);
+    debug('掲示板情報：' . print_r($bord_data,true));
+
+    if (empty($bord_data)) {
+      debug('掲示板がないので新規作成します');
+
       //sql作成
       $sql = 'INSERT INTO boards (user_id, event_id, create_date, update_date) VALUES (:u_id, :e_id, :create_date, :update_date)';
       //dataセット
       $data = array(':u_id' => $event_data['user_id'], ':e_id' => $e_id, ':create_date' => date('Y-m-d H:i:s'), ':update_date' => date('Y-m-d H:i:s'));
-      $stmt = queryPost($dbh, $sql, $data);
+      $stmt2 = queryPost($dbh, $sql, $data);
   
       if($stmt) {
         debug('掲示板新規作成OK');
@@ -79,12 +95,26 @@ if (!empty($_POST)) {
         $err_msg['common'] = ERR_SYSTEM;
       }
 
-    } catch(Exception $e) {
-      error_log('エラーが発生しました' . $e->getMessage());
-      $err_msg['common'] = ERR_SYSTEM;
+    } else {
+      debug('掲示板はすでにあります');
+      $stmt2 = true;
     }
-  } else {
-    debug('掲示板はすでにあります');
+
+    if (!$stmt1 || !$stmt2) {
+      throw new Exception('イベント登録処理に失敗しました');
+    }
+
+    //全部成功したら確定
+    $dbh->commit();
+
+  } catch(Exception $e) {
+    
+    //参加テーブル、掲示板テーブルいずれか作成失敗の場合は両方元に戻す
+    if ($dbh->inTransaction()) {
+        $dbh->rollBack();
+    }
+    error_log('エラーが発生しました' . $e->getMessage());
+    $err_msg['common'] = ERR_SYSTEM;
   }
   //メッセージを格納
   $_SESSION['msg-success'] = SUCCESS_BOARD_MOVE;
@@ -169,7 +199,8 @@ require('head.php');
           </div>
           <form action="" method="post">
             <div class="item-right">
-              <input type="submit" name="submit" class="btn btn-primary" value="掲示板でコメントを見る(<?php echo $message_count; ?>件)" style="margin-top: 0px;">
+              <input type="submit" name="submit" class="btn btn-primary" value="参加する">
+              <input type="submit" name="" class="btn btn-primary" value="掲示板でコメントを見る(<?php echo $message_count; ?>件)" style="margin-top: 0px;">
             </div>
           </form>
         </div>
