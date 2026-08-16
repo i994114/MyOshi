@@ -101,7 +101,7 @@ $bordInfo = getMybordMessage($_SESSION['user_id']);
               <tr>
                   <td><?php echo sanitize(date('Y.m.d H:i:s',strtotime($val['update_date'])));  ?></td>
                   <td><?php echo (!empty($person['name']))? $person['name'] : '名無し'; ?></td>
-                  <td><a href="msg.php?m_id=<?php echo sanitize($val['id']);?>&e_id=<?php echo sanitize(($val['event_id']));  ?>"><?php  echo sanitize(mb_substr($val['content'],0,40)).'・・・'; ?></a></td>
+                  <td><a href="msg.php?b_id=<?php echo sanitize($val['id']);?>&e_id=<?php echo sanitize(($val['event_id']));  ?>"><?php  echo sanitize(mb_substr($val['content'],0,40)).'・・・'; ?></a></td>
               </tr>
               <?php
                   }
