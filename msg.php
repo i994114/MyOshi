@@ -37,7 +37,7 @@ if(!empty($_POST)) {
   $message = $_POST['message'];
   
   //バリデーションチェック
-  validMax($message,'message');
+  validMax($message,'message', MAX_DESCRIPTION);
   validEmpty($message,'message');
 
   if (empty($err_msg)) {
@@ -119,11 +119,11 @@ require('head.php');
                     <!-- メッセージ -->
                     <p class="msg-inrTxt">
                       <span class="triangle"></span>
-                      <?php  echo sanitize($val['content']); ?>
+                      <?php  echo nl2br(sanitize($val['content'])); ?>
                     </p>
                     <!-- 投稿時刻 -->
                     <span class="msg-right-time">
-                      <p><?php echo sanitize($val['create_date']); ?></p>
+                      <p><?php echo nl2br(sanitize($val['create_date'])); ?></p>
                     </span>
                   </div>
             <?php 
