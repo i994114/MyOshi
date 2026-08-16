@@ -20,15 +20,15 @@ $event = getEventOne($e_id);
 
 //メッセージ情報を取得
 $messageInfo = getMessageInfo($b_id);
-debug('取得したメッセージ：' . print_r($messageInfo,true));
+//debug('取得したメッセージ：' . print_r($messageInfo,true));
 
 //ユーザ情報を取得
 $userInfo = getUserInfoOne($_SESSION['user_id']);
-debug('取得したユーザID:' . print_r($userInfo,true));
+//debug('取得したユーザID:' . print_r($userInfo,true));
 
 //すべてのユーザ情報を取得
 $userInfoAll = getUserInfo();
-debug('すべてのユーザ情報:' . print_r($userInfoAll,true));
+//debug('すべてのユーザ情報:' . print_r($userInfoAll,true));
 
 if(!empty($_POST)) {
   debug('ポスト送信あり');
