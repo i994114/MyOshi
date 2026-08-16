@@ -675,6 +675,8 @@ input[type="submit"]:hover {
   height: 100px;
   width: 50%;
   border: 2px solid #333;
+  overflow-wrap: anywhere;
+  overflow-y: auto;
 }
 .msg-info img:nth-child(3) {
   margin-right: 5px;
