@@ -38,7 +38,13 @@ if (!empty($_POST)) {
 
       if ($stmt) {
         debug('削除に成功しました');
-        $_SESSION['msg-success'] = SUCCESS_EVENT_DELETE;
+
+        //セッション削除
+        session_destroy();
+        $_SESSION = array();
+
+        //削除のフラッシュメッセージ
+        $_SESSION['msg-success'] = SUCCESS_WITHDRAW;
 
         //トップ画面へ遷移
         header('Location:top.php');

@@ -20,7 +20,6 @@ if(!empty($_POST)){
   
   //変数にユーザ情報を代入
   $name = $_POST['name'];
-  $gender = $_POST['gender'];
   $email = $_POST['email'];
   $pass = $_POST['pass'];
   $pass_re = $_POST['pass_re'];
@@ -28,8 +27,6 @@ if(!empty($_POST)){
 //-------------------
 //バリデーションチェック
 //-------------------
-  //性別チェック
-  validGender($gender, 'gender');
   
   //Eメール重複チェック
   validEmailDup($email);
@@ -53,7 +50,6 @@ if(!empty($_POST)){
 
   //空欄チェック
   validEmpty($name, 'name');
-  validEmpty($gender, 'gender');
   validEmpty($email, 'email');
   validEmpty($pass, 'pass');
   validEmpty($pass_re, 'pass_re');
@@ -74,11 +70,11 @@ if(!empty($_POST)){
     if (!empty($userInfo)) {
       foreach($userInfo as $key => $val) {
         if ($val['email'] === $email && 
-            password_verify($pass, $val['password']) &&
-            (int)$val['delete_flg'] === (int)1) {
-            $u_id = $val['id'];
+          password_verify($pass, $val['password']) &&
+          (int)$val['delete_flg'] === (int)1) {
+          $u_id = $val['id'];
           $regAgain = true;
-            }
+        }
       }
     }
 
@@ -90,9 +86,9 @@ if(!empty($_POST)){
       if (!$regAgain) {
         debug('ユーザ情報を新規登録します');
         //sql作成
-        $sql = 'INSERT INTO users (name, gender, email, password, delete_flg, login_time, create_date) VALUES (:name, :gender, :email, :pass, :del, :login_time, :date)';
+        $sql = 'INSERT INTO users (name, email, password, delete_flg, login_time, create_date) VALUES (:name, :email, :pass, :del, :login_time, :date)';
         //dataセット
-        $data = array(':name' => $name, ':gender' => $gender, ':email' => $email, ':pass' => password_hash($pass,PASSWORD_DEFAULT), ':del' => 0, ':login_time' => date('Y-m-d H:i:s'), ':date' => date('Y-m-d H:i:s'));
+        $data = array(':name' => $name, ':email' => $email, ':pass' => password_hash($pass,PASSWORD_DEFAULT), ':del' => 0, ':login_time' => date('Y-m-d H:i:s'), ':date' => date('Y-m-d H:i:s'));
       } else {
         debug('削除フラグをクリアし、ユーザ情報を復活します');
         //sql作成
@@ -182,23 +178,6 @@ if(!empty($_POST)){
               <?php 
                 if (!empty($err_msg['name'])) {
                   echo $err_msg['name'];
-                }
-              ?>
-            </div>
-
-            <!-- 性別 -->
-            <label class="<?php echo (!empty($err_msg['gender']))? 'err' : '';?>">
-              性別
-              <select name="gender">
-                <option value="">選択してください</option>
-                <option value="0" <?php echo (!empty($_POST['gender']) && $_POST['gender'] === '0')? 'selected' : '1'; ?>>男性</option>
-                <option value="1" <?php echo (!empty($_POST['gender']) && $_POST['gender'] === '1')? 'selected' : '1'; ?>>女性</option>
-              </select>
-            </label>
-            <div class="area-msg">
-              <?php 
-                if (!empty($err_msg['gender'])) {
-                  echo $err_msg['gender'];
                 }
               ?>
             </div>
