@@ -23,7 +23,6 @@ if (!empty($_POST)) {
   //-------------------
   $username = $_POST['name'];
 
-  $age = $_POST['age'];
   $email = $_POST['email'];
 
   //-------------------
@@ -46,14 +45,6 @@ if (!empty($_POST)) {
     validMax($username, 'name', MAX_NAME);
   }
 
-  //年齢
-  if ($age !== $dbFormData['age']) {
-    //数字チェック
-    validNum($age, 'age');
-    //不正入力チェック
-    validAge($age, 'age');
-  }
-
   //Eメール
   if($email !== $dbFormData['email']) {
     //最大文字数チェック
@@ -73,10 +64,10 @@ if (!empty($_POST)) {
       //dbセット
       $dbh = dbConnect();
       //sql作成
-      $sql = 'UPDATE users SET name = :name, age = :age, email = :email, pic = :pic
+      $sql = 'UPDATE users SET name = :name, email = :email, pic = :pic
               WHERE id = :u_id';
       //dataセット
-      $data = array(':name' => $username, ':age' => $age, ':email' => $email, ':pic' => $pic, ':u_id' => $_SESSION['user_id']);
+      $data = array(':name' => $username, ':email' => $email, ':pic' => $pic, ':u_id' => $_SESSION['user_id']);
       //sql実行
       $stmt = queryPost($dbh, $sql, $data);
 
@@ -149,17 +140,7 @@ if (!empty($_POST)) {
             <div class="area-msg">
                 <?php if(!empty($err_msg['name'])) echo $err_msg['name']; ?>
             </div>
-            
-            
-            <!-- 年齢 -->
-            <label style="text-align:left;" class="<?php if(!empty($err_msg['age'])) echo 'err'; ?>">
-              年齢
-                <input type="number" name="age" value="<?php echo getFormData('age'); ?>">
-            </label>
-            <div class="area-msg">
-                <?php if(!empty($err_msg['age'])) echo $err_msg['age']; ?>
-            </div>
-            
+                        
             <!-- email -->
             <label class="<?php if(!empty($err_msg['email'])) echo 'err'; ?>">
                 Email
