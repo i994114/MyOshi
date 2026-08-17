@@ -1311,6 +1311,36 @@ function getMybordMessage($u_id) {
     $err_msg['common'] = ERR_SYSTEM;
   }
  }
+
+//--------------------------
+//自分が参加したイベント情報の取得
+//--------------------------
+function getMyParticipatingEventList($u_id) {
+  debug('自分が参加したイベント情報を取得します');
+
+  try {
+    //db接続
+    $dbh = dbConnect();
+    //sql作成
+    $sql = 'SELECT e.id, e.name, e.pic1 FROM events as e INNER JOIN event_participants as ep ON e.id = ep.event_id WHERE ep.user_id = :u_id';
+    //dataセット
+    $data = array(':u_id' => $u_id);
+    //sql実行
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if ($stmt) {
+      debug('自分が参加したイベント情報取得OK');
+      return $stmt->fetchALL();
+    } else {
+      debug('自分が参加したイベント情報取得NG');
+      return false;
+    }
+  } catch (Exception $e) {
+    error_log('エラーが発生しました' . $e->getMessage());
+    global $err_msg;
+    $err_msg['common'] = ERR_SYSTEM;
+  }
+}
 //-------------------
 //お気に入り機能(取得:すべて)
 //-------------------

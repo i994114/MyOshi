@@ -10,6 +10,10 @@ debugLogStart();
 //認証処理
 require('auth.php');
 
+//自分が参加中のイベント情報取得
+$participatingEventInfo = getMyParticipatingEventList($_SESSION['user_id']);
+//debug('自分が参加中のイベント情報取得:' . print_r($myEventInfo,true));
+
 //自分のお気に入り情報取得
 $likeInfo = getLikeInfo($_SESSION['user_id']);
 //debug('取得したお気に入り情報:' . print_r($likeInfo,true));
@@ -51,6 +55,28 @@ $bordInfo = getMybordMessage($_SESSION['user_id']);
 
       <!-- Main -->
       <section id="main" >
+         <section class="list panel-list">
+           <h2 class="title"><?php echo  '参加した' . APL_SUBJECT . '一覧' ?></h2>
+           <?php 
+            if (!empty($participatingEventInfo)) {
+              foreach ($participatingEventInfo as $key => $val) {
+           ?>
+              <a href="registEvent.php?e_id=<?php echo sanitize($val['id']); ?>" class="panel">
+                <div class="panel-head">
+                  <img src="<?php echo  showImg(sanitize($val['pic1'])); ?>" alt="<?php  echo sanitize($val['name']); ?>">
+                </div>
+                <div class="panel-body">
+                  <p class="panel-title"><?php echo sanitize($val['name']); ?></p>
+                </div>
+              </a>
+           <?php
+              }
+            } else {
+              echo '登録した推し情報はまだありません';
+            }
+           ?>
+         </section>
+
          <section class="list panel-list">
            <h2 class="title"><?php echo  '登録した' . APL_SUBJECT . '一覧' ?></h2>
            <?php 
