@@ -101,7 +101,7 @@ define('SUCCESS_PASSWORD_CHANGE', 'パスワードを変更しました');
 define('SUCCESS_MAIL_SEND', 'メールを送信しました。メールに書かれたパスワードでログインしてください');
 define('SUCCESS_EVENT_REGISTER', APL_SUBJECT . 'を登録しました');
 define('SUCCESS_BOARD_MOVE', '掲示板に移動しました。自分の思いをどんどん投稿しよう');
-define('SUCCESS_SIGNUP', 'ユーザ登録しました。推し情報を共有しましょう！');
+define('SUCCESS_SIGNUP', 'ユーザ登録しました。イベント情報を共有しましょう！');
 define('SUCCESS_EVENT_DELETE', APL_SUBJECT . 'を削除しました');
 define('SUCCESS_WITHDRAW', '退会処理完了しました。でもいつでも戻ってきてくださいっ！！');
 define('SUCCESS_USER_UPDATE', 'ユーザ登録情報を変更しました！');
@@ -889,7 +889,7 @@ function isTargetChanged($dbTargetData, $target) {
 }
 
 //-------------------
-//推し情報の取得(単品)
+//イベント情報の取得(単品)
 //-------------------
 function getEventOneInfo($e_id) {
   debug('DBに登録されたイベント情報(単品)を取得');
@@ -993,7 +993,7 @@ function getEventList($list_span = 20, $display_min = 1, $category, $prefecture,
     $stmt = queryPost($dbh, $sql, $data);
 
     if (!$stmt) {
-      debug('すべての推し情報を取り出しNG');
+      debug('すべてのイベント情報を取り出しNG');
       return false;
     }
 
@@ -1010,7 +1010,7 @@ function getEventList($list_span = 20, $display_min = 1, $category, $prefecture,
     $stmt = queryPost($dbh, $sql, $data);
 
     if (!$stmt) {
-      debug('ページネーションの推し情報を取り出しNG');
+      debug('ページネーションのイベント情報を取り出しNG');
       return false;
     }
 
@@ -1031,7 +1031,7 @@ function getEventList($list_span = 20, $display_min = 1, $category, $prefecture,
 }
 
 //-------------------
-//推し情報の取得(単品)
+//イベント情報の取得(単品)
 //-------------------
 function getEventOne($e_id) {
   debug(APL_SUBJECT . '情報の取得(単品)を取得します');
@@ -1067,10 +1067,10 @@ function getEventOne($e_id) {
     $stmt = queryPost($dbh, $sql, $data);
 
     if($stmt) {
-      debug('推し情報の取得(単品) OK');
+      debug('イベント情報の取得(単品) OK');
       return $stmt->fetch(PDO::FETCH_ASSOC);
     } else {
-      debug('推し情報の取得(単品) NG');
+      debug('イベント情報の取得(単品) NG');
       $err_msg['common'] = ERR_SYSTEM;
       return false;
     }
@@ -1281,7 +1281,7 @@ function getMessageInfo($b_id) {
 }
 
 //----------------------------------
-//自分がアップした推し情報の最新掲示板情報を取得
+//自分がアップしたイベント情報の最新掲示板情報を取得
 //----------------------------------
 function getMybordMessage($u_id) {
   debug('自分がアップした掲示板の最新情報を取得します');
@@ -1557,7 +1557,7 @@ function againSignUpCalc($u_id) {
   debug('削除したアカウントを再登録した際のデータ復活処置をおこないます');
   debug('対象ユーザID：' . $u_id);
 
-  //再登録したユーザが登録していた推し情報を取得
+  //再登録したユーザが登録していたイベント情報を取得
   $eventInfo = getMyEventList($u_id);
   //再登録したユーザが登録していたメッセージを取得
   $messageInfo = getMybordMessage($u_id);

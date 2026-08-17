@@ -72,7 +72,7 @@ $bordInfo = getMybordMessage($_SESSION['user_id']);
            <?php
               }
             } else {
-              echo '登録した推し情報はまだありません';
+              echo '登録したイベント情報はまだありません';
             }
            ?>
          </section>
@@ -94,7 +94,7 @@ $bordInfo = getMybordMessage($_SESSION['user_id']);
            <?php
               }
             } else {
-              echo '登録した推し情報はまだありません';
+              echo '登録したイベント情報はまだありません';
             }
            ?>
          </section>

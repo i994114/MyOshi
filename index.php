@@ -42,7 +42,7 @@ $display_min = ($now_page -1 ) * $list_span;
 //最後(例:1ページ目なら20,2ページ目なら40,3ページ目なら60)
 $display_max = $display_min - 1 + $list_span;
 
-//推し情報を取得
+//イベント情報を取得
 $event = getEventList($list_span, $display_min, $seach_cate, $search_prefecture, $seach_sort);
 debug('すべての ' . APL_SUBJECT . ' 情報：' . print_r($event, true));
 
