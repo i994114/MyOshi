@@ -155,6 +155,12 @@ nav a:hover {
   width: var(--site-width);
 }
 
+#contents::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
 #main {
   float: left;
   min-height: 600px;
