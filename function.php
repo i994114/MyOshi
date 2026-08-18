@@ -324,6 +324,32 @@ function validTarget($str, $key) {
   }
 }
 
+//イベント登録レート制限(いたずらで大量データ登録防止用)
+function validEventRateLimit($u_id, $key) {
+  global $err_msg;
+
+  try {
+    //db接続
+    $dbh = dbConnect();
+    //sql作成
+    $sql = 'SELECT COUNT(*) as cnt FROM events WHERE user_id = :u_id AND create_date >= DATE_SUB(now(), INTERVAL 10 MINUTE) ';
+    //データセット
+    $data = array(':u_id' => $u_id);
+    //sql実行
+    $stmt = queryPost($dbh, $sql, $data);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    //10分間に5件まで
+    if ((int)$result['cnt'] >= 5) {
+      $err_msg[$key] = '短時間に多数のイベントが登録されています。しばらく時間をおいてください。';
+      debug('短時間に多数のイベントが登録されています。しばらく時間をおいてください');
+    }
+  } catch(Exception $e){
+    error_log('イベント登録レート制限エラー：' . $e->getMessage());
+    $err_msg['common'] = ERR_SYSTEM;
+  }
+}
+
 //-------------------
 //DB接続関連
 //-------------------

@@ -117,6 +117,7 @@ if (!empty($_POST)) {
   debug('$dbの値' . print_r($dbFormData,true));
   
   if (empty($dbFormData)) {   //新規登録のとき
+    validEventRateLimit($_SESSION['user_id'], 'common');
     validEmpty($name, 'name');
     validMax($name, 'name', MAX_EVENT_NAME);
     
@@ -240,6 +241,9 @@ if (!empty($_POST)) {
         if ($edit_flg === true) {
           //新規登録のため、最後に登録したイベントIDを取得
           $event_id = $dbh->lastInsertId();
+  
+          //新規登録時は削除処理がないためtrue
+          $stmt_delete = true;
         } else {
           //編集の場合は、一度、対象イベントIDに紐づくイベント対象情報を削除する
           $sql = 'DELETE FROM event_targets WHERE event_id = :event_id';
