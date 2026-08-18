@@ -14,6 +14,16 @@ if (!empty($_POST)) {
     debug('ajax_ok');
     debug('ポストの値：' . print_r($_POST,true));
 
+    //ボタン連打防止
+    $now = microtime(true);
+
+    if (isset($_SESSION['last_participant_time']) && ($now - $_SESSION['last_participant_time']) < 1) {
+        http_response_code(429);
+        exit();        
+    }
+    //参加/参加取り消しした時間を記録
+    $_SESSION['last_participant_time'] = $now;
+
     $participantCount = isEventParticipants($_POST['eventId'], $_SESSION['user_id']);
     debug($participantCount);
 
