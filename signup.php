@@ -24,9 +24,9 @@ if(!empty($_POST)){
   $pass = $_POST['pass'];
   $pass_re = $_POST['pass_re'];
 
-//-------------------
-//バリデーションチェック
-//-------------------
+  //-------------------
+  //バリデーションチェック
+  //-------------------
   
   //Eメール重複チェック
   validEmailDup($email);
@@ -58,14 +58,15 @@ if(!empty($_POST)){
 
   if (empty($err_msg)) {
     debug('signup.php バリデーションOK');
-    //登録しようとしているユーザ情報が、一度退会したユーザかを判定
+
+    //一度退会したユーザの判定
+    //(登録しようとしているユーザ情報が、一度退会したユーザかを判定)
     //(一度退会したユーザなら前のデータを復活させる)
 
     //全ユーザ情報を取得
     $userInfo = getUserInfo();
-    debug('取得した全ユーザ情報' . print_r($userInfo,true));
+    //debug('取得した全ユーザ情報' . print_r($userInfo,true));
 
-    //一度退会したユーザの判定
     $regAgain = false;
     if (!empty($userInfo)) {
       foreach($userInfo as $key => $val) {
@@ -103,21 +104,27 @@ if(!empty($_POST)){
       if($stmt) {
         debug('ユーザ情報を登録しました');
 
-        //一度削除してからの再登録の際の復活処置
-        againSignUpCalc($u_id);
-
         //ログイン有効時間(デフォルトを1時間とする)
         $login_limit = 60*60;
         //最終ログイン日時を現在日時に
         $_SESSION['login_date'] = time();
         $_SESSION['login_limit'] = $login_limit;
-        //ユーザIDを格納
+
+        //ログインユーザIDを格納
         if (!$regAgain) {
           //新規登録時
           $_SESSION['user_id'] = $dbh->lastInsertId();
+
         } else {
           //削除されたアカウントの復活時
           $_SESSION['user_id'] = $u_id;
+
+          //過去に登録していたイベント・掲示板を復活
+          if (!againSignUpCalc($u_id)) {
+            debug('関連データの復活に失敗しました');
+            $err_msg['common'] = ERR_SYSTEM;
+            return;
+          }
         }
         
         $_SESSION['msg-success'] = SUCCESS_SIGNUP;

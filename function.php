@@ -1557,44 +1557,47 @@ function againSignUpCalc($u_id) {
   debug('削除したアカウントを再登録した際のデータ復活処置をおこないます');
   debug('対象ユーザID：' . $u_id);
 
-  //再登録したユーザが登録していたイベント情報を取得
-  $eventInfo = getMyEventList($u_id);
-  //再登録したユーザが登録していたメッセージを取得
-  $messageInfo = getMybordMessage($u_id);
-  //再登録したユーザが登録していたお気に入りを取得
-  $likeInfo = getLikeInfo($u_id);
-  //再登録したユーザが登録していた掲示板を取得
-  $bordInfo = getMyBordInfo($u_id);
+  $dbh = dbConnect();
 
   try {
-    //db接続
-    $dbh = dbConnect();
-    //sql実行
+    $dbh->beginTransaction();
+
+    //登録していたイベントを復活(※現時点では、過去に自身で削除したイベントも含めてすべて復活させている)
     $sql1 = 'UPDATE events SET delete_flg = 0 WHERE user_id = :u_id';
-    $sql2 = 'UPDATE messages SET delete_flg = 0 WHERE from_user = :u_id';
-    $sql3 = 'UPDATE messages SET delete_flg = 0 WHERE to_user = :u_id';
-    //$sql4 = 'UPDATE favorites SET delete_flg = 0 WHERE user_id = :u_id';
-    $sql5 = 'UPDATE boards SET delete_flg = 0 WHERE user_id = :u_id';
-    //dataセット
+
+    //登録イベントに紐づく掲示板を復活
+    $sql2 = 'UPDATE boards SET delete_flg = 0 WHERE user_id = :u_id';
+
     $data = array(':u_id' => $u_id);
-    //sql実行
+
     $stmt1 = queryPost($dbh, $sql1, $data);
     $stmt2 = queryPost($dbh, $sql2, $data);
-    $stmt3 = queryPost($dbh, $sql3, $data);
-    //$stmt4 = queryPost($dbh, $sql4, $data);
-    $stmt5 = queryPost($dbh, $sql5, $data);
 
-    if ($stmt1 && $stmt2 && $stmt3 && $stmt4 && $stmt5) {
-      debug('削除したアカウントを再登録した際のデータ復活処置OK');
-    } else {
-      debug('削除したアカウントを再登録した際のデータ復活処置NG');
+    if (!$stmt1 || !$stmt2) {
+      throw new Exception('データ復活処理に失敗しました');
     }
+
+    $dbh->commit();
+
+    debug('削除したアカウントを再登録した際のデータ復活処置OK');
+
+    return true;
+
   } catch (Exception $e) {
-    error_log('エラーが発生しました' . $e->getMessage());
+
+    if ($dbh->inTransaction()) {
+      $dbh->rollBack();
+    }
+
+    error_log('データ復活処理エラー：' . $e->getMessage());
+
     global $err_msg;
     $err_msg['common'] = ERR_SYSTEM;
+
+    return false;
   }
 }
+
 //-------------------------------
 //日付を日本語表記に変換する
 //-------------------------------
