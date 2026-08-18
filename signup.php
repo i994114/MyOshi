@@ -157,7 +157,7 @@ if(!empty($_POST)){
     <?php require('header.php'); ?>
 
     <!-- メッセージ表示 -->
-    <p id="js-show-msg" style="display: none;" class="msg-slide">
+    <p id="js-show-msg"  class="msg-slide">
       <?php echo getSessionMessage('msg-success'); ?>
     </p>
 
@@ -204,7 +204,7 @@ if(!empty($_POST)){
 
             <!-- パスワード -->
             <label class="<?php echo (!empty($err_msg['pass']))? 'err' : '';?>">
-              パスワード <span style="font-size:12px">※英数字６文字以上</span>
+              パスワード <span class="form-note">※英数字６文字以上</span>
               <input type="password" name="pass" value="<?php echo (!empty($_POST['pass']))? sanitize($_POST['pass']) : 'aaaa1111'; ?>">
             </label>
             <div class="area-msg">

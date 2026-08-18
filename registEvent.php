@@ -305,7 +305,7 @@ if (!empty($_POST)) {
       <!-- Main -->
       <section id="main" >
         <div class="form-container">
-          <form action="" class="form"method="post" enctype="multipart/form-data" style="width: 100%; box-sizing: border-box;">
+          <form action="" class="form form-event" method="post" enctype="multipart/form-data">
             <div class="area-msg">
               <?php getErrInfo('common'); ?>
             </div>

@@ -81,7 +81,7 @@ require('head.php');
 ?>
   <body class="page-msg page-1colum">
     <!-- メッセージ表示 -->
-    <div id="js-show-msg" style="display: none;" class="msg-slide">
+    <div id="js-show-msg"  class="msg-slide">
       <?php  echo getSessionMessage('msg-success'); ?>
     </div>
 
@@ -174,7 +174,7 @@ require('head.php');
 
         <form action="" method="post">
             <div class="area-send-msg">
-              <div class="area-msg" style="padding-bottom: 0px;">
+              <div class="area-msg">
                 <?php echo getErrInfo('message');  ?>
               </div>
               <textarea name="message" id="" cols="30" rows="3"><?php echo getFormData('message'); ?></textarea>

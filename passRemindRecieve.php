@@ -109,7 +109,7 @@ if (!empty($_POST)) {
 ?>
   <body class="page-signup page-1colum">
     <!-- メッセージ表示 -->
-    <div id="js-show-msg" style="display: none;" class="msg-slide">
+    <div id="js-show-msg"  class="msg-slide">
       <?php echo getSessionMessage('msg-success'); ?>
     </div>
 

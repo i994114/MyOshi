@@ -44,7 +44,7 @@ $bordInfo = getMybordMessage($_SESSION['user_id']);
     <?php require('header.php'); ?>
 
     <!-- メッセージ表示 -->
-    <p id="js-show-msg" style="display: none;" class="msg-slide">
+    <p id="js-show-msg"  class="msg-slide">
       <?php echo getSessionMessage('msg-success'); ?>
     </p>
 

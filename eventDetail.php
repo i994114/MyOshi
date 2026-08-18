@@ -201,7 +201,7 @@ require('head.php');
           </div>
           <form action="" method="post">
             <div class="item-right">
-              <input type="button" name="submit" class="btn btn-primary js-click-event-participant" value="<?php  echo isEventParticipants($event_data['id'], $_SESSION['user_id']) ? '参加取消' : '参加する';  ?>" data-eventid = <?php echo $event_data['id']; ?> style="margin-top: 0px;">
+              <input type="button" name="submit" class="btn btn-primary js-click-event-participant" value="<?php  echo isEventParticipants($event_data['id'], $_SESSION['user_id']) ? '参加取消' : '参加する';  ?>" data-eventid = <?php echo $event_data['id']; ?>>
               <a href="msg.php?b_id=<?php echo $bord_data['id']; ?>&e_id=<?php echo $event_data['id']; ?>" class="btn btn-primary">
                 掲示板でコメントを見る(<?php echo $message_count; ?>件)
               </a>
