@@ -17,9 +17,38 @@ $p = (!empty($_GET['p']))? $_GET['p'] : '';
 $category_id = (!empty($_GET['category_id']))? $_GET['category_id'] : '';
 $sort = (!empty($_GET['sort']))? $_GET['sort'] : '';
 
-//選択された情報を取得
+//----------------------
+//イベント情報取得
+//----------------------
 $event_data = getEventOne($e_id);
-debug('取得した情報：' . print_r($event_data,true));
+debug('取得した情報：' . print_r($event_data, true));
+
+//不正なアクセスでないか判定
+if (empty($event_data)) {
+  debug('不正なURLです。情報一覧に戻ります');
+
+  header('Location:index.php');
+  exit();
+}
+
+//----------------------
+//掲示板情報取得
+//----------------------
+$bord_data = getBordInfo($e_id);
+//debug('掲示板情報：' . print_r($bord_data, true));
+
+//イベント作成時に掲示板も作成される仕様のため、
+//掲示板が存在しない場合はシステム上の異常として扱う
+if (empty($bord_data)) {
+  debug('当該イベントの掲示板情報が存在しません');
+
+  header('Location:index.php');
+  exit();
+}
+
+//----------------------
+//その他表示用データ取得
+//----------------------
 
 //当該イベント登録者情報の取得
 $user_data = getUserInfoOne($event_data['user_id']);
@@ -39,92 +68,11 @@ $target = getEventTarget($e_id);
 //対象データを取得
 $target_data = getTarget();
 
-//不正なアクセスでないか判定
-if (empty($event_data)) {
-  debug('不正なURLです。情報一覧に戻ります');
-  $err_msg['common'] = ERR_SYSTEM;
-
-  header('Location:index.php');
-  exit();
-}
-
 //情報一覧画面に戻る際のURL(Getデータ)
 $str = appendGetParam(array('e_id'));
 //先頭の&を削除
 $str = mb_substr($str, 1);
-debug('生成したGetパラメータ部分のURL：' . $str);
-
-if (!empty($_POST)) {
-  debug('ポスト送信あり');
-
-  //db接続
-  $dbh = dbConnect();
-
-  try {
-    $dbh->beginTransaction();
-
-    //-------------
-    //参加テーブル作成
-    //-------------
-    //sql作成
-    $sql = 'INSERT INTO event_participants (event_id, user_id, create_date, update_date)
-            VALUES(:event_id, :user_id, :create_date, :update_date)';
-    //dataセット
-    $data = array(':event_id' => $e_id, ':user_id' => $_SESSION['user_id'], ':create_date' => date('Y-m-d H:i:s'), ':update_date' => date('Y-m-d H:i:s'));
-    //sql実行
-    $stmt1 = queryPost($dbh, $sql, $data);
-
-    //-------------
-    //掲示板テーブル作成
-    //-------------
-    //当該情報の掲示板がすでにあるか
-    $bord_data = getBordInfo($e_id);
-    debug('掲示板情報：' . print_r($bord_data,true));
-
-    if (empty($bord_data)) {
-      debug('掲示板がないので新規作成します');
-
-      //sql作成
-      $sql = 'INSERT INTO boards (user_id, event_id, create_date, update_date) VALUES (:u_id, :e_id, :create_date, :update_date)';
-      //dataセット
-      $data = array(':u_id' => $event_data['user_id'], ':e_id' => $e_id, ':create_date' => date('Y-m-d H:i:s'), ':update_date' => date('Y-m-d H:i:s'));
-      $stmt2 = queryPost($dbh, $sql, $data);
-  
-      if($stmt2) {
-        debug('掲示板新規作成OK');
-      } else {
-        debug('掲示板新規作成NG');
-        $err_msg['common'] = ERR_SYSTEM;
-      }
-
-    } else {
-      debug('掲示板はすでにあります');
-      $stmt2 = true;
-    }
-
-    if (!$stmt1 || !$stmt2) {
-      throw new Exception('イベント登録処理に失敗しました');
-    }
-
-    //全部成功したら確定
-    $dbh->commit();
-
-  } catch(Exception $e) {
-    
-    //参加テーブル、掲示板テーブルいずれか作成失敗の場合は両方元に戻す
-    if ($dbh->inTransaction()) {
-        $dbh->rollBack();
-    }
-    error_log('エラーが発生しました' . $e->getMessage());
-    $err_msg['common'] = ERR_SYSTEM;
-  }
-  //メッセージを格納
-  $_SESSION['msg-success'] = SUCCESS_BOARD_MOVE;
-
-  //掲示板へ移動
-  header('Location:msg.php?b_id='.$bord_data['id'].'&e_id='.$e_id);
-  exit();
-}
+//debug('生成したGetパラメータ部分のURL：' . $str);
 
 ?>
 
@@ -199,14 +147,12 @@ require('head.php');
           <div class="item-left">
             <a href="index.php?<?php echo $str; ?>">&lt; 情報一覧に戻る</a>
           </div>
-          <form action="" method="post">
-            <div class="item-right">
-              <input type="button" name="submit" class="btn btn-primary js-click-event-participant" value="<?php  echo isEventParticipants($event_data['id'], $_SESSION['user_id']) ? '参加取消' : '参加する';  ?>" data-eventid = <?php echo $event_data['id']; ?>>
-              <a href="msg.php?b_id=<?php echo $bord_data['id']; ?>&e_id=<?php echo $event_data['id']; ?>" class="btn btn-primary">
-                掲示板でコメントを見る(<?php echo $message_count; ?>件)
-              </a>
-            </div>
-          </form>
+          <div class="item-right">
+            <input type="button" class="btn btn-primary js-click-event-participant" value="<?php  echo isEventParticipants($event_data['id'], $_SESSION['user_id']) ? '参加取消' : '参加する';  ?>" data-eventid = <?php echo $event_data['id']; ?>>
+            <a href="msg.php?b_id=<?php echo $bord_data['id']; ?>&e_id=<?php echo $event_data['id']; ?>" class="btn btn-primary">
+              掲示板でコメントを見る(<?php echo $message_count; ?>件)
+            </a>
+          </div>
         </div>
       </section>
     </div>
