@@ -4,7 +4,7 @@
 
 <header>
   <div class="site-width">
-    <h1><a href="index.php"><?php echo APL_NAME.APL_SUBNAME; ?></a></h1>
+    <h1><a href="index.php"><img src="uploads/logo.png" alt="KENYU（剣友）"></a></h1>
     <nav id="top-nav">
       <ul>
         <?php
@@ -15,9 +15,11 @@
         <?php
           } else {
         ?>
+            <img src="<?php echo showImg(sanitize($user['pic'])); ?>" class="header-user-icon">
+            <span class="header-user-name"><?php echo sanitize($user['name']); ?></span>
             <li><a href="mypage.php">マイページ</a></li>
             <li><a href="logout.php">ログアウト</a></li>
-            <p><?php echo $user['name']?></p>
+
         <?php
           }
         ?>
