@@ -1627,3 +1627,55 @@ function timeFormat($start, $end) {
 
 }
 
+//----------
+//退会時処理
+//----------
+function withdrawUser($u_id) {
+
+  $dbh = dbConnect();
+
+  try {
+    $dbh->beginTransaction();
+
+    //ユーザー本人を論理削除
+    $sql1 = 'UPDATE users SET delete_flg = 1 WHERE id = :user_id';
+
+    //そのユーザーが登録したイベントを論理削除
+    $sql2 = 'UPDATE events SET delete_flg = 1 WHERE user_id = :user_id';
+
+    //そのユーザーの参加情報を物理削除
+    $sql3 = 'DELETE FROM event_participants WHERE user_id = :user_id';
+
+    //そのユーザーのお気に入りを物理削除
+    $sql4 = 'DELETE FROM favorites WHERE user_id = :user_id';
+
+    //そのユーザーが所有する掲示板を論理削除
+    $sql5 = 'UPDATE boards SET delete_flg = 1 WHERE user_id = :user_id';
+
+    $data = array(':user_id' => $u_id);
+
+    $stmt1 = queryPost($dbh, $sql1, $data);
+    $stmt2 = queryPost($dbh, $sql2, $data);
+    $stmt3 = queryPost($dbh, $sql3, $data);
+    $stmt4 = queryPost($dbh, $sql4, $data);
+    $stmt5 = queryPost($dbh, $sql5, $data);
+
+    if (!$stmt1 || !$stmt2 || !$stmt3 || !$stmt4 || !$stmt5) {
+      throw new Exception('退会処理に失敗しました');
+    }
+
+    $dbh->commit();
+
+    return true;
+
+  } catch (Exception $e) {
+
+    if ($dbh->inTransaction()) {
+      $dbh->rollBack();
+    }
+
+    error_log('退会処理エラー：' . $e->getMessage());
+
+    return false;
+  }
+}
