@@ -25,36 +25,22 @@ if (!empty($_POST)) {
     //----------------------
     //削除処理
     //----------------------
-    try {
-      //db接続
-      $dbh = dbConnect();
+    $result = withdrawUser($_SESSION['user_id']);
 
-      //sql作成
-      $sql = 'UPDATE users SET delete_flg = 1 WHERE id = :u_id';
-      $data = array(':u_id' => $_SESSION['user_id']);
+    if ($result) {
+      debug('削除に成功しました');
 
-      //sql実行
-      $stmt = queryPost($dbh, $sql, $data);
+      //セッション削除
+      session_destroy();
 
-      if ($stmt) {
-        debug('削除に成功しました');
+      //削除のフラッシュメッセージ
+      $_SESSION['msg-success'] = SUCCESS_WITHDRAW;
 
-        //セッション削除
-        session_destroy();
-        $_SESSION = array();
-
-        //削除のフラッシュメッセージ
-        $_SESSION['msg-success'] = SUCCESS_WITHDRAW;
-
-        //トップ画面へ遷移
-        header('Location:top.php');
-        exit();
-      } else {
-        debug('削除に失敗しました');
-        $err_msg['common'] = ERR_SYSTEM;
-      }
-    } catch(Exception $e) {
-      error_log('エラーが発生しました' . $e->getMessage());
+      //トップ画面へ遷移
+      header('Location:top.php');
+      exit();
+    } else {
+      debug('削除に失敗しました');
       $err_msg['common'] = ERR_SYSTEM;
     }
   }
