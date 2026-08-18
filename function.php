@@ -1631,6 +1631,7 @@ function timeFormat($start, $end) {
 //退会時処理
 //----------
 function withdrawUser($u_id) {
+  debug('ユーザ退会にともなう各種データの削除処理をおこないます');
 
   $dbh = dbConnect();
 
@@ -1661,6 +1662,56 @@ function withdrawUser($u_id) {
     $stmt5 = queryPost($dbh, $sql5, $data);
 
     if (!$stmt1 || !$stmt2 || !$stmt3 || !$stmt4 || !$stmt5) {
+      throw new Exception('退会処理に失敗しました');
+    }
+
+    $dbh->commit();
+
+    return true;
+
+  } catch (Exception $e) {
+
+    if ($dbh->inTransaction()) {
+      $dbh->rollBack();
+    }
+
+    error_log('退会処理エラー：' . $e->getMessage());
+
+    return false;
+  }
+}
+
+//---------------
+//イベント削除時処理
+//---------------
+function withdrawEvent($e_id) {
+  debug('イベント削除にともなう各種データの削除処理をおこないます');
+
+  $dbh = dbConnect();
+
+  try {
+    $dbh->beginTransaction();
+
+    //イベントを論理削除
+    $sql1 = 'UPDATE events SET delete_flg = 1 WHERE id = :e_id';
+
+    //そのイベントの参加情報を物理削除
+    $sql2 = 'DELETE FROM event_participants WHERE event_id = :e_id';
+
+    //そのイベントのお気に入りを物理削除
+    $sql3 = 'DELETE FROM favorites WHERE event_id = :e_id';
+
+    //そのイベントが所有する掲示板を論理削除
+    $sql4 = 'UPDATE boards SET delete_flg = 1 WHERE event_id = :e_id';
+
+    $data = array(':e_id' => $e_id);
+
+    $stmt1 = queryPost($dbh, $sql1, $data);
+    $stmt2 = queryPost($dbh, $sql2, $data);
+    $stmt3 = queryPost($dbh, $sql3, $data);
+    $stmt4 = queryPost($dbh, $sql4, $data);
+
+    if (!$stmt1 || !$stmt2 || !$stmt3 || !$stmt4) {
       throw new Exception('退会処理に失敗しました');
     }
 

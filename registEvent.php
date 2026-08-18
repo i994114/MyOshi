@@ -61,17 +61,9 @@ if (!empty($_POST)) {
     //削除処理
     //----------------------
     try {
-      //db接続
-      $dbh = dbConnect();
+      $result = withdrawEvent($e_id);
 
-      //sql作成
-      $sql = 'UPDATE events SET delete_flg = 1 WHERE id = :e_id';
-      $data = array(':e_id' => $e_id);
-
-      //sql実行
-      $stmt = queryPost($dbh, $sql, $data);
-
-      if ($stmt) {
+      if ($result) {
         debug('削除に成功しました');
         $_SESSION['msg-success'] = SUCCESS_EVENT_DELETE;
 
