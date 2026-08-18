@@ -55,7 +55,7 @@ if (!empty($_POST)) {
   //画像情報の取得
   //-------------------
   debug('$_FILESの値：' . print_r($_FILES,true));
-  $pic = (!empty($_FILES['pic']['name']))? uploadImg($_FILES['pic'],'pic') : 'img/00016.jpg';
+  $pic = (!empty($_FILES['pic']['name']))? uploadImg($_FILES['pic'],'pic') : DEFAULT_USER_ICON;
   $pic = (empty($_FILES['pic']['name']) && !empty($dbFormData['pic']))? $dbFormData['pic'] : $pic;
 
   //-------------------------------------------------

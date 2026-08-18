@@ -73,6 +73,10 @@ define('APL_SUBJECT','イベント'); //サイトコンセプトが変わって�
 //デバッグ用
 define('DEBUG_MODE', true); //デバッグモード（ログインとか毎回入力がめんどくさいのであらかじめ設定）
 
+//画像ファイルパス
+define('DEFAULT_USER_ICON', 'img/00016.jpg');
+define('HEADER_ICON', 'img/logo.png'); 
+
 //エラーメッセージを定数に設定
 define('ERR_REQUIRED','入力必須です');
 define('ERR_EMAIL_FORMAT', 'Emailの形式で入力してください');

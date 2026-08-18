@@ -4,7 +4,7 @@
 
 <header>
   <div class="site-width">
-    <h1><a href="index.php"><img src="uploads/logo.png" alt="KENYU（剣友）"></a></h1>
+    <h1><a href="index.php"><img src="<?php echo HEADER_ICON; ?>" alt="KENYU（剣友）"></a></h1>
     <nav id="top-nav">
       <ul>
         <?php
