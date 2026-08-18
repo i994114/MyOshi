@@ -203,91 +203,131 @@ if (!empty($_POST)) {
   if (empty($err_msg)) {
     debug('バリデーションOK');
 
+    //db接続
+    $dbh = dbConnect();
 
-      try {
-        //db接続
-        $dbh = dbConnect();
+    try {
+      //トランザクション開始
+      $dbh->beginTransaction();
 
-        if ($edit_flg === true) {
-          //---------
-          //新規登録
-          //---------
-          debug('DBに新規登録します');
+      //----------------------
+      //イベント情報登録・編集
+      //----------------------
+      if ($edit_flg === true) {
+        //---------
+        //新規登録
+        //---------
+        debug('DBに新規登録します');
 
-          //sql作成
-          $sql = 'INSERT INTO events (name, category_id, prefecture_id, event_date, start_time, end_time, description, pic1, pic2, pic3, user_id, create_date, update_date)
-                  VALUES(:name, :category_id, :prefecture_id, :event_date, :start_time, :end_time, :description, :pic1, :pic2, :pic3, :user_id, :create_date, :update_date)';
-          //dataセット
-          $data = array(':name' => $name, ':category_id' => $category_id, ':prefecture_id' => $prefecture_id, ':event_date' => $event_date, ':start_time' => $start_time, ':end_time' => $end_time, ':description' => $description, ':pic1' => $pic1, ':pic2' => $pic2, ':pic3' => $pic3,
-                        ':user_id' => $_SESSION['user_id'], ':create_date' => date('Y-m-d H:i:s'), ':update_date' => date('Y-m-d H:i:s'));
-            
-        } else {
-          //--------
-          //編集
-          //--------
-          debug('DBの内容を変更します');
-
-          //sql作成
-          $sql = 'UPDATE events SET name = :name, category_id = :category_id, prefecture_id = :prefecture_id, event_date = :event_date, start_time = :start_time, end_time = :end_time, description = :description, pic1 = :pic1, pic2 = :pic2, pic3 = :pic3, user_id = :u_id, update_date = :date WHERE id = :e_id';
-          //dataセット
-          $data = array(':name' => $name, ':category_id' => $category_id, ':prefecture_id' => $prefecture_id, ':event_date' => $event_date, ':start_time' => $start_time, ':end_time' => $end_time, ':description' => $description, ':pic1' => $pic1, ':pic2' => $pic2, ':pic3' => $pic3, ':u_id' => $_SESSION['user_id'], ':date' => date('Y-m-d H:i:s'), ':e_id' => $e_id);
-        }
+        //sql作成
+        $sql = 'INSERT INTO events (name, category_id, prefecture_id, event_date, start_time, end_time, description, pic1, pic2, pic3, user_id, create_date, update_date)
+                VALUES(:name, :category_id, :prefecture_id, :event_date, :start_time, :end_time, :description, :pic1, :pic2, :pic3, :user_id, :create_date, :update_date)';
+        //dataセット
+        $data = array(':name' => $name, ':category_id' => $category_id, ':prefecture_id' => $prefecture_id, ':event_date' => $event_date, ':start_time' => $start_time, ':end_time' => $end_time, ':description' => $description, ':pic1' => $pic1, ':pic2' => $pic2, ':pic3' => $pic3,
+                      ':user_id' => $_SESSION['user_id'], ':create_date' => date('Y-m-d H:i:s'), ':update_date' => date('Y-m-d H:i:s'));
         //sql実行
-        $stmt1 = queryPost($dbh, $sql, $data);
+        $stmt_event = queryPost($dbh, $sql, $data);
 
-        //------------------
-        //イベント対象情報を登録
-        //------------------
-        if ($edit_flg === true) {
-          //新規登録のため、最後に登録したイベントIDを取得
-          $event_id = $dbh->lastInsertId();
-  
-          //新規登録時は削除処理がないためtrue
-          $stmt_delete = true;
-        } else {
-          //編集の場合は、一度、対象イベントIDに紐づくイベント対象情報を削除する
-          $sql = 'DELETE FROM event_targets WHERE event_id = :event_id';
-          $data = array(':event_id' => $e_id);
-          $stmt_delete = queryPost($dbh, $sql, $data);
-
-          //編集のため、対象イベントIDはGETパラメータから取得
-          $event_id = $e_id;
+        if (!$stmt_event) {
+          throw new Exception('イベント情報の新規登録に失敗しました');
         }
 
-        if (!$stmt_delete) {
-          $stmt2 = false;
-        } else {
-          $stmt2 = true;
-          foreach($target as $val) {
-            debug('foreach開始 target=' . $val);
-            $sql = 'INSERT INTO event_targets (event_id, target_id) VALUES (:event_id, :target_id)';
-            $data = array(':event_id' => $event_id, ':target_id' => $val);
+        //新規登録したイベントIDを取得
+        $event_id = $dbh->lastInsertId();
 
-            //sql実行
-            $stmt2 = queryPost($dbh, $sql, $data);
+        //-------------------------------------------
+        //イベント作成にともない、当該イベント用の掲示板を作成
+        //-------------------------------------------
+        //sql作成
+        $sql = 'INSERT INTO boards (user_id, event_id, create_date, update_date) VALUES (:u_id, :e_id, :create_date, :update_date)';
+        //dataセット
+        $data = array(':u_id' => $_SESSION['user_id'], ':e_id' => $event_id, ':create_date' => date('Y-m-d H:i:s'), ':update_date' => date('Y-m-d H:i:s'));
+        //sql実行
+        $stmt_board = queryPost($dbh, $sql, $data);
+    
+        if (!$stmt_board) {
+          throw new Exception('掲示板の新規作成に失敗しました');
+        }
 
-            if (!$stmt2) {
-              debug('イベント対象情報の登録に失敗しました');
-              break;
-            }
+        debug('掲示板新規作成OK');
+
+      } else {
+        //--------
+        //編集
+        //--------
+        debug('DBの内容を変更します');
+
+        //sql作成
+        $sql = 'UPDATE events SET name = :name, category_id = :category_id, prefecture_id = :prefecture_id, event_date = :event_date, start_time = :start_time, end_time = :end_time, description = :description, pic1 = :pic1, pic2 = :pic2, pic3 = :pic3, user_id = :u_id, update_date = :date WHERE id = :e_id';
+        //dataセット
+        $data = array(':name' => $name, ':category_id' => $category_id, ':prefecture_id' => $prefecture_id, ':event_date' => $event_date, ':start_time' => $start_time, ':end_time' => $end_time, ':description' => $description, ':pic1' => $pic1, ':pic2' => $pic2, ':pic3' => $pic3, ':u_id' => $_SESSION['user_id'], ':date' => date('Y-m-d H:i:s'), ':e_id' => $e_id);
+        //sql実行
+        $stmt_event = queryPost($dbh, $sql, $data);
+
+        if (!$stmt_event) {
+          throw new Exception('既存のイベント対象情報の削除に失敗しました');
+        }
+      }
+
+      //------------------
+      //イベント対象情報を登録
+      //------------------
+      if ($edit_flg === true) {
+        //新規登録のため、最後に登録したイベントIDを取得
+        $event_id = $dbh->lastInsertId();
+
+        //新規登録時は削除処理がないためtrue
+        $stmt_delete = true;
+      } else {
+        //編集の場合は、一度、対象イベントIDに紐づくイベント対象情報を削除する
+        $sql = 'DELETE FROM event_targets WHERE event_id = :event_id';
+        $data = array(':event_id' => $e_id);
+        $stmt_delete = queryPost($dbh, $sql, $data);
+
+        //編集のため、対象イベントIDはGETパラメータから取得
+        $event_id = $e_id;
+      }
+
+      if (!$stmt_delete) {
+        $stmt_target = false;
+      } else {
+        $stmt_target = true;
+        foreach($target as $val) {
+          debug('foreach開始 target=' . $val);
+          $sql = 'INSERT INTO event_targets (event_id, target_id) VALUES (:event_id, :target_id)';
+          $data = array(':event_id' => $event_id, ':target_id' => $val);
+
+          //sql実行
+          $stmt_target = queryPost($dbh, $sql, $data);
+
+          if (!$stmt_target) {
+            throw new Exception('イベント対象情報の登録に失敗しました');
           }
         }
-
-        if ($stmt1 && $stmt2) {
-          debug('イベント情報の登録OK');
-          $_SESSION['msg-success'] = SUCCESS_EVENT_REGISTER;
-
-          //マイページへ遷移
-          header('Location:mypage.php');
-          exit();
-        } else {
-          debug('イベント情報の登録NG');
-          $err_msg['common'] = ERR_SYSTEM;
-        }
-      } catch(Exception $e) {
-        error_log('エラーが発生しました' . $e->getMessage());
-        $err_msg['common'] = ERR_SYSTEM;
       }
+
+      //----------------------
+      //すべて成功したら確定
+      //----------------------
+      $dbh->commit();
+
+      debug('イベント情報・対象情報・掲示板のDB登録OK');
+
+      $_SESSION['msg-success'] = SUCCESS_EVENT_REGISTER;
+
+      //マイページへ遷移
+      header('Location:mypage.php');
+      exit();
+
+    } catch(Exception $e) {
+      //途中で1つでも失敗した場合はすべて元に戻す
+      if ($dbh->inTransaction()) {
+        $dbh->rollBack();
+      }
+
+      error_log('イベント登録・編集処理でエラーが発生しました：' . $e->getMessage());
+      $err_msg['common'] = ERR_SYSTEM;
+    }
   }
 }
 
