@@ -732,3 +732,43 @@ INSERT INTO favorites (
 (1, 1, 2, NOW()),
 (2, 2, 1, NOW());
 
+-- ===================================
+-- event_participants
+-- ===================================
+
+INSERT INTO event_participants (
+    event_id,
+    user_id,
+    create_date,
+    update_date
+) VALUES
+(1, 2, NOW(), NOW()),
+(1, 3, NOW(), NOW()),
+(1, 4, NOW(), NOW()),
+(2, 1, NOW(), NOW()),
+(2, 5, NOW(), NOW()),
+(3, 6, NOW(), NOW()),
+(3, 7, NOW(), NOW()),
+(4, 8, NOW(), NOW()),
+(4, 9, NOW(), NOW()),
+(5, 10, NOW(), NOW()),
+(6, 1, NOW(), NOW()),
+(6, 2, NOW(), NOW()),
+(6, 3, NOW(), NOW()),
+(7, 4, NOW(), NOW()),
+(7, 5, NOW(), NOW()),
+(8, 6, NOW(), NOW()),
+(9, 7, NOW(), NOW()),
+(10, 8, NOW(), NOW()),
+(11, 9, NOW(), NOW()),
+(12, 10, NOW(), NOW()),
+(13, 11, NOW(), NOW()),
+(14, 12, NOW(), NOW()),
+(16, 1, NOW(), NOW()),
+(16, 5, NOW(), NOW()),
+(17, 2, NOW(), NOW()),
+(18, 3, NOW(), NOW()),
+(21, 4, NOW(), NOW()),
+(22, 5, NOW(), NOW()),
+(26, 6, NOW(), NOW()),
+(31, 8, NOW(), NOW());
