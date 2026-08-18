@@ -350,6 +350,36 @@ function validEventRateLimit($u_id, $key) {
   }
 }
 
+//メッセージ投稿レート制限(いたずらで大量データ投稿防止用)
+function validMessageRateLimit($u_id, $key) {
+  global $err_msg;
+
+  try {
+    //db接続
+    $dbh = dbConnect();
+
+    //sql作成
+    $sql = 'SELECT COUNT(*) AS cnt FROM messages WHERE from_user = :u_id AND create_date >= DATE_SUB(NOW(), INTERVAL 1 MINUTE)';
+
+    //データセット
+    $data = array(':u_id' => $u_id);
+
+    //sql実行
+    $stmt = queryPost($dbh, $sql, $data);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    debug('直近1分間のメッセージ投稿数：' . $result['cnt']);
+    //1分間に10件まで
+    if ((int)$result['cnt'] >= 10) {
+      $err_msg[$key] = '短時間に多数のメッセージが投稿されています。しばらく時間をおいてください。';
+      debug('短時間に多数のメッセージが投稿されています。しばらく時間をおいてください');
+    }
+
+  } catch(Exception $e) {
+    error_log('メッセージ投稿レート制限エラー：' . $e->getMessage());
+    $err_msg['common'] = ERR_SYSTEM;
+  }
+}
+
 //-------------------
 //DB接続関連
 //-------------------

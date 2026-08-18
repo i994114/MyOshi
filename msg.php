@@ -37,6 +37,7 @@ if(!empty($_POST)) {
   $message = $_POST['message'];
   
   //バリデーションチェック
+  validMessageRateLimit($_SESSION['user_id'], 'message');
   validMax($message,'message', MAX_DESCRIPTION);
   validEmpty($message,'message');
 
