@@ -183,15 +183,6 @@ require('head.php');
             </div>
         </form>
       </section>
-      
-      <script src="js/vendor/jquery-2.2.2.min.js"></script>
-      
-      <script>
-        $(function(){
-          $('#js-scroll-bottom').animate({scrollTop: $('#js-scroll-bottom')[0].scrollHeight}, 'fast');
-        });
-      </script>
-
     </div>
 
     <!-- footer -->
