@@ -1,5 +1,9 @@
 <?php 
-  $user = getUserInfoOne($_SESSION['user_id']);
+  $user = array();
+
+  if (!empty($_SESSION['user_id'])) {
+    $user = getUserInfoOne($_SESSION['user_id']);
+  }
 ?>
 
 <header>
