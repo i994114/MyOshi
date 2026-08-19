@@ -113,6 +113,14 @@ CREATE TABLE prefectures (
     PRIMARY KEY (id)
 );
 
+/* スクリプトなどで大量ユーザ登録を防ぐためにIPアドレスを保持するためのテーブル */
+CREATE TABLE signup_logs (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    ip_address VARCHAR(45) NOT NULL,
+    create_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(id)
+);
+
 /*
 CREATE TABLE cities (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,

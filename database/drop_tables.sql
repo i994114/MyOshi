@@ -10,5 +10,7 @@ DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS prefectures;
 DROP TABLE IF EXISTS event_participants;
+DROP TABLE IF EXISTS signup_logs;
+
 
 SET FOREIGN_KEY_CHECKS = 1;

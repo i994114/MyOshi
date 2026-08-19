@@ -23,11 +23,15 @@ if(!empty($_POST)){
   $email = $_POST['email'];
   $pass = $_POST['pass'];
   $pass_re = $_POST['pass_re'];
+  $ip = $_SERVER['REMOTE_ADDR'];
 
   //-------------------
   //バリデーションチェック
   //-------------------
   
+  //一度に大量のユーザ登録をおこなっていないかチェック(いたずら防止)
+  validSignupRateLimit($ip, 'common');
+
   //Eメール重複チェック
   validEmailDup($email);
 
@@ -82,6 +86,7 @@ if(!empty($_POST)){
     try {
       //db接続
       $dbh = dbConnect();
+      $dbh->beginTransaction();
 
       //新規登録か、前のユーザ登録データを復活させるか
       if (!$regAgain) {
@@ -99,43 +104,69 @@ if(!empty($_POST)){
       }
 
       //sql実行
-      $stmt = queryPost($dbh, $sql, $data);
-
-      if($stmt) {
-        debug('ユーザ情報を登録しました');
-
-        //ログイン有効時間(デフォルトを1時間とする)
-        $login_limit = 60*60;
-        //最終ログイン日時を現在日時に
-        $_SESSION['login_date'] = time();
-        $_SESSION['login_limit'] = $login_limit;
-
-        //ログインユーザIDを格納
-        if (!$regAgain) {
-          //新規登録時
-          $_SESSION['user_id'] = $dbh->lastInsertId();
-
-        } else {
-          //削除されたアカウントの復活時
-          $_SESSION['user_id'] = $u_id;
-
-          //過去に登録していたイベント・掲示板を復活
-          if (!againSignUpCalc($u_id)) {
-            debug('関連データの復活に失敗しました');
-            $err_msg['common'] = ERR_SYSTEM;
-            return;
-          }
-        }
-        
-        $_SESSION['msg-success'] = SUCCESS_SIGNUP;
-        
-        debug('セッション変数の中身' . print_r($_SESSION,true));
-
-        //マイページへ遷移
-        header("Location:mypage.php");
-        exit();
+      $stmt_user = queryPost($dbh, $sql, $data);
+      
+      if (!$stmt_user) {
+        throw new Exception('ユーザ情報の登録に失敗しました');
       }
+
+      //新規登録の場合は、登録したユーザのIDを取得
+      if (!$regAgain) {
+        $new_user_id = $dbh->lastInsertId();
+      }
+
+      //----------------------------
+      //ユーザ登録成功時のIPアドレスを保存
+      //----------------------------
+      $sql = 'INSERT INTO signup_logs(ip_address, create_date) VALUES (:ip, :create_date)';
+      $data = array(':ip' => $ip, ':create_date' => date('Y-m-d H:i:s'));
+      $stmt_signup_log = queryPost($dbh, $sql, $data);
+
+      if (!$stmt_signup_log) {
+        throw new Exception('ユーザ登録履歴の保存に失敗しました');
+      }
+
+      $dbh->commit();
+
+      //--------------
+      //ユーザ登録成功後処理
+      //--------------
+
+      //ログイン有効時間(デフォルトを1時間とする)
+      $login_limit = 60*60;
+      //最終ログイン日時を現在日時に
+      $_SESSION['login_date'] = time();
+      $_SESSION['login_limit'] = $login_limit;
+
+      //ログインユーザIDを格納
+      if (!$regAgain) {
+        //新規登録時
+        $_SESSION['user_id'] = $new_user_id;
+
+      } else {
+        //削除されたアカウントの復活時
+        $_SESSION['user_id'] = $u_id;
+
+        //過去に登録していたイベント・掲示板を復活
+        if (!againSignUpCalc($u_id)) {
+          debug('関連データの復活に失敗しました');
+          $err_msg['common'] = ERR_SYSTEM;
+          return;
+        }
+      }
+      
+      $_SESSION['msg-success'] = SUCCESS_SIGNUP;
+      
+      debug('セッション変数の中身' . print_r($_SESSION,true));
+
+      //マイページへ遷移
+      header("Location:mypage.php");
+      exit();
+
     } catch (Exception $e) {
+      if ($dbh->inTransaction()) {
+        $dbh->rollback();
+      }
       error_log('エラーが発生しました' . $e->getMessage());
       $err_msg['common'] = ERR_SYSTEM;
     }

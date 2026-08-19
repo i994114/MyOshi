@@ -380,6 +380,32 @@ function validMessageRateLimit($u_id, $key) {
   }
 }
 
+//ユーザ登録レート制限(いたずらで大量データ登録防止用)
+function validSignupRateLimit($ip, $key) {
+  global $err_msg;
+
+  try {
+    //db接続
+    $dbh = dbConnect();
+    //sql作成
+    $sql = 'SELECT COUNT(*) AS cnt from signup_logs WHERE ip_address = :ip AND create_date > DATE_SUB(NOW(), INTERVAL 1 HOUR)';
+    //data作成
+    $data = array(':ip' => $ip);
+    //sql実行
+    $stmt = queryPost($dbh, $sql, $data);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    //1時間に3回まで
+    if ((int)$result['cnt'] >= 3) {
+      $err_msg[$key] = '短時間に多数のユーザ登録が行われています。しばらく時間をおいてください。';
+    }
+
+  } catch(Exception $e) {
+    error_log('ユーザ登録レート制限エラー：' . $e->getMessage());
+    $err_msg['common'] = ERR_SYSTEM;
+  }
+}
+
 //-------------------
 //DB接続関連
 //-------------------
