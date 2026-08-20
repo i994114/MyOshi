@@ -157,7 +157,7 @@ if (!empty($_POST)) {
             </div>
           </form>
         </div>
-        <a href="mypage.php">&lt; マイページに戻る</a>
+        <a href="login.php">&lt; ログインページに戻る</a>
       </section>
 
     </div>
