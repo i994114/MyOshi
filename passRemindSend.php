@@ -7,6 +7,13 @@ debug('「passRemindSend.php：パスワード再発行');
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
 debugLogStart();
 
+//ログイン中はユーザ登録不可
+if (!empty($_SESSION['user_id'])) {
+  debug('ログイン中のユーザがアクセスしたため、マイページへ遷移します');
+  header("Location:mypage.php");
+  exit();
+}
+
 if (!empty($_POST)) {
   debug('ポスト送信あり');
 

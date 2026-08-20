@@ -7,6 +7,13 @@ debug('「passRemindRecieve.php：パスワード再発行認証');
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
 debugLogStart();
 
+//ログイン中はユーザ登録不可
+if (!empty($_SESSION['user_id'])) {
+  debug('ログイン中のユーザがアクセスしたため、マイページへ遷移します');
+  header("Location:mypage.php");
+  exit();
+}
+
 //post送信があるか
 if (!empty($_POST)) {
   debug('ポスト送信あり');
