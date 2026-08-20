@@ -1059,3 +1059,562 @@ input[type="submit"]:hover {
   opacity: 0.9;
 }
 
+/* ==================================================
+   レスポンシブ
+================================================== */
+
+/* ========================================
+   タブレット・スマートフォン
+   768px以下
+======================================== */
+@media screen and (max-width: 768px) {
+
+  /* ---------- 共通 ---------- */
+
+  body {
+    min-width: 0;
+  }
+
+  .site-width {
+    width: 92%;
+    margin: 0 auto;
+  }
+
+  #main {
+    float: none;
+    width: 100%;
+    min-height: auto;
+  }
+
+  .page-1colum #main,
+  .page-2colum #main {
+    width: 100%;
+  }
+
+
+  /* ---------- ヘッダー ---------- */
+
+  header {
+    height: auto;
+    min-height: 70px;
+  }
+
+  header::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+
+  header h1 {
+    padding-left: 0;
+    height: 70px;
+    line-height: 70px;
+  }
+
+  header h1 img {
+    height: 50px;
+    margin-top: 10px;
+  }
+
+  #top-nav {
+    width: auto;
+    height: 70px;
+  }
+
+  #top-nav ul {
+    position: static;
+    width: auto;
+    height: 70px;
+    line-height: 70px;
+  }
+
+  nav a {
+    padding: 8px 7px;
+    font-size: 12px;
+  }
+
+  .header-user-name {
+    display: none;
+  }
+
+  .header-user-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+
+  /* ---------- ページタイトル ---------- */
+
+  .page-title {
+    margin-bottom: 30px;
+    padding-top: 10px;
+    font-size: 30px;
+  }
+
+
+  /* ---------- サイドバー ---------- */
+
+  #sidebar,
+  .page-logined #sidebar {
+    float: none;
+    width: 100%;
+    min-height: 0;
+    margin: 0 0 30px 0;
+    box-sizing: border-box;
+  }
+
+
+  /* ---------- フォーム ---------- */
+
+  .page-1colum .form-container {
+    margin: 40px auto;
+  }
+
+  .form {
+    width: 100%;
+    padding: 25px 20px;
+    box-sizing: border-box;
+  }
+
+  label {
+    font-size: 16px;
+  }
+
+  input[type="text"],
+  input[type="password"],
+  input[type="number"],
+  .form select,
+  textarea {
+    height: 50px;
+    font-size: 16px;
+  }
+
+  .form .btn {
+    float: none;
+  }
+
+  .form .btn-container {
+    text-align: center;
+  }
+
+  .btn.btn-mid {
+    max-width: none;
+    width: 100%;
+    font-size: 16px;
+  }
+
+
+  /* ---------- 画像アップロード ---------- */
+
+  .form .imgDrop-container {
+    float: none;
+    width: 100%;
+    padding-right: 0;
+    margin-bottom: 20px;
+  }
+
+
+  /* ---------- イベント一覧 ---------- */
+
+  .panel-list {
+    margin-right: 0;
+  }
+
+  .panel-list > .panel {
+    width: 50%;
+    padding: 0 8px;
+  }
+
+
+  /* ---------- 検索 ---------- */
+
+  .search-title {
+    height: auto;
+    overflow: hidden;
+  }
+
+  .search-left,
+  .search-right {
+    float: none;
+    width: 100%;
+  }
+
+
+  /* ---------- イベント詳細 ---------- */
+
+  #main .title {
+    font-size: 28px;
+  }
+
+  .event-description {
+    float: none;
+    width: 100%;
+    min-height: 0;
+    margin: 0 0 15px 0;
+  }
+
+  .event-img-container .img-main {
+    float: none;
+    width: 100%;
+    padding-right: 0;
+    margin-bottom: 15px;
+  }
+
+  .event-img-container .img-sub {
+    float: none;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .event-img-container .img-sub img {
+    float: left;
+    width: 31%;
+    margin-right: 3.5%;
+  }
+
+  .event-img-container .img-sub img:last-child {
+    margin-right: 0;
+  }
+
+  .event-buy {
+    height: auto;
+    line-height: normal;
+    overflow: hidden;
+  }
+
+  .event-buy .item-left,
+  .event-buy .item-right {
+    float: none;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .event-buy .item-right {
+    text-align: center;
+  }
+
+  .event-buy .btn {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+
+  /* ---------- 掲示板 ---------- */
+
+  .msg-info img {
+    max-width: 30%;
+    height: auto;
+  }
+
+  .msg-comment {
+    float: none;
+    width: 100%;
+    height: auto;
+    min-height: 80px;
+    margin-top: 15px;
+    box-sizing: border-box;
+  }
+
+  .area-bord {
+    height: 400px;
+    padding: 10px;
+  }
+
+  .area-bord .msg-cnt {
+    width: 95%;
+  }
+
+  .area-bord .msg-cnt .avatar {
+    width: 45px;
+  }
+
+  .area-bord .msg-cnt .msg-inrTxt {
+    width: calc(100% - 75px);
+    box-sizing: border-box;
+  }
+
+  .area-send-msg .btn-send {
+    width: 100%;
+    float: none;
+  }
+
+
+  /* ==================================================
+     TOPページ
+  ================================================== */
+
+  /* ---------- Hero ---------- */
+
+  .hero {
+    padding: 100px 0;
+  }
+
+  .hero-inner {
+    width: 90%;
+  }
+
+  .hero-title {
+    font-size: 52px;
+  }
+
+  .hero-subtitle {
+    font-size: 14px;
+  }
+
+  .hero-description {
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  .hero-description br {
+    display: none;
+  }
+
+  .hero-btns {
+    margin-top: 35px;
+  }
+
+  .hero-btns .btn {
+    min-width: 0;
+    width: 44%;
+    margin: 5px 1%;
+    padding: 14px 10px;
+    font-size: 14px;
+  }
+
+
+  /* ---------- TOP共通 ---------- */
+
+  .top-section {
+    padding: 70px 0;
+  }
+
+  .top-inner {
+    width: 90%;
+  }
+
+  .top-title {
+    margin-bottom: 35px;
+    font-size: 28px;
+  }
+
+  .top-lead {
+    font-size: 18px;
+    line-height: 1.8;
+  }
+
+  .top-text {
+    font-size: 15px;
+    line-height: 1.9;
+  }
+
+
+  /* ---------- TOP Features ---------- */
+
+  .feature-list {
+    width: 92%;
+    margin: 0 auto;
+  }
+
+  .feature-item {
+    width: 45%;
+    min-height: 230px;
+    margin: 10px 2%;
+    padding: 30px 20px;
+  }
+
+  .feature-item h3 {
+    font-size: 19px;
+  }
+
+  .feature-icon::before {
+    font-size: 42px;
+  }
+
+
+  /* ---------- TOP CTA ---------- */
+
+  .top-cta {
+    padding: 70px 0;
+  }
+
+  .top-cta h2 {
+    font-size: 27px;
+    line-height: 1.5;
+  }
+
+  .top-cta p {
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .top-cta .btn {
+    width: 80%;
+    max-width: 320px;
+  }
+
+
+  /* ---------- Footer ---------- */
+
+  footer {
+    box-sizing: border-box;
+    font-size: 13px;
+  }
+}
+
+
+/* ========================================
+   スマートフォン
+   480px以下
+======================================== */
+@media screen and (max-width: 480px) {
+
+  /* ---------- ヘッダー ---------- */
+
+  header h1 img {
+    height: 42px;
+    margin-top: 14px;
+  }
+
+  nav a {
+    padding: 6px 4px;
+    font-size: 11px;
+  }
+
+  .header-user-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+
+  /* ---------- フォーム ---------- */
+
+  .page-1colum .form-container {
+    margin: 25px auto;
+  }
+
+  .form {
+    padding: 20px 15px;
+  }
+
+  .form .title {
+    margin-bottom: 30px;
+    font-size: 26px;
+  }
+
+
+  /* ---------- イベント一覧 ---------- */
+
+  .panel-list > .panel {
+    float: none;
+    width: 100%;
+    padding: 0;
+    margin-bottom: 25px;
+  }
+
+  .panel-head {
+    height: 220px;
+  }
+
+
+  /* ---------- イベント詳細 ---------- */
+
+  #main .title {
+    font-size: 24px;
+  }
+
+  .badge {
+    font-size: 13px;
+  }
+
+  .event-buy .btn {
+    font-size: 15px;
+    padding: 12px 10px;
+  }
+
+
+  /* ---------- Hero ---------- */
+
+  .hero {
+    padding: 80px 0;
+  }
+
+  .hero-title {
+    font-size: 42px;
+    letter-spacing: 0.08em;
+  }
+
+  .hero-subtitle {
+    font-size: 13px;
+  }
+
+  .hero-description {
+    font-size: 15px;
+  }
+
+  .hero-btns .btn {
+    display: block;
+    width: 90%;
+    margin: 10px auto;
+  }
+
+
+  /* ---------- TOP ---------- */
+
+  .top-section {
+    padding: 55px 0;
+  }
+
+  .top-title {
+    font-size: 25px;
+  }
+
+  .top-lead {
+    font-size: 16px;
+  }
+
+  .top-lead br {
+    display: none;
+  }
+
+  .top-text {
+    font-size: 14px;
+  }
+
+
+  /* ---------- Features ---------- */
+
+  .feature-item {
+    display: block;
+    width: 90%;
+    min-height: 0;
+    margin: 0 auto 20px;
+    padding: 30px 20px;
+  }
+
+  .feature-icon::before {
+    font-size: 45px;
+  }
+
+
+  /* ---------- CTA ---------- */
+
+  .top-cta {
+    padding: 60px 0;
+  }
+
+  .top-cta h2 {
+    font-size: 23px;
+  }
+
+  .top-cta p br {
+    display: none;
+  }
+
+  .top-cta .btn {
+    width: 90%;
+  }
+}

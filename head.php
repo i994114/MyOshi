@@ -3,6 +3,7 @@
 
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $siteTitle; ?> | <?php echo APL_NAME.APL_SUBNAME; ?></title>
     <link rel="stylesheet" href="style.css?v=<?php echo filemtime('style.css'); ?>">
 <!--
