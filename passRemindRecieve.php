@@ -146,11 +146,11 @@ if (!empty($_POST)) {
             </div>
 
             <div class="btn-container">
-              <input type="submit" class="btn btn-mid" value="変更画面へ">
+              <input type="submit" class="btn btn-mid" value="パスワード再設定">
             </div>
+            <a href="passRemindSend.php">&lt; パスワード再発行メールを再度送信する</a>
           </form>
         </div>
-        <a href="passRemindSend.php">&lt; パスワード再発行メールを再度送信する</a>
       </section>
 
     </div>
