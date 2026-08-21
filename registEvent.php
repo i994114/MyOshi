@@ -273,9 +273,6 @@ if (!empty($_POST)) {
       //イベント対象情報を登録
       //------------------
       if ($edit_flg === true) {
-        //新規登録のため、最後に登録したイベントIDを取得
-        $event_id = $dbh->lastInsertId();
-
         //新規登録時は削除処理がないためtrue
         $stmt_delete = true;
       } else {
