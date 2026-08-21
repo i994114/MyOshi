@@ -1,9 +1,21 @@
 <?php
+
 //--------------------------
-//メール設定
+//Composer読み込み
 //--------------------------
 require_once __DIR__ . '/vendor/autoload.php';
 
+//--------------------------
+//環境変数読み込み
+//--------------------------
+
+//このディレクトリにある .env を読み込む準備をする
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->safeLoad();
+
+//--------------------------
+//メール設定
+//--------------------------
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -11,11 +23,7 @@ use PHPMailer\PHPMailer\Exception;
 //デバッグ設定
 //--------------------------
 
-//ログをとるか
-ini_set('error_log','on');
-ini_set('errlr_log','php.log');
-
-$debug_flg = true;
+$debug_flg = ($_ENV['APP_DEBUG'] ?? 'false') === 'true';
 
 //デバッグログ吐き出し用
 function debug($str) {
@@ -44,7 +52,7 @@ ini_set('error_log','php.log');
 //セッション準備：セッションの有効期限を延ばす
 //-------------------------------------
 //セッションの置き場所を変更する
-session_save_path("/var/tmp/");
+session_save_path($_ENV['SESSION_SAVE_PATH']);
 //ガーベジコレクションが削除するセッションの有効期限を設定
 ini_set('session.gc_maxlifetime',60*60*24*30);
 //ブラウザが閉じても削除されないようにクッキー自体の有効期限を延ばす
@@ -71,7 +79,7 @@ define('APL_SUBNAME',' 〜もっと自由に、もっと気軽に剣道を〜');
 define('APL_SUBJECT','イベント'); //サイトコンセプトが変わっても一発で変えられるようにするためのもの
 
 //デバッグ用
-define('DEBUG_MODE', true); //デバッグモード（ログインとか毎回入力がめんどくさいのであらかじめ設定）
+define('DEBUG_MODE', ($_ENV['APP_DEBUG'] ?? 'false') === 'true'); //デバッグモード（ログインとか毎回入力がめんどくさいのであらかじめ設定）
 
 //画像ファイルパス
 define('DEFAULT_USER_ICON', 'img/00016.jpg');
@@ -114,11 +122,11 @@ define('SUCCESS_USER_LOGIN', 'ログインしました！');
 
 //メール送信用
 //メールの「from」
-define('ML_FROM', 'noreply@yk-lab.jp');
-define('SMTP_HOST', 'sv16822.xserver.jp');
-define('SMTP_PORT', 587);
-define('SMTP_USER', 'noreply@yk-lab.jp');
-define('SMTP_PASS', 'u2d9T[.QlSG8');
+define('ML_FROM', $_ENV['SMTP_FROM']);
+define('SMTP_HOST', $_ENV['SMTP_HOST']);
+define('SMTP_PORT', (int)$_ENV['SMTP_PORT']);
+define('SMTP_USER', $_ENV['SMTP_USER']);
+define('SMTP_PASS', $_ENV['SMTP_PASS']);
 define('SMTP_SECURE', PHPMailer::ENCRYPTION_STARTTLS);
 
 //-------------------
@@ -411,11 +419,11 @@ function validSignupRateLimit($ip, $key) {
 //-------------------
 function dbConnect() {
   //dbへの接続準備
-  $dsn = 'mysql:dbname=kenyu;host=localhost;charset=utf8';
-  $user = 'root';
-  $password = 'root';
+  $dsn = 'mysql:dbname=' . $_ENV['DB_NAME'] . ';host=' . $_ENV['DB_HOST'] . ';charset=utf8';
+  $user = $_ENV['DB_USER'];
+  $password = $_ENV['DB_PASS'];
   $options = array(
-    // SQL実行失敗時にはエラーコードのみ設定
+    // // SQL実行失敗時には例外を発生させる
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     // デフォルトフェッチモードを連想配列形式に設定
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
