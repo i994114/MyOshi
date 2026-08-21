@@ -178,6 +178,11 @@ nav a:hover {
   border: 5px solid #f1f1f1;
 }
 
+/* マイページ */
+.page-mypage #main {
+  border: none;
+}
+
 section h1.title {
   text-align: center;
   font-family: "sans-serif";
@@ -358,6 +363,15 @@ footer a {
 }
 .list h2 {
   margin-bottom: 20px;
+}
+
+/* マイページ */
+.page-mypage .list {
+  margin-bottom: 30px;
+}
+
+.page-mypage #main .list > .title {
+  padding-left: 15px;
 }
 
 .panel-list > .panel {

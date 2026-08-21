@@ -34,11 +34,6 @@ $bordInfo = getMybordMessage($_SESSION['user_id']);
 ?>
 
   <body class="page-mypage page-2colum page-logined">
-    <style>
-      #main {
-        border: none !important;
-      }
-    </style>
 
     <!-- メニュー -->
     <?php require('header.php'); ?>
@@ -102,11 +97,7 @@ $bordInfo = getMybordMessage($_SESSION['user_id']);
            ?>
          </section>
          
-         <style>
-           .list{
-             margin-bottom: 30px;
-           }
-        </style>
+
 
         <!-- じぶんが投稿したメッセージ、またはじぶんがつくった掲示板への投稿一覧 -->
         <section class="list list-table">
