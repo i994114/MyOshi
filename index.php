@@ -117,7 +117,7 @@ $dbFormData = getFormData('category_id');
       <section id="main" >
         <div class="search-title">
           <div class="search-left">
-            <span class="total-num"><?php echo sanitize($event['total_record']);?>コの<?php echo sanitize(APL_SUBJECT); ?>がみつかったよ！</span>
+            <span class="total-num"><?php echo sanitize($event['total_record']);?>コの<?php echo sanitize(APL_SUBJECT); ?>がみつかりました</span>
           </div>
           <div class="search-right">
             <span class="wf-nicomoji"><?php echo sanitize($display_min+1); ?>-</span><span class="wf-nicomoji"><?php echo sanitize($display_max); ?>件</span> / <span class="wf-nicomoji"><?php echo sanitize($event['total_record']);?>件中</span>
@@ -129,13 +129,13 @@ $dbFormData = getFormData('category_id');
             <div class="panel-head">
               <img src="<?php echo showImg(sanitize($val['pic1'])); ?>" alt="<?php echo sanitize($val['name'])?>">
             </div>
-            <div class="panel-body">
-              <p class="panel-title"><?php echo sanitize($val['name']); ?></p>
-              <p class="panel-title"><?php echo sanitize($val['category_name']); ?></p>
-              <p class="panel-title"><?php echo sanitize($val['prefecture_name']); ?></p>
-              <p class="panel-title"><?php echo dateFormat($val['event_date']); ?></p>
-              <p class="panel-title"><?php echo timeFormat($val['start_time'], $val['end_time']); ?></p>
 
+            <div class="panel-body">
+              <p class="panel-title"><?php echo sanitize(mb_strlen($val['name']) > 12 ? mb_substr($val['name'], 0, 11) . '…' : $val['name']); ?></p>
+              <p class="panel-category"><?php echo sanitize($val['category_name']); ?></p>
+              <p class="panel-info"><?php echo sanitize($val['prefecture_name']); ?></p>
+              <p class="panel-info"><?php echo dateFormat($val['event_date']); ?></p>
+              <p class="panel-info"><?php echo timeFormat($val['start_time'], $val['end_time']); ?></p>
             </div>
           </a>
           <?php }?>
