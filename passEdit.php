@@ -125,7 +125,7 @@ if (!empty($_POST)) {
       <!-- Main -->
       <section id="main" >
         <div class="form-container">
-          <form action="" class="form" method="post">
+          <form action="" class="form form-event" method="post">
            <div class="area-msg">
             <?php
               echo getErrInfo('common');
