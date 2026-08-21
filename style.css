@@ -19,7 +19,7 @@ body {
   color: #444;
   line-height: 150%;
   background: var(--color-base);
-  font-family: "Nico Moji";
+  font-family: "sans-serif";
 }
 
 h1,h2,h3,h4,h5,h6,p{
@@ -50,7 +50,7 @@ a:hover {
   
 }
 */
-.wf-nicomoji { font-family: "Nico Moji"; }
+
 /*トップバナー*/
 
 #top-baner {
@@ -72,7 +72,7 @@ header h1 {
   padding-left: 15px;
   text-align: center;
   font-size: 20px;
-  font-family: "Nico Moji";
+  font-family: "sans-serif";
   line-height: 80px;
 }
 
@@ -140,7 +140,7 @@ nav a:hover {
   height: 80px;
   list-style: none;
   line-height: 80px;
-  font-family: "Nico Moji";
+  font-family: "sans-serif";
 }
 
 #top-nav ul li {
@@ -180,7 +180,7 @@ nav a:hover {
 
 section h1.title {
   text-align: center;
-  font-family: "Nico Moji";
+  font-family: "sans-serif";
 }
 
 /* ページタイトル */
@@ -190,7 +190,7 @@ section h1.title {
   padding-top: 20px;
   text-align: center;
   font-size: 42px;
-  font-family: "Nico Moji";
+  font-family: "sans-serif";
 }
 /*========================================
   サイドバー
@@ -259,7 +259,7 @@ footer {
   color: var(--color-base);
   text-align: center;
   font-size: 15px;
-  font-family: "Nico Moji";
+  font-family: "sans-serif";
 }
 
 footer a {
@@ -304,7 +304,7 @@ footer a {
   background: #eee;
   color: black;
   text-decoration: none;
-  font-family: "Nico Moji";
+  font-family: "sans-serif";
 }
 
 .pagination .list-item.active a {
@@ -341,7 +341,7 @@ footer a {
   padding-right: 5px;
   font-weight: bold;
   font-size: 18px;
-  font-family: "Nico Moji";
+  font-family: "sans-serif";
 }
 /*========================================
   リスト
@@ -630,7 +630,7 @@ input[type="submit"]:hover {
 #main .title{
   font-size: 38px;
   padding: 10px 0;
-  font-family: "Nico Moji";
+  font-family: "sans-serif";
 }
 .event-img-container{
   overflow: hidden;
