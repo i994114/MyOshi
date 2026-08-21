@@ -103,15 +103,32 @@ require('head.php');
         <!-- 写真 -->
         <div class="event-img-container">
           <div class="event-description">
-            <?php echo $event_data['prefecture']; ?>
-            <?php echo $event_data['event_date']; ?>
-            <?php echo $event_data['start_time']; ?>
-            <?php echo $event_data['end_time']; ?>
-            <?php echo $prefecture[$event_data['prefecture_id']]['name']; ?>
 
-            <!-- 対象 -->
-            <?php
-              foreach($target_data as $val) {
+            <div class="event-info-item">
+              <span class="event-info-label">開催地</span>
+              <span class="event-info-value">
+                <?php echo sanitize($event_data['prefecture']); ?>
+              </span>
+            </div>
+
+            <div class="event-info-item">
+              <span class="event-info-label">開催日</span>
+              <span class="event-info-value">
+                <?php echo sanitize($event_data['event_date']); ?>
+              </span>
+            </div>
+
+            <div class="event-info-item">
+              <span class="event-info-label">開催時間</span>
+              <span class="event-info-value">
+                <?php echo timeFormat($event_data['start_time'], $event_data['end_time']); ?>
+              </span>
+            </div>
+
+            <div class="event-targets">
+              <span class="event-info-label">対象</span>
+
+              <?php foreach($target_data as $val) {
                 $active = false;
 
                 foreach($target as $t) {
@@ -119,10 +136,13 @@ require('head.php');
                     $active = true;
                   }
                 }
-            ?>
-            <span class="icon_target <?php echo $active? 'active' : ''; ?>"><?php  echo $val['name'] ?></span>
-            <?php } ?>
-            
+              ?>
+                <span class="icon_target <?php echo $active ? 'active' : ''; ?>">
+                  <?php echo sanitize($val['name']); ?>
+                </span>
+              <?php } ?>
+            </div>
+
           </div>
           <div class="img-main">
             <img src="<?php echo showImg(sanitize($event_data['pic1'])); ?>" alt="" id="js-show-main">
