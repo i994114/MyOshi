@@ -572,10 +572,12 @@ input[type="submit"]:hover {
 .msg-right-time {
   float: right;
   margin-right: 70px;
+  font-size: 12px;
 }
 .msg-left-time {
   float: left;
   margin-left: 70px;
+  font-size: 12px;
 }
 .form .btn-container {
   overflow: hidden;
