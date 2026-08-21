@@ -55,13 +55,15 @@ $bordInfo = getMybordMessage($_SESSION['user_id']);
 
       <!-- Main -->
       <section id="main" >
+
+        <!-- 参加したイベント一覧 -->
          <section class="list panel-list">
            <h2 class="title"><?php echo  '参加した' . APL_SUBJECT . '一覧' ?></h2>
            <?php 
             if (!empty($participatingEventInfo)) {
               foreach ($participatingEventInfo as $key => $val) {
            ?>
-              <a href="registEvent.php?e_id=<?php echo sanitize($val['id']); ?>" class="panel">
+              <a href="eventDetail.php?e_id=<?php echo sanitize($val['id']); ?>" class="panel">
                 <div class="panel-head">
                   <img src="<?php echo  showImg(sanitize($val['pic1'])); ?>" alt="<?php  echo sanitize($val['name']); ?>">
                 </div>
@@ -72,11 +74,12 @@ $bordInfo = getMybordMessage($_SESSION['user_id']);
            <?php
               }
             } else {
-              echo '登録したイベント情報はまだありません';
+              echo '参加したイベント情報はまだありません';
             }
            ?>
          </section>
 
+        <!-- 登録したイベント一覧 -->
          <section class="list panel-list">
            <h2 class="title"><?php echo  '登録した' . APL_SUBJECT . '一覧' ?></h2>
            <?php 
@@ -104,7 +107,8 @@ $bordInfo = getMybordMessage($_SESSION['user_id']);
              margin-bottom: 30px;
            }
         </style>
-         
+
+        <!-- じぶんが投稿したメッセージ、またはじぶんがつくった掲示板への投稿一覧 -->
         <section class="list list-table">
           <h2 class="title">
             掲示板一覧
@@ -139,6 +143,7 @@ $bordInfo = getMybordMessage($_SESSION['user_id']);
           </table>
         </section>
         
+        <!-- お気に入りしたイベント一覧 -->
         <section class="list panel-list">
           <h2 class="title">
             お気に入り一覧
