@@ -131,17 +131,7 @@ if (!empty($_POST)) {
   <body class="page-profEdit page-2colum page-logined">
 
     <!-- メニュー -->
-    <header>
-      <div class="site-width">
-        <h1><a href="index.php"><?php echo APL_NAME.APL_SUBNAME; ?></a></h1>
-        <nav id="top-nav">
-          <ul>
-            <li><a href="mypage.php">マイページ</a></li>
-            <li><a href="">ログアウト</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+    <?php  require('header.php'); ?>
 
     <!-- メインコンテンツ -->
     <div id="contents" class="site-width">
@@ -149,7 +139,7 @@ if (!empty($_POST)) {
       <!-- Main -->
       <section id="main" >
         <div class="form-container">
-          <form action="" class="form" method="post" enctype="multipart/form-data">
+          <form action="" class="form form-event" method="post" enctype="multipart/form-data">
             <div class="area-msg">
               <?php
                 if (!empty($err_msg['common'])) {
@@ -178,14 +168,15 @@ if (!empty($_POST)) {
 
             <!-- プロフィール画像 -->
             プロフィール画像
-            <label class="area-drop <?php  if(!empty($err_msg['pic'])) echo 'err'; ?>" style="width: 400px; height: 400px; line-height: 400px;">
+            <label class="area-drop prof-img-drop <?php if(!empty($err_msg['pic'])) echo 'err'; ?>">
               <input type="hidden" name="MAX_FILE_SIZE" value="3145728">
-              <input type="file" name="pic" class="input-file" style="height: 400px;">
-              <img src="<?php  echo getFormData('pic'); ?>" alt="" class="prev-img" style="<?php if(empty($dbFormData['pic'])) echo 'display: none';  ?>">
+              <input type="file" name="pic" class="input-file">
+              <img src="<?php echo getFormData('pic'); ?>" alt="" class="prev-img" style="<?php if(empty($dbFormData['pic'])) echo 'display: none'; ?>">
               ドラッグ＆ドロップ
             </label>
+
             <div class="area-msg">
-                <?php  echo getErrInfo('pic'); ?>
+              <?php echo getErrInfo('pic'); ?>
             </div>
 
             <div class="btn-container">
@@ -193,7 +184,7 @@ if (!empty($_POST)) {
             </div>
 
             <?php if (!empty($_SESSION['user_id']) && $_SESSION['user_id'] === $dbFormData['id'] ) { ?>
-              <input type="submit" class="btn btn-mid" name="delete" value="退会する" onclick="return confirm('本当に退会しますか？'); ">
+              <input type="submit" class="btn btn-mid btn-danger" name="delete" value="退会する" onclick="return confirm('本当に退会しますか？'); ">
             <?php }?>
           </form>
         </div>

@@ -430,6 +430,12 @@ a.panel:hover {
 .btn.btn-mid {
   max-width: 180px;
 }
+
+input[type="submit"].btn-danger {
+  background: transparent;
+  color: #a23b2a;
+  border: 1px solid #a23b2a;
+}
 /*========================================
   フォーム
 ========================================*/
@@ -839,6 +845,20 @@ input[type="submit"]:hover {
 }
 .icn-like.active {
   color: crimson;
+}
+
+/*========================================
+* プロフィール編集
+*========================================*/
+
+.page-profEdit .prof-img-drop {
+  width: 400px;
+  height: 400px;
+  line-height: 400px;
+}
+
+.page-profEdit .prof-img-drop .input-file {
+  height: 400px;
 }
 
 /* =========================
@@ -1301,7 +1321,16 @@ input[type="submit"]:hover {
     text-align: center;
   }
 
+  /* ---------- プロフィール編集 ---------- */
+  .page-profEdit .prof-img-drop {
+    width: 100%;
+    height: 300px;
+    line-height: 300px;
+  }
 
+  .page-profEdit .prof-img-drop .input-file {
+    height: 300px;
+  }
   /* ---------- 掲示板 ---------- */
 
   .msg-info img {
@@ -1535,6 +1564,16 @@ input[type="submit"]:hover {
     padding: 12px 10px;
   }
 
+  /* ---------- プロフィール編集 ---------- */
+
+  .page-profEdit .prof-img-drop {
+    height: 250px;
+    line-height: 250px;
+  }
+
+  .page-profEdit .prof-img-drop .input-file {
+    height: 250px;
+  }
 
   /* ---------- Hero ---------- */
 
