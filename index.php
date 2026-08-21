@@ -36,15 +36,16 @@ $list_span = 20;
 //表示するアイコンの数
 $page_num = 5;
 
-//表示するレコード
-//先頭(例:1ページ目なら0,2ページ目なら20,3ページ目なら40)
+//取得開始位置
 $display_min = ($now_page -1 ) * $list_span;
-//最後(例:1ページ目なら20,2ページ目なら40,3ページ目なら60)
-$display_max = $display_min - 1 + $list_span;
 
 //イベント情報を取得
 $event = getEventList($list_span, $display_min, $seach_cate, $search_prefecture, $seach_sort);
 debug('すべての ' . APL_SUBJECT . ' 情報：' . print_r($event, true));
+
+// 表示上の開始・終了位置
+$display_start = empty($event['data']) ? 0 : $display_min + 1;
+$display_max = $display_min + count($event['data']);
 
 
 //カテゴリデータの取得
@@ -120,8 +121,7 @@ $dbFormData = getFormData('category_id');
             <span class="total-num"><?php echo sanitize($event['total_record']);?>コの<?php echo sanitize(APL_SUBJECT); ?>がみつかりました</span>
           </div>
           <div class="search-right">
-            <span class="wf-nicomoji"><?php echo sanitize($display_min+1); ?>-</span><span class="wf-nicomoji"><?php echo sanitize($display_max); ?>件</span> / <span class="wf-nicomoji"><?php echo sanitize($event['total_record']);?>件中</span>
-          </div>
+            <span class="wf-nicomoji"><?php echo sanitize($display_start); ?>-</span><span class="wf-nicomoji"><?php echo sanitize($display_max); ?>件</span> / <span class="wf-nicomoji"><?php echo sanitize($event['total_record']); ?>件中</span>          </div>
         </div>
         <div class="panel-list">
           <?php foreach ($event['data'] as $key => $val) {?>
