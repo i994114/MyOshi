@@ -114,7 +114,7 @@ require('head.php');
         自分に合った剣道の楽しみ方を見つけてみませんか。
       </p>
       
-      <a href="eventList.php" class="btn btn-primary">ユーザ登録する</a>
+      <a href="signup.php" class="btn btn-primary">ユーザ登録する</a>
 
     </div>
   </section>
