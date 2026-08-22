@@ -131,8 +131,7 @@ $dbFormData = getFormData('category_id');
             </div>
 
             <div class="panel-body">
-              <p class="panel-title"><?php echo sanitize(mb_strlen($val['name']) > 12 ? mb_substr($val['name'], 0, 11) . '…' : $val['name']); ?></p>
-              <p class="panel-category"><?php echo sanitize($val['category_name']); ?></p>
+              <p class="panel-title"><?php echo sanitize(mb_strlen($val['name'], 'UTF-8') > 12 ? mb_substr($val['name'], 0, 11, 'UTF-8') . '…' : $val['name']); ?></p>              <p class="panel-category"><?php echo sanitize($val['category_name']); ?></p>
               <p class="panel-info"><?php echo sanitize($val['prefecture_name']); ?></p>
               <p class="panel-info"><?php echo dateFormat($val['event_date']); ?></p>
               <p class="panel-info"><?php echo timeFormat($val['start_time'], $val['end_time']); ?></p>
