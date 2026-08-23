@@ -521,7 +521,7 @@ function sanitize($str) {
   if (is_array($str)) {
     return $str;
   }
-  htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+  return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 }
 //-------------------
 //入力フォーム補助
