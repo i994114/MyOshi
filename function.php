@@ -513,12 +513,15 @@ function getUserInfo() {
 //サニタイズ
 //-------------------
 function sanitize($str) {
-
+  // nullの場合は空文字を返す
+  if (is_null($str)) {
+    return '';
+  }
   //配列の場合は再帰的にサニタイズ
   if (is_array($str)) {
     return $str;
   }
-  return (htmlspecialchars($str, ENT_QUOTES));
+  htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 }
 //-------------------
 //入力フォーム補助
@@ -564,9 +567,9 @@ function getFormDataTarget($str, $id, $dbTargetData) {
     return in_array($id, $_POST[$str]);
   }
 
-  debug('dbTargetDataの値：' . print_r($dbTargetData,true));
-  debug('idの値：' . print_r($id,true));
-  debug('strの値：' . print_r($str,true));
+  //debug('dbTargetDataの値：' . print_r($dbTargetData,true));
+  //debug('idの値：' . print_r($id,true));
+  //debug('strの値：' . print_r($str,true));
   
   //初回表示時はDB値を使用
   return in_array($id, $dbTargetData);
