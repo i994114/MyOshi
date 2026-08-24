@@ -77,7 +77,7 @@ $str = mb_substr($str, 1);
 ?>
 
 <?php
-$siteTitle = APL_NAME.'情報詳細ページ';
+$siteTitle = APL_SUBJECT.'情報詳細';
 require('head.php');
 ?>
 
@@ -88,7 +88,7 @@ require('head.php');
 
     <!-- メインコンテンツ -->
     <div id="contents" class="site-width">
-
+      <h1 class="page-title"><?php  echo $siteTitle; ?></h1>
       <!-- Main -->
       <section id="main" >
 

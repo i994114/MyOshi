@@ -342,7 +342,7 @@ if (!empty($_POST)) {
 
     <!-- メインコンテンツ -->
     <div id="contents" class="site-width">
-      <h1 class="page-title"><?php ($edit_flg === true)? APL_SUBJECT.'情報を編集する' : APL_SUBJECT.'情報を登録する'; ?></h1>
+      <h1 class="page-title"><?= ($edit_flg === true) ? APL_SUBJECT.'情報登録' : APL_SUBJECT.'情報編集'; ?></h1>
       <!-- Main -->
       <section id="main" >
         <div class="form-container">
