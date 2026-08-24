@@ -114,7 +114,7 @@ require('head.php');
                   <div class="msg-cnt msg-right">
                     <!-- 画像 -->
                     <div class="avatar">
-                      <img src="<?php echo sanitize(($userInfo['pic']));  ?>" alt="" class="avatar">
+                      <img src="<?php echo showUserImg(sanitize($userInfo['pic'])); ?>" alt="" class="avatar">
                       <p class="avatar-name"><?php echo sanitize(mb_substr($userInfo['name'],0,6)); ?></p>
                     </div>
                     <!-- メッセージ -->
@@ -138,7 +138,7 @@ require('head.php');
                     <div class="msg-cnt msg-left">
                       <!-- 画像 -->
                       <div class="avatar">
-                        <img src="<?php echo sanitize($valAll['pic']);  ?>" alt="" class="avatar">
+                        <img src="<?php echo showUserImg(sanitize($valAll['pic'])); ?>" alt="" class="avatar">
                         <p class="avatar-name"><?php  echo sanitize(mb_substr($valAll['name'],0,6)); ?></p>
                       </div>
                       <!-- メッセージ -->

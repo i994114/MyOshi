@@ -19,7 +19,7 @@
         <?php
           } else {
         ?>
-            <img src="<?php echo showImg(sanitize($user['pic'])); ?>" class="header-user-icon">
+            <img src="<?php echo showUserImg(sanitize($user['pic'])); ?>" class="header-user-icon">
             <span class="header-user-name"><?php echo sanitize($user['name']); ?></span>
             <li><a href="mypage.php">マイページ</a></li>
             <li><a href="logout.php">ログアウト</a></li>

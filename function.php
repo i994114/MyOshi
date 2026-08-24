@@ -1278,13 +1278,24 @@ function appendGetParam($arr_del_key = array()) {
 }
 
 //---------
-//画像表示用
+//イベント画像表示用
 //---------
 function showImg($img) {
   if (!empty($img)) {
     return $img;
   } else {
     return 'img/sample-img.png';
+  }
+}
+
+//---------
+//ユーザ画像表示用
+//---------
+function showUserImg($img) {
+  if (!empty($img)) {
+    return $img;
+  } else {
+    return 'img/default-user.png';
   }
 }
 
