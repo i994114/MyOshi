@@ -33,9 +33,6 @@ if (!empty($_POST)) {
       //セッション削除
       session_destroy();
 
-      //削除のフラッシュメッセージ
-      $_SESSION['msg-success'] = SUCCESS_WITHDRAW;
-
       //トップ画面へ遷移
       header('Location:top.php');
       exit();
