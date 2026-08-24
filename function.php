@@ -1082,7 +1082,8 @@ function getEventList($list_span = 20, $display_min = 1, $category, $prefecture,
       case 2://最近編集された順
         $sql .= ' ORDER BY update_date DESC';
         break;
-      default:
+      default://デフォルトはID順
+        $sql .= ' ORDER BY e.id ASC';
         break;
     }
 
