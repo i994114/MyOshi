@@ -12,51 +12,51 @@ INSERT INTO users (
   login_time,
   create_date
 ) VALUES
-(1, 'あかね', 'dorakue838861@gmail.com',
+(1, 'あかね', 'akane@example.com',
 '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq',
 'img/girl_13.png', 0, NOW(), NOW()),
 
-(2, 'けんた', 'dorakue83886.1@gmail.com',
+(2, 'けんた', 'kenta@example.com',
 '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq',
 'img/hengao_mabuta_uragaesu.png', 0, NOW(), NOW()),
 
-(3, 'みさき', 'dorakue838861+a@gmail.com',
+(3, 'みさき', 'misaki@example.com',
 '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq',
 'img/job_kantokukan_woman.png', 0, NOW(), NOW()),
 
-(4, '剣道じいちゃん', 'dorakue838861+b@gmail.com',
+(4, '剣道じいちゃん', 'kendo-grandpa@example.com',
 '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq',
 'img/magonote_ojiisan.png', 0, NOW(), NOW()),
 
-(5, 'ルッチ', 'dorakue838861+c@gmail.com',
+(5, 'ルッチ', 'lucci@example.com',
 '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq',
 'img/onepiece15_lucci.png', 0, NOW(), NOW()),
 
-(6, 'ゆい', 'dorakue838861+d@gmail.com',
+(6, 'ゆい', 'yui@example.com',
 '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq',
 'img/otaku_girl_fashion.png', 0, NOW(), NOW()),
 
-(7, 'ひなた', 'dorakue838861+e@gmail.com',
+(7, 'ひなた', 'hinata@example.com',
 '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq',
 'img/pose_galpeace_schoolgirl.png', 0, NOW(), NOW()),
 
-(8, 'さくら', 'dorakue838861+f@gmail.com',
+(8, 'さくら', 'sakura@example.com',
 '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq',
 'img/pose_reiwa_woman.png', 0, NOW(), NOW()),
 
-(9, 'たける', 'dorakue838861+g@gmail.com',
+(9, 'たける', 'takeru@example.com',
 '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq',
 '', 0, NOW(), NOW()),
 
-(10, '小手が苦手', 'dorakue838861+h@gmail.com',
+(10, '小手が苦手', 'kote@example.com',
 '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq',
 '', 0, NOW(), NOW()),
 
-(11, 'リバ剣マン', 'dorakue838861+i@gmail.com',
+(11, 'リバ剣マン', 'return-kendo@example.com',
 '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq',
 '', 0, NOW(), NOW()),
 
-(12, '面一本！', 'dorakue838861+j@gmail.com',
+(12, '面一本！', 'men-ippon@example.com',
 '$2y$12$AuGcBuevPA6mNouIv3vVbOhodJX9JpBtqu9IQCaHO/43whUmDZYpq',
 '', 0, NOW(), NOW());
 
