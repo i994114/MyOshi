@@ -66,6 +66,7 @@ if (!empty($_POST)) {
         $rand_key = makeRandomKey();
         debug('生成した一時キー：' . $rand_key);
 
+        $appUrl = $_ENV['APP_URL'] . '/passRemindRecieve.php'; 
         //----------------------------------
         //パスワード変更メール処理
         //----------------------------------
@@ -76,12 +77,12 @@ if (!empty($_POST)) {
         本メールアドレス宛にパスワード再発行のご依頼がありました。
         下記のURLにて認証キーをご入力頂くとパスワードが再発行されます。
         
-        パスワード再発行認証キー入力ページ：http://localhost:3000/KENYU/passRemindRecieve.php
+        パスワード再発行認証キー入力ページ：{$appUrl}
         認証キー：{$rand_key}
         ※認証キーの有効期限は30分となります
         
         認証キーを再発行されたい場合は下記ページより再度再発行をお願い致します。
-        http://localhost:8888/KENYU/passRemindSend.php
+        {$appUrl}
         EOF;
 
         //メール送信処理
@@ -149,10 +150,7 @@ if (!empty($_POST)) {
 
             <label class="<?php if(!empty($err_msg['email'])) echo 'err'; ?>">
               Email
-              <!--
               <input type="text" name="email" value="<?php echo sanitize(getFormData('email')); ?>">
-              -->
-              <input type="text" name="email" value="dorakue838861@gmail.com">
             </label>
            
             <div class="area-msg">
