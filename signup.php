@@ -210,7 +210,7 @@ if(!empty($_POST)){
             <!-- ユーザ名 -->
             <label class="<?php echo (!empty($err_msg['name']))? 'err' : '';?>">
               ユーザ名
-              <input type="text" name="name" value="<?php echo (!empty($_POST['name']))? sanitize($_POST['name']) : 'ああいいい'; ?>">
+              <input type="text" name="name" value="<?php echo (!empty($_POST['name'])) ? sanitize($_POST['name']) : ''; ?>">
             </label>
             <div class="area-msg">
               <?php 
@@ -223,7 +223,7 @@ if(!empty($_POST)){
             <!-- アドレス -->
             <label class="<?php echo (!empty($err_msg['email']))? 'err' : '';?>">
               Email
-              <input type="text" name="email" value="<?php echo (!empty($_POST['email']))? sanitize($_POST['email']) : 'dorakue838861@gmail.com'; ?>">
+              <input type="text" name="email" value="<?php echo (!empty($_POST['email'])) ? sanitize($_POST['email']) : ''; ?>">
             </label>
             <div class="area-msg">
               <?php 
@@ -236,7 +236,7 @@ if(!empty($_POST)){
             <!-- パスワード -->
             <label class="<?php echo (!empty($err_msg['pass']))? 'err' : '';?>">
               パスワード <span class="form-note">※英数字６文字以上</span>
-              <input type="password" name="pass" value="<?php echo (!empty($_POST['pass']))? sanitize($_POST['pass']) : 'aaaa1111'; ?>">
+              <input type="password" name="pass" value="">
             </label>
             <div class="area-msg">
               <?php 
@@ -249,7 +249,7 @@ if(!empty($_POST)){
             <!-- パスワード(再入力) -->
             <label class="<?php echo (!empty($err_msg['pass_re']))? 'err' : '';?>">
               パスワード（再入力）
-              <input type="password" name="pass_re" value="<?php echo (!empty($_POST['pass_re']))? sanitize($_POST['pass_re']) : 'aaaa1111'; ?>">
+              <input type="password" name="pass_re" value="">
             </label>
             <div class="area-msg">
               <?php 
